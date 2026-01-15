@@ -25,7 +25,7 @@ function draw() {
     
     words.forEach(word => {
         // USE BACKTICKS ` BELOW
-        ctx.font = `500 ${word.fontSize}px 'Rabar_021', sans-serif`;
+        ctx.font = `500 ${word.fontSize}px 'NRT', sans-serif`;
         ctx.fillStyle = `rgb(0, 0, 0, ${word.opacity})`;
         
         ctx.fillText(word.text, word.x, word.y);
@@ -46,9 +46,9 @@ document.fonts.ready.then(() => {
 });
 
 window.addEventListener('resize', init);
-// This forces the browser to wait for the Rabar font file before starting the animation
-document.fonts.load("12px 'Rabar 021'").then(() => {
-    console.log("Rabar font is now active!");
+// This forces the browser to wait for the NRT font file before starting the animation
+document.fonts.load("12px 'NRT'").then(() => {
+    console.log("NRT font is now active!");
     init();
     draw();
 });
