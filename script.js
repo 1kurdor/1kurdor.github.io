@@ -1,7 +1,7 @@
 const canvas = document.getElementById('wordCanvas');
 const ctx = canvas.getContext('2d');
 let words = [];
-const wordList = ["Kurdor", "KurdorDev", "Rashid Farhad", "کوردور", "رەشید فەرهاد", "Developer", "Web Dev", "Frontend", "Backend", "Fullstack", "Coder"];
+const wordList = ["Kurdor", "KurdorDev", "Rashid Farhad", "کوردور", "رەشید فەرهاد", "Developer", "Frontend", "Backend", "Fullstack",];
 
 function init() {
     canvas.width = window.innerWidth;
@@ -13,8 +13,8 @@ function init() {
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
             fontSize: Math.random() * 5 + 14,
-            speed: Math.random() * 0.15 + 0.05,
-            opacity: Math.random() * 0.12 + 0.03 
+            speed: Math.random() * 0.20 + 0.05,
+            opacity: Math.random() * 0.30 + 0.03 
         });
     }
 }
@@ -25,7 +25,7 @@ function draw() {
     
     words.forEach(word => {
         // USE BACKTICKS ` BELOW
-        ctx.font = `500 ${word.fontSize}px 'NRT', sans-serif`;
+        ctx.font = `500 ${word.fontSize}px 'Rabar', sans-serif`;
         ctx.fillStyle = `rgb(0, 0, 0, ${word.opacity})`;
         
         ctx.fillText(word.text, word.x, word.y);
@@ -46,9 +46,9 @@ document.fonts.ready.then(() => {
 });
 
 window.addEventListener('resize', init);
-// This forces the browser to wait for the NRT font file before starting the animation
-document.fonts.load("12px 'NRT'").then(() => {
-    console.log("NRT font is now active!");
+// This forces the browser to wait for the Rabar font file before starting the animation
+document.fonts.load("12px 'Rabar'").then(() => {
+    console.log("Rabar font is now active!");
     init();
     draw();
 });
