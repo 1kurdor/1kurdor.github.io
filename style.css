@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'NRT';
-    src: url('assets/fonts/NRT.ttf') format('truetype');
+    font-family: 'Rabar';
+    src: url('assets/fonts/Rabar.ttf') format('truetype');
 }
  #wordCanvas {
     position: fixed;
@@ -20,7 +20,7 @@
     height: 100vh;
     width: 100%;
     /* This is the best background: Dark, deep, and professional */
-   background: linear-gradient(135deg, #708F96 0%, #AA895F 100%);
+   background: linear-gradient(135deg, #708F96 45%, #AA895F 100%);
     display: flex;
     flex-direction: column;
     justify-content: center;
