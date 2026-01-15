@@ -1,9 +1,15 @@
 @font-face {
     font-family: 'Rabar 021';
-    /* You must add fonts/ before the filename */
-    src: url("assets/fonts/Rabar_021.ttf") format('truetype');
+    /* 1. Use single quotes. 2. Ensure assets/fonts/... is exactly where the file is */
+    src: url('assets/fonts/Rabar_021.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: block; /* Forces Safari to wait for the font */
+}
+
+/* Apply it to everything to be safe */
+body, h1, p, .rabar-font {
+    font-family: 'Rabar 021', sans-serif !important;
 }
  #wordCanvas {
     position: fixed;
