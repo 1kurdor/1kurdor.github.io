@@ -1,0 +1,232 @@
+@font-face {
+    font-family: 'Rabar';
+    src: url('assets/fonts/Rabar.ttf') format('truetype');
+}
+ #wordCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; 
+    pointer-events: none; 
+}
+
+
+
+ body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100%;
+  background: linear-gradient(135deg, #708F96 0%, #AA895F 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.profile-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+img  {
+  width: 80px;
+  height: auto;
+  display: block;
+  margin: 0px auto;
+  filter: drop-shadow(0 0 5px rgb(129, 129, 129))
+          drop-shadow(0 0 15px rgb(72, 72, 72));
+}
+  .icons {
+    display: flex;
+    gap: 20px;
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
+   
+  }
+.icons img {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
+  transition: all 0.3s ease;
+}
+  .icons a {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+  }
+  .icons svg {
+    width: 30px;
+    height: 30px;
+    transition: all 0.25s ease;
+  }
+  /* Hover colors */
+  .icons a.facebook:hover { background: #3a05fc; box-shadow: 0 0 15px #1877F2; }
+  .icons a.instagram:hover { background: linear-gradient(#F9CE34,#EE2A7B,#6228D7); box-shadow: 0 0 15px #E1306C; }
+  .icons a.tiktok:hover { background: #e8eaeb; box-shadow: 0 0 15px #edefef; }
+  .icons a.snapchat:hover { background: #FFD700; box-shadow: 0 0 15px #ffffff; }
+  .icons a.whatsapp:hover { background: #25d366; box-shadow: 0 0 15px #09de53; }
+.icons a.telegram:hover { background: hsl(212, 81%, 53%); box-shadow: 0 0 15px hsl(211, 78%, 50%); }
+.icons a:hover {
+    border-radius: 50%;
+    transform: scale(1.2);
+  }
+  .icons a:hover svg {
+    fill: black;
+  }
+.bottom-link {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    /* Style */
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 300;
+    transition: color 0.3s ease;
+}
+
+.bottom-link::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 1px;
+    background: #797979;
+    transition: width .3s;
+    margin: 5px auto 0;
+}
+
+.bottom-link:hover {
+    color: #757575;
+}
+
+.bottom-link:hover::after {
+    width: 100%;
+}                                                                                                                                                                                                                                        
+
+#music-container {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 9999;
+}
+
+.icon-btn {
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Subtle pulse to catch the user's eye */
+@keyframes pulse-gold {
+    0% { box-shadow: 0 0 0 0 rgba(170, 137, 95, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(170, 137, 95, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(170, 137, 95, 0); }
+}
+
+.icon-btn {
+    animation: pulse-gold 2s infinite;
+}
+
+.icon-btn img {
+    width: 22px;
+    height: auto;
+}
+.profile-pic {
+  width: 150px; /* Adjust size as needed */
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #000000;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.05); /* Slight zoom on hover */
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+}
+.bio-section {
+    margin-top: 20px; /* Space under icons */
+    text-align: center;
+}
+
+.name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    
+    /* The Gradient Magic */
+    background: linear-gradient(to right, #EE332E, #FFD500, #007A3D);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+.role {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #FFD500; /* Matching the sun's yellow */
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    opacity: 0.9;
+}
+.flag-icon {
+    font-size: 20px;
+    vertical-align: middle;
+    filter: drop-shadow(0 0 5px rgba(255, 213, 0, 0.5)); /* Subtle yellow glow */
+    animation: float 3s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+/* Apply this to your background container */
+.background-text-layer {
+    opacity: 0.15; /* Lower this until it’s a subtle texture */
+    filter: blur(2px); /* Softens the text so it's not distracting */
+    pointer-events: none; /* Makes sure you can still click your links */
+    user-select: none; /* Prevents users from accidentally highlighting the background text */
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* This creates a dark shadow at the edges and keeps the center clear */
+    background: radial-gradient(circle, rgba(0,0,0,0) 20%, rgba(0,0,0,0.7) 100%);
+    pointer-events: none;
+    z-index: 1; /* Make sure this is behind your content but above the background */
+}

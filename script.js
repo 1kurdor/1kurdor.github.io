@@ -1,7 +1,7 @@
 const canvas = document.getElementById('wordCanvas');
 const ctx = canvas.getContext('2d');
 let words = [];
-const wordList = ["Kurdor", "KurdorDev", "Rashid Farhad", "کوردور", "رەشید فەرهاد", "Developer", "Frontend", "Backend", "Fullstack",];
+const wordList = ["Kurdor", "KurdorDev", "Rashid Farhad", "کوردور", "رەشید فەرهاد", "Developer", "Web Dev", "Frontend", "Backend", "Fullstack", "Coder"];
 
 function init() {
     canvas.width = window.innerWidth;
@@ -13,8 +13,8 @@ function init() {
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
             fontSize: Math.random() * 5 + 14,
-            speed: Math.random() * 0.20 + 0.05,
-            opacity: Math.random() * 0.30 + 0.03 
+            speed: Math.random() * 0.15 + 0.05,
+            opacity: Math.random() * 0.12 + 0.03 
         });
     }
 }
