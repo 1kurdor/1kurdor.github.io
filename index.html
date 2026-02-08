@@ -1,47 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" data-theme="dark" data-lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kurdor</title>
-<link rel="stylesheet" href="style.css">
-<link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KurdorDev</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rabat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">KurdorDev</a>
+                
+                <div class="header-controls">
+                    <div class="language-switchr">
+                    
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                        <img src="image/dark-theme.png" class="theme-icon dark" alt="Dark theme">
+                        <img src="image/light-theme.png" class="theme-icon light" alt="Light theme">
+                    </button>
+                </div>
+                
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#home" data-i18n="nav-home">Home</a></li>
+                    <li><a href="#contact" data-i18n="nav-contact">Contact Me</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-  <br>
-  <br><br>
-  <canvas id="wordCanvas"></canvas>
-  <div class="icons">
-      <a href="https://wa.me/+7504976736" target="_blank" class="whatsapp">
-      <img src="assets/image/w.png">
-    </a>
-    <a href="https://t.me/rashidfarhad" target="_blank" class="telegram">
-    <img src="assets/image/telegram.png">
-    </a>
-    <a href="https://www.instagram.com/rashidfarhaad" target="_blank" class="instagram">
-    <img src="assets/image/insta.png">
-    </a>
-   </a>
-    <a href="https://snapchat.com/add/rashid_farhad" target="_blank" class="snapchat">
-      <img src="assets/image/snap.png">
-    </a>
-     <a href="https://www.tiktok.com/@rashidfarhaad" target="_blank" class="tiktok">
-      <img src="assets/image/tiktok.png">
-    </a>
-  </div>
-  <br>
-  <br>
-  <br>
- <div id="music-container">
-    <div id="muteBtn" class="icon-btn">
-        <img id="statusIcon" src="assets/image/sound-on.png" alt="Toggle Sound">
-    </div>
-</div>
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="active-status">
+                <span class="green-indicator"></span>
+                <span class="status-label">
+                    <a class="work" href="#contact" data-i18n="available">Available For Work</a>
+                </span>
+            </div>
+            
+            <h1 class="glitch" data-text="Rashid Farhad" data-i18n="name">KurdorDev</h1>
+            
+            <p class="hero-description" data-i18n="tagline">
+                No Matter How Tall The Mountain Is, The Sun Always Rise... ☀️
+            </p>
+            
+            <div class="terminal-container">
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="terminal-title">KurdorDev ~ bash$</div>
+                    </div>
+                    <div class="terminal-body">
+                        <!-- Line 1 -->
+                        <div class="terminal-line">
+                            <span class="prompt">KurdorDev | </span>
+                            <span class="command" data-i18n="terminal-name">Rashid Farhad $</span>
+                        </div>
+                        
+                        <!-- Line 2 -->
+                        <div class="terminal-line">
+                            <span class="output" data-i18n="terminal-title">FullStack Developer | UI/UX</span>
+                        </div>
+                        
+                        <!-- Line 3 -->
+                        <div class="terminal-line">
+                            <span class="prompt" data-i18n="terminal-prompt">kurdor@projects:~$</span>
+                            <span class="command" data-i18n="terminal-command">VSCode Theme</span>
+                        </div>
+                        
+                        <!-- Line 4 - With install link -->
+                        <div class="terminal-line">
+                            <span class="output">
+                                <span class="typing-text" data-i18n="theme-text">Kurdor Theme...</span>
+                                <a href="https://marketplace.visualstudio.com/items?itemName=rashidfarhad.kurdor" 
+                                   class="install-link fade-in-link" 
+                                   target="_blank"
+                                   data-i18n="install-link">
+                                   [Click to Install]
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <hr class="hr-gray">
+   
+    <section class="section contact" id="contact">
+        <center>
+            <h3 data-i18n="contact-title">Contact Me</h3>
+        </center>
+        
+        <div class="icons">
+            <a href="https://wa.me/+7504976736" target="_blank" class="whatsapp" 
+               aria-label="WhatsApp" title="WhatsApp">
+                <img src="image/w.png" alt="WhatsApp">
+            </a>
+            <a href="https://t.me/rashidfarhad" target="_blank" class="telegram" 
+               aria-label="Telegram" title="Telegram">
+                <img src="image/telegram.png" alt="Telegram">
+            </a>
+            <a href="https://www.instagram.com/rashidfarhaad" target="_blank" class="instagram" 
+               aria-label="Instagram" title="Instagram">
+                <img src="image/insta.png" alt="Instagram">
+            </a>
+            <a href="https://snapchat.com/add/rashid_farhad" target="_blank" class="snapchat" 
+               aria-label="Snapchat" title="Snapchat">
+                <img src="image/snap.png" alt="Snapchat">
+            </a>
+            <a href="https://www.tiktok.com/@rashidfarhaad" target="_blank" class="tiktok" 
+               aria-label="TikTok" title="TikTok">
+                <img src="image/tiktok.png" alt="TikTok">
+            </a>
+        </div>
+        
+        <br>
+        <br>
+    </section>
 
-<audio id="bgMusic" loop autoplay muted playsinline>
-    <source src="assets/audio/music.mp3" type="audio/mpeg">
-</audio>
- <script src="script.js"></script>
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text" data-i18n="footer-text">
+                © 2023 KurdorDev. Made with ❤️ in Kurdistan.
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
