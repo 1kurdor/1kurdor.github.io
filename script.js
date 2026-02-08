@@ -25,7 +25,7 @@ class KurdorApp {
                 "nav-contact": "پەیوەندیکرن",
                 "available": "بەرھەڤە بۆ کارکرنێ.",
                 "name": "کوردۆر دێڤ ",
-                "tagline": "ھەر چەند چیایێ بڵند بیت، رۆژ دێ هەر ھەلیت... ☀️",
+                "tagline": "ھەر چەند چیایێ بڵند بیت،            رۆژ دێ هەر ھەلیت... ☀️",
                 "terminal-title": "کوردۆر دێڤ   ~ bash$   ",
                 "terminal-name": "ڕەشید فەرهەد $",
                 "terminal-title2": "گەشەپێدەرێ FullStack | UI/UX",
