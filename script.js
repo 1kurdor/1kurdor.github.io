@@ -1,13 +1,12 @@
-// ============ KURDOR DEV APP ============
 class KurdorApp {
     constructor() {
         this.translations = {
             en: {
-                "logo": "KurdorDev",
+                "logo": "Kurdor",
                 "nav-home": "Home",
                 "nav-contact": "Contact Me",
                 "available": "Available For Work",
-                "name": "KurdorDev",
+                "name": "Kurdor Dev",
                 "tagline": "No Matter How Tall The Mountain Is, The Sun Always Rise... ☀️",
                 "terminal-title": "KurdorDev ~ bash$",
                 "terminal-name": "Rashid Farhad $",
@@ -17,25 +16,25 @@ class KurdorApp {
                 "theme-text": "Kurdor Theme...",
                 "install-link": "[Click to Install]",
                 "contact-title": "Contact Me",
-                "footer-text": "© 2023 KurdorDev. Made with ❤️ in Kurdistan."
+                "footer-text": "© 2025 KurdorDev. Made with ❤️ in Kurdistan."
             },
             
             ku: {
-                "logo": "کوردۆردێڤ",
-                "nav-home": "سەرەتا",
-                "nav-contact": "پەیوەندیم پێوەبکە",
-                "available": "بەردەستە بۆ کار",
-                "name": "کوردۆردێڤ",
-                "tagline": "گرنگ نیە چیە شاخەکە چەن بەرزە، هەمیشه خۆر هەڵدەستێ... ☀️",
-                "terminal-title": "کوردۆردێڤ ~ bash$",
+                "logo": "کوردور",
+                "nav-home": "دەستپێک",
+                "nav-contact": "پەیوەندیکرن",
+                "available": "بەرھەڤە بۆ کارکرنێ.",
+                "name": "کوردۆر دێڤ",
+                "tagline": "ھەر چەند چیا بەرز بیت، رۆژ هەر دێ ھەلیت... ☀️",
+                "terminal-title": "کوردۆر دێڤ ~ bash$",
                 "terminal-name": "ڕەشید فەرهەد $",
-                "terminal-title2": "گەشەپێدەری FullStack | UI/UX",
+                "terminal-title2": "گەشەپێدەرێ FullStack | UI/UX",
                 "terminal-prompt": "kurdor@پڕۆژەکان:~$",
-                "terminal-command": "ڕەنگەمەی VSCode",
-                "theme-text": "ڕەنگەمەی کوردۆر...",
-                "install-link": "[کرتە بکە بۆ دامەزراندن]",
-                "contact-title": "پەیوەندیم پێوەبکە",
-                "footer-text": "© ٢٠٢٣ کوردۆردێڤ. دروستکراوە بە ❤️ لە کوردستان."
+                "terminal-command": "ثیمێ VSCode",
+                "theme-text": "ثیمێ  کوردۆر...",
+                "install-link": "[کلیک بکە بۆ ئینستالکرن]",
+                "contact-title": "پەیوەندیکرن ",
+                "footer-text": "© ٢٠٢٥ کوردۆردێڤ. هاتیە دروستکرن ب ❤️ ل کوردستان."
             }
         };
         
