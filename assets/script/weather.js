@@ -5,7 +5,7 @@ const translations = {
         searchPlaceholder: "Search any city...",
         emptyStateTitle: "No Location Selected",
         emptyStateDescription: "Search for any city worldwide or use your current location to view weather information",
-        emptyStateButton: "Use My Current Location",
+        emptyStateButton: "Use My Location",
         currentCity: "Select a Location",
         selectCountry: "Select Country",
         feelsLike: "Feels like",
