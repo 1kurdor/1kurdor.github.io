@@ -117,12 +117,27 @@ const translations = {
         september: "ئەیلول",
         october: "تشرینا یەکێ",
         november: "تشرینا دووێ",
-        december: "کانونا یەکێ"
+        december: "کانونا یەکێ",
+  Clear: "ساماڵ",
+  Sunny: "روژ",
+  partlycloudy: "نیمچە عەڤر",
+  Cloudy: "عەڤر",
+  Overcast: "عەڤراوی",
+  Rain: "باران",
+  LightRain: "بارانەکا کێم ( هێدی )",
+  Thunderstorm: "تەقوتۆقا عەور و برۆسکێ",
+  Snow: "بەفر",
+  Mist: "تەم",
+  Fog: "مژ",
+  Windy: "با"
     }
 };
 
 // Current language (default: English)
 let currentLang = localStorage.getItem('language') || 'en';
+
+// Store current weather condition globally so we can update it on language change
+let currentWeatherCondition = null;
 
 // GLOBAL CITIES DATABASE - Major cities from around the world
 const globalCities = [
@@ -243,6 +258,7 @@ const globalCities = [
 const weatherConditions = [
     { 
         name: "Sunny", 
+        nameKu: "روژ",
         icon: "fa-sun", 
         colorClass: "sunny",
         imageText: "☀️",
@@ -250,13 +266,15 @@ const weatherConditions = [
     },
     { 
         name: "Partly Cloudy", 
+        nameKu: "نیمچە عەڤر",
         icon: "fa-cloud-sun", 
-        colorClass: "partly-cloudy",
+        colorClass: "partlycloudy",
         imageText: "⛅",
         description: "Partly cloudy with some sun"
     },
     { 
         name: "Cloudy", 
+        nameKu: "عەڤر",
         icon: "fa-cloud", 
         colorClass: "cloudy",
         imageText: "☁️",
@@ -264,6 +282,7 @@ const weatherConditions = [
     },
     { 
         name: "Light Rain", 
+        nameKu: "بارانەکا کێم ( هێدی )",
         icon: "fa-cloud-rain", 
         colorClass: "rainy",
         imageText: "🌧️",
@@ -271,6 +290,7 @@ const weatherConditions = [
     },
     { 
         name: "Heavy Rain", 
+        nameKu: "باران",
         icon: "fa-cloud-showers-heavy", 
         colorClass: "rainy",
         imageText: "⛈️",
@@ -278,6 +298,7 @@ const weatherConditions = [
     },
     { 
         name: "Snow", 
+        nameKu: "بەفر",
         icon: "fa-snowflake", 
         colorClass: "snowy",
         imageText: "❄️",
@@ -285,6 +306,7 @@ const weatherConditions = [
     },
     { 
         name: "Storm", 
+        nameKu: "تەقوتۆقا عەور و برۆسکێ",
         icon: "fa-bolt", 
         colorClass: "stormy",
         imageText: "⚡",
@@ -292,6 +314,7 @@ const weatherConditions = [
     },
     { 
         name: "Clear Sky", 
+        nameKu: "ساماڵ",
         icon: "fa-moon", 
         colorClass: "sunny",
         imageText: "✨",
@@ -299,6 +322,7 @@ const weatherConditions = [
     },
     { 
         name: "Foggy", 
+        nameKu: "مژ",
         icon: "fa-smog", 
         colorClass: "cloudy",
         imageText: "🌫️",
@@ -306,10 +330,19 @@ const weatherConditions = [
     },
     { 
         name: "Windy", 
+        nameKu: "با",
         icon: "fa-wind", 
         colorClass: "cloudy",
         imageText: "💨",
         description: "Windy conditions"
+    },
+    { 
+        name: "Mist", 
+        nameKu: "تەم",
+        icon: "fa-smog", 
+        colorClass: "cloudy",
+        imageText: "🌫️",
+        description: "Mist"
     }
 ];
 
@@ -335,6 +368,16 @@ let currentCity = null;
 // ===== LANGUAGE FUNCTIONS =====
 function translate(key) {
     return translations[currentLang][key] || translations.en[key] || key;
+}
+
+// Get weather condition name in current language
+function getWeatherConditionName(condition) {
+    // If Kurdish and the condition has a Kurdish name, use it
+    if (currentLang === 'ku' && condition.nameKu) {
+        return condition.nameKu;
+    }
+    // Otherwise use the English name
+    return condition.name;
 }
 
 function updatePageLanguage() {
@@ -384,6 +427,14 @@ function updateWeatherDisplay() {
     if (feelsLikeLabel) feelsLikeLabel.textContent = translate('feelsLike');
     if (windLabel) windLabel.textContent = translate('wind');
     if (humidityLabel) humidityLabel.textContent = translate('humidity');
+    
+    // Update weather condition name if weather is displayed
+    if (currentWeatherCondition) {
+        const weatherDescription = document.getElementById('weatherDescription');
+        if (weatherDescription) {
+            weatherDescription.innerHTML = getWeatherConditionName(currentWeatherCondition);
+        }
+    }
 }
 
 // Calculate distance between two coordinates using Haversine formula
@@ -638,6 +689,10 @@ async function loadCityData(city, distance = null) {
 async function generateWeatherData(city) {
     const weatherIcon = document.getElementById('weatherIcon');
     const weatherDescription = document.getElementById('weatherDescription');
+    const temperature = document.getElementById('temperature');
+    const feelsLikeValue = document.getElementById('feelsLikeValue');
+    const windValue = document.getElementById('windValue');
+    const humidityValue = document.getElementById('humidityValue');
     
     // Fetch real weather data from API
     const weatherData = await fetchRealWeatherData(city.lat, city.lon);
@@ -650,6 +705,9 @@ async function generateWeatherData(city) {
             weatherData.isDay
         );
         
+        // Store the condition globally so we can update it on language change
+        currentWeatherCondition = condition;
+        
         // Update weather display with image/text above description
         weatherIcon.className = 'weather-icon-large ' + condition.colorClass;
         
@@ -660,8 +718,8 @@ async function generateWeatherData(city) {
             </div>
         `;
         
-        // Update weather description with condition name and emoji
-        weatherDescription.innerHTML = condition.name;
+        // Update weather description with translated condition name
+        weatherDescription.innerHTML = getWeatherConditionName(condition);
         
         // Add description tooltip
         weatherDescription.title = condition.description;
@@ -783,6 +841,8 @@ function generateFakeWeatherData(city) {
         }
     }
     
+    // Store the condition globally so we can update it on language change
+    currentWeatherCondition = condition;
     
     // Generate other weather data
     const windSpeed = Math.round(5 + Math.random() * 25);
@@ -798,8 +858,8 @@ function generateFakeWeatherData(city) {
         </div>
     `;
     
-    // Update weather description with condition name and emoji
-    weatherDescription.innerHTML = condition.name;
+    // Update weather description with translated condition name
+    weatherDescription.innerHTML = getWeatherConditionName(condition);
     
     // Add description tooltip
     weatherDescription.title = condition.description;
