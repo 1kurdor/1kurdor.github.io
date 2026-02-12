@@ -64,7 +64,7 @@ const translations = {
         useLocation: "جهێ من بکار بینە…",
         searchPlaceholder: "لێگەریان بۆ شاری...",
         emptyStateTitle: "هیچ جهەک نەهاتییە هەڵبژاردن",
-        emptyStateDescription: "لێگەریان بکە بۆ هەر جهەکێ یان خۆ جهێ خو هەلبژێرە بۆ دیتنا زانیاریێن کەش و هەوایێ",
+        emptyStateDescription: "لێگەریان بکە بۆ هەر جهەکێ یان  جهێ خو هەلبژێرە بۆ دیتنا زانیاریێن کەش و هەوایێ",
         emptyStateButton: "جهێ من بکار بینە",
         currentCity: "شارەکێ هەڵبژێرە",
         selectCountry: "وڵاتەکێ هەڵبژێرە",
