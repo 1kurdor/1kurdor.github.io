@@ -1,3 +1,4 @@
+// ============ KURDOR DEV APP ============
 class KurdorApp {
     constructor() {
         this.translations = {
@@ -16,25 +17,25 @@ class KurdorApp {
                 "theme-text": "Kurdor Theme...",
                 "install-link": "[Click to Install]",
                 "contact-title": "Contact Me",
-                "footer-text": "© 2025 KurdorDev. Made with ❤️ in Kurdistan."
+                "footer-text": "© 2025 Kurdor Dev"
             },
             
             ku: {
-                "logo": "کوردور",
-                "nav-home": "دەستپێک",
-                "nav-contact": "پەیوەندیکرن",
-                "available": "بەرھەڤە بۆ کارکرنێ.",
-                "name": "کوردۆر دێڤ ",
-                "tagline": "ھەر چەند چیایێ بڵند بیت،            رۆژ دێ هەر ھەلیت... ☀️",
-                "terminal-title": "کوردۆر دێڤ   ~ bash$   ",
+                "logo": "کوردۆردێڤ",
+                "nav-home": "سەرەتا",
+                "nav-contact": "پەیوەندیم پێوەبکە",
+                "available": "بەردەستە بۆ کار",
+                "name": "کوردۆردێڤ",
+                "tagline": "گرنگ نیە چیە شاخەکە چەن بەرزە، هەمیشه خۆر هەڵدەستێ... ☀️",
+                "terminal-title": "کوردۆردێڤ ~ bash$",
                 "terminal-name": "ڕەشید فەرهەد $",
-                "terminal-title2": "گەشەپێدەرێ FullStack | UI/UX",
+                "terminal-title2": "گەشەپێدەری FullStack | UI/UX",
                 "terminal-prompt": "kurdor@پڕۆژەکان:~$",
-                "terminal-command": "ثیمێ VSCode",
-                "theme-text": "ثیمێ  کوردۆر...",
-                "install-link": "[کلیک بکە بۆ ئینستالکرن]",
-                "contact-title": "پەیوەندیکرن ",
-                "footer-text": "© ٢٠٢٥ کوردۆردێڤ. هاتیە دروستکرن ب ❤️ ل کوردستان."
+                "terminal-command": "ڕەنگەمەی VSCode",
+                "theme-text": "ڕەنگەمەی کوردۆر...",
+                "install-link": "[کرتە بکە بۆ دامەزراندن]",
+                "contact-title": "پەیوەندیم پێوەبکە",
+                "footer-text": "© 2025 کوردۆردێڤ"
             }
         };
         
@@ -378,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
     
     // Log initialization
-    console.log('🎯 KurdorDev - Bilingual Portfolio Loaded');
+    console.log('🎯 Kurdor Dev - Bilingual Portfolio Loaded');
     console.log('🌍 Language:', app.currentLang);
     console.log('🎨 Theme:', document.documentElement.getAttribute('data-theme'));
 });

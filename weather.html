@@ -1,922 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kurdistan Weather Intelligence</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Global Weather | کەش و هەوای جیهانی</title>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #0f172a;
-            --secondary: #1e293b;
-            --accent: #3b82f6;
-            --highlight: #06b6d4;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --light: #f8fafc;
-            --dark: #0f172a;
-            --gradient-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --gradient-secondary: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
-            --card-bg: rgba(255, 255, 255, 0.98);
-            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            --radius-xl: 24px;
-            --radius-lg: 16px;
-            --radius-md: 12px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-        }
-
-        body {
-            background: var(--gradient-primary);
-            min-height: 100vh;
-            color: var(--dark);
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        .background-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 5% 15%, rgba(59, 130, 246, 0.1) 0%, transparent 25%),
-                radial-gradient(circle at 95% 85%, rgba(6, 182, 212, 0.1) 0%, transparent 25%);
-            pointer-events: none;
-            z-index: -2;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Header */
-        .app-header {
-            padding: 32px 0 24px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .header-main {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-            gap: 24px;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .logo {
-            background: var(--gradient-secondary);
-            width: 64px;
-            height: 64px;
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 28px;
-            box-shadow: var(--shadow);
-        }
-
-        .logo-text h1 {
-            color: white;
-            font-size: 36px;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #93c5fd, #22d3ee);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.2;
-        }
-
-        .logo-text p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 15px;
-            margin-top: 8px;
-            font-weight: 500;
-        }
-
-        /* Search and Location Controls */
-        .controls-container {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            max-width: 600px;
-            width: 100%;
-            position: relative;
-        }
-
-        .search-wrapper {
-            display: flex;
-            gap: 16px;
-            flex: 1;
-        }
-
-        .search-container {
-            position: relative;
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 20px 24px 20px 60px;
-            border: none;
-            border-radius: var(--radius-md);
-            background: var(--card-bg);
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--dark);
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--accent);
-            font-size: 20px;
-            pointer-events: none;
-        }
-
-        /* Location Button - Green Style */
-        .location-btn-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .location-btn {
-            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-            color: white;
-            border: none;
-            padding: 20px 24px;
-            border-radius: var(--radius-md);
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .location-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
-        }
-
-        .location-btn:active {
-            transform: translateY(0);
-        }
-
-        .location-btn i {
-            font-size: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .location-btn:hover i {
-            transform: scale(1.2);
-        }
-
-        .location-glow {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.3), 
-                transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .location-btn:hover .location-glow {
-            transform: translateX(100%);
-        }
-
-        /* Hover Tooltip */
-        .location-btn-tooltip {
-            position: absolute;
-            top: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.95);
-            color: white;
-            padding: 10px 16px;
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            font-weight: 500;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            pointer-events: none;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .location-btn-tooltip:after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-top: 6px solid rgba(15, 23, 42, 0.95);
-        }
-
-        .location-btn-container:hover .location-btn-tooltip {
-            opacity: 1;
-            visibility: visible;
-            top: -45px;
-        }
-
-        /* Intelligent Search Results */
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--card-bg);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow);
-            max-height: 400px;
-            overflow-y: auto;
-            display: none;
-            z-index: 1000;
-            margin-top: 8px;
-            border: 1px solid rgba(226, 232, 240, 0.5);
-        }
-
-        .search-result-item {
-            padding: 16px 24px;
-            cursor: pointer;
-            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
-            transition: all 0.2s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .search-result-item:hover {
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .search-result-item:last-child {
-            border-bottom: none;
-        }
-
-        .result-name {
-            font-weight: 600;
-            color: var(--secondary);
-            font-size: 16px;
-        }
-
-        .result-region {
-            font-size: 14px;
-            color: #64748b;
-            background: rgba(100, 116, 139, 0.1);
-            padding: 4px 12px;
-            border-radius: 20px;
-        }
-
-        .no-results {
-            padding: 24px;
-            text-align: center;
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        /* Location Detection Status */
-        .location-status {
-            position: absolute;
-            top: calc(100% + 10px);
-            right: 0;
-            background: var(--card-bg);
-            border-radius: var(--radius-md);
-            padding: 16px 20px;
-            box-shadow: var(--shadow);
-            display: none;
-            z-index: 100;
-            animation: slideDown 0.3s ease;
-            max-width: 350px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .location-status-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .location-status-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-md);
-            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-        }
-
-        .location-status-content h4 {
-            font-size: 16px;
-            color: var(--primary);
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .location-status-content p {
-            font-size: 13px;
-            color: #64748b;
-        }
-
-        .location-status-details {
-            font-size: 13px;
-            color: #64748b;
-            padding: 12px 0;
-            border-top: 1px solid rgba(226, 232, 240, 0.5);
-        }
-
-        /* Main Layout */
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 450px;
-            gap: 32px;
-            margin-bottom: 48px;
-        }
-
-        /* Weather Dashboard */
-        .weather-dashboard {
-            background: var(--card-bg);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 32px;
-            padding-bottom: 24px;
-            border-bottom: 2px solid rgba(226, 232, 240, 0.5);
-        }
-
-        .location-display h2 {
-            font-size: 36px;
-            color: var(--primary);
-            margin-bottom: 8px;
-            font-weight: 800;
-            line-height: 1.2;
-        }
-
-        .location-meta {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .region-tag {
-            font-size: 14px;
-            color: var(--accent);
-            font-weight: 600;
-            padding: 6px 16px;
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 20px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        .current-time {
-            text-align: right;
-            color: #64748b;
-            font-weight: 500;
-        }
-
-        .current-time .time {
-            font-size: 32px;
-            color: var(--primary);
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-
-        /* Current Weather */
-        .current-weather {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            margin-bottom: 48px;
-        }
-
-        .temp-section {
-            text-align: center;
-            position: relative;
-        }
-
-        .temp-main {
-            font-size: 120px;
-            font-weight: 900;
-            color: var(--primary);
-            line-height: 1;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-        }
-
-        .temp-unit {
-            font-size: 48px;
-            margin-top: 28px;
-            color: var(--accent);
-        }
-
-        .weather-icon-large {
-            font-size: 120px;
-            color: var(--accent);
-            margin-bottom: 20px;
-            height: 160px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .weather-description {
-            font-size: 28px;
-            color: var(--secondary);
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .feels-like {
-            font-size: 20px;
-            color: #64748b;
-        }
-
-        /* Weather Details - ONLY WIND SPEED */
-        .weather-details-single {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 40px auto;
-            max-width: 400px;
-        }
-
-        .detail-card {
-            background: rgba(226, 232, 240, 0.3);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(226, 232, 240, 0.5);
-            position: relative;
-            text-align: center;
-            width: 100%;
-        }
-
-        .detail-card:hover {
-            background: rgba(59, 130, 246, 0.08);
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .detail-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-
-        .detail-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: var(--radius-md);
-            background: var(--gradient-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-        }
-
-        .detail-title {
-            font-size: 18px;
-            color: var(--secondary);
-            font-weight: 600;
-        }
-
-        .detail-value {
-            font-size: 36px;
-            font-weight: 900;
-            color: var(--primary);
-        }
-
-        .detail-unit {
-            font-size: 18px;
-            color: #64748b;
-            margin-left: 4px;
-        }
-
-        /* Complete Kurdistan Database Panel */
-        .kurdistan-database-panel {
-            background: var(--card-bg);
-            border-radius: var(--radius-xl);
-            padding: 32px;
-            box-shadow: var(--shadow);
-            height: fit-content;
-            position: sticky;
-            top: 24px;
-        }
-
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-        }
-
-        .panel-title {
-            font-size: 24px;
-            color: var(--primary);
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .panel-title i {
-            color: var(--accent);
-        }
-
-        .province-count {
-            font-size: 14px;
-            color: #64748b;
-            font-weight: 600;
-            background: rgba(226, 232, 240, 0.5);
-            padding: 6px 16px;
-            border-radius: 20px;
-        }
-
-        .database-list {
-            max-height: 700px;
-            overflow-y: auto;
-            padding-right: 8px;
-        }
-
-        /* Province Section */
-        .province-section {
-            margin-bottom: 20px;
-            background: rgba(226, 232, 240, 0.2);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-        }
-
-        .province-header {
-            padding: 18px 20px;
-            background: rgba(59, 130, 246, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .province-header:hover {
-            background: rgba(59, 130, 246, 0.15);
-        }
-
-        .province-header.active {
-            background: rgba(59, 130, 246, 0.2);
-        }
-
-        .province-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .province-count-badge {
-            font-size: 12px;
-            background: var(--accent);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-        }
-
-        .province-toggle {
-            font-size: 14px;
-            color: var(--accent);
-            transition: transform 0.3s ease;
-        }
-
-        .province-header.active .province-toggle {
-            transform: rotate(180deg);
-        }
-
-        /* Locations Grid */
-        .locations-grid {
-            display: none;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 12px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        .locations-grid.show {
-            display: grid;
-        }
-
-        .location-item {
-            background: white;
-            border-radius: var(--radius-sm);
-            padding: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .location-item:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-        }
-
-        .location-item.active {
-            background: rgba(59, 130, 246, 0.1);
-            border-color: var(--accent);
-        }
-
-        .location-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--secondary);
-            margin-bottom: 8px;
-        }
-
-        .location-type {
-            font-size: 11px;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 6px;
-        }
-
-        .location-type.city { background: #3b82f6; }
-        .location-type.town { background: #10b981; }
-        .location-type.village { background: #64748b; }
-        .location-type.district { background: #8b5cf6; }
-
-        .location-temp {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        /* Loading State */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(15, 23, 42, 0.95);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            color: white;
-        }
-
-        .loading-content {
-            text-align: center;
-            max-width: 500px;
-            padding: 0 20px;
-        }
-
-        .loading-spinner {
-            width: 80px;
-            height: 80px;
-            border: 6px solid rgba(255, 255, 255, 0.1);
-            border-top: 6px solid #22d3ee;
-            border-radius: 50%;
-            animation: spin 1.5s linear infinite;
-            margin: 0 auto 30px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Error Toast */
-        .error-toast {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: var(--danger);
-            color: white;
-            padding: 20px 25px;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow);
-            display: none;
-            align-items: center;
-            gap: 15px;
-            z-index: 1001;
-            max-width: 500px;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* Footer */
-        .app-footer {
-            text-align: center;
-            padding: 32px 0;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 48px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .kurdistan-database-panel {
-                grid-column: 1;
-                position: static;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .header-main {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .controls-container {
-                max-width: 100%;
-            }
-            
-            .search-wrapper {
-                flex-direction: column;
-            }
-            
-            .search-container {
-                min-width: 200px;
-            }
-            
-            .current-weather {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            
-            .weather-details-single {
-                max-width: 300px;
-            }
-            
-            .locations-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 16px;
-            }
-            
-            .weather-dashboard,
-            .kurdistan-database-panel {
-                padding: 32px 24px;
-            }
-            
-            .temp-main {
-                font-size: 100px;
-            }
-            
-            .temp-unit {
-                font-size: 36px;
-                margin-top: 20px;
-            }
-            
-            .weather-icon-large {
-                font-size: 100px;
-                height: 120px;
-            }
-            
-            .location-display h2 {
-                font-size: 32px;
-            }
-            
-            .location-btn {
-                padding: 16px 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .weather-dashboard,
-            .kurdistan-database-panel {
-                padding: 24px 20px;
-            }
-            
-            .temp-main {
-                font-size: 80px;
-            }
-            
-            .weather-icon-large {
-                font-size: 80px;
-                height: 100px;
-            }
-            
-            .detail-value {
-                font-size: 28px;
-            }
-            
-            .location-btn {
-                padding: 16px;
-                font-size: 14px;
-            }
-            
-            .locations-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="assets/style/weather.css">
 </head>
 <body>
+    <!-- ===== MODERN ANIMATED BACKGROUND ===== -->
     <div class="background-animation"></div>
     
-    <!-- Loading Overlay -->
+    <!-- ===== LANGUAGE TOGGLE BUTTON ===== -->
+    <button id="languageToggle" class="language-toggle">
+        Ku
+    </button>
+    
+    <!-- ===== LOADING OVERLAY ===== -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-content">
             <div class="loading-spinner"></div>
-            <h2 style="margin-bottom: 16px; font-size: 32px; font-weight: 700;">Detecting Your Location</h2>
-            <p style="font-size: 18px; opacity: 0.9;">Finding nearest weather station...</p>
+            <h2 data-translate="detectingLocation" style="margin-bottom: 16px; font-size: 32px; font-weight: 700;">Detecting Your Location</h2>
+            <p data-translate="fetchingWeather" style="font-size: 18px; opacity: 0.9;">Finding nearest weather location...</p>
         </div>
     </div>
     
-    <!-- Error Toast -->
+    <!-- ===== ERROR TOAST ===== -->
     <div class="error-toast" id="errorToast">
         <i class="fas fa-exclamation-triangle" style="font-size: 24px;"></i>
         <div>
@@ -928,37 +38,44 @@
         </button>
     </div>
     
+    <!-- ===== MAIN CONTAINER ===== -->
     <div class="container">
-        <!-- Header -->
+        <!-- ===== HEADER SECTION ===== -->
         <header class="app-header">
             <div class="header-main">
+                <!-- Logo Area -->
                 <div class="logo-container">
                     <div class="logo">
-                        <i class="fas fa-mountain-sun"></i>
+                        <i class="fas fa-cloud-sun"></i>
                     </div>
                     <div class="logo-text">
-                        <h1>Kurdistan Weather Intelligence</h1>
-                        <p>Complete weather coverage for all provinces, districts, cities, and villages</p>
+                        <h1 data-translate="appTitle">Global Weather</h1>
+                        <p data-translate="weatherInfo">Weather information for cities worldwide</p>
                     </div>
                 </div>
                 
-                <!-- Controls with Intelligent Search -->
+                <!-- Controls Area -->
                 <div class="controls-container">
+                    <!-- Search Container -->
                     <div class="search-wrapper">
                         <div class="search-container">
                             <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="searchInput" class="search-input" placeholder="Search any location in Kurdistan...">
+                            <div class="search-input-wrapper">
+                                <input 
+                                    type="text" 
+                                    id="searchInput" 
+                                    class="search-input" 
+                                    placeholder="Search any city..." 
+                                    data-translate="searchPlaceholder"
+                                    autocomplete="off"
+                                >
+                                <button id="locationBtn" class="location-btn-small" title="Use your current location">
+                                    <i class="fas fa-location-crosshairs"></i>
+                                    <div class="location-glow"></div>
+                                </button>
+                            </div>
+                            <!-- Search Results Dropdown -->
                             <div class="search-results" id="searchResults"></div>
-                        </div>
-                        
-                        <!-- Current Location Button with Hover Tooltip -->
-                        <div class="location-btn-container">
-                            <button id="locationBtn" class="location-btn" title="Use your current location">
-                                <i class="fas fa-location-crosshairs"></i>
-                               
-                                <div class="location-glow"></div>
-                            </button>
-                            <div class="location-btn-tooltip">Use your current location</div>
                         </div>
                     </div>
                     
@@ -974,25 +91,29 @@
                             </div>
                         </div>
                         <div class="location-status-details" id="statusDetails">
-                            Finding nearest village...
+                            Finding nearest location...
                         </div>
                     </div>
                 </div>
             </div>
         </header>
         
-        <!-- Main Content -->
+        <!-- ===== MAIN CONTENT ===== -->
         <main>
             <div class="main-content">
                 <!-- Weather Dashboard -->
                 <div class="weather-dashboard">
+                    <!-- Dashboard Header -->
                     <div class="dashboard-header">
                         <div class="location-display">
-                            <h2 id="currentCity">Erbil City, Kurdistan</h2>
+                            <h2 id="currentCity">Select a Location</h2>
                             <div class="location-meta">
-                                <span class="region-tag" id="currentRegion">Erbil Province</span>
+                                <span class="region-tag" id="currentRegion" style="display: none;">
+                                    Select Country
+                                </span>
                                 <span class="region-tag" id="distanceIndicator" style="display: none; background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); color: #10b981;">
-                                    <i class="fas fa-ruler"></i> <span id="distanceValue">0 km</span>
+                                    <i class="fas fa-ruler"></i> 
+                                    <span id="distanceValue">0 km</span>
                                 </span>
                             </div>
                         </div>
@@ -1002,604 +123,85 @@
                         </div>
                     </div>
                     
-                    <div class="current-weather">
-                        <div class="temp-section">
-                            <div class="temp-main">
-                                <span id="temperature">24</span>
-                                <span class="temp-unit">°C</span>
+                    <!-- Empty State - Shown initially -->
+                    <div class="empty-state" id="emptyState">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h3 class="empty-state-title" data-translate="emptyStateTitle">No Location Selected</h3>
+                        <p class="empty-state-description" data-translate="emptyStateDescription">Search for any city worldwide or use your current location to view weather information</p>
+                        <button id="emptyLocationBtn" class="location-btn-small" style="min-width: 200px;">
+                            <i class="fas fa-location-crosshairs"></i>
+                            <span data-translate="emptyStateButton">Use My Current Location</span>
+                            <div class="location-glow"></div>
+                        </button>
+                    </div>
+                    
+                    <!-- Weather Content - Hidden initially -->
+                    <div id="weatherContent" style="display: none;">
+                        <!-- Current Weather Section -->
+                        <div class="current-weather">
+                            <div class="temp-section">
+                                <div class="temp-main">
+                                    <span id="temperature">--</span>
+                                    <span class="temp-unit">°C</span>
+                                </div>
+                                <div class="weather-description" id="weatherDescription">--</div>
+                                <div class="feels-like">
+                                    <span data-translate="feelsLike" data-label="feelsLike">Feels like</span> <span id="feelsLike">--°C</span>
+                                </div>
                             </div>
-                            <div class="weather-description" id="weatherDescription">Clear Sky</div>
-                            <div class="feels-like">Feels like <span id="feelsLike">25°C</span></div>
+                            
+                            <div class="weather-icon-large" id="weatherIcon">
+                                <div class="weather-image-large">
+                                    <div class="weather-image-text">☀️</div>
+                                    <div class="weather-icon-fallback">
+                                        <i class="fas fa-question-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="weather-icon-large" id="weatherIcon">
-                            <i class="fas fa-sun"></i>
-                        </div>
-                    </div>
-                    
-                    <!-- Weather Details - ONLY WIND SPEED -->
-                    <div class="weather-details-single">
-                        <div class="detail-card">
-                            <div class="detail-header">
-                                <div class="detail-icon">
-                                    <i class="fas fa-wind"></i>
+                        <!-- Weather Details - Wind Speed and Humidity -->
+                        <div class="weather-details">
+                            <div class="detail-card">
+                                <div class="detail-header">
+                                    <div class="detail-icon">
+                                        <i class="fas fa-wind"></i>
+                                    </div>
+                                    <div class="detail-title" data-translate="wind" data-label="wind">Wind Speed</div>
                                 </div>
                                 <div>
-                                    <div class="detail-title">Wind Speed</div>
+                                    <span class="detail-value" id="windSpeed">--</span>
+                                    <span class="detail-unit" data-translate="kmh">km/h</span>
                                 </div>
                             </div>
-                            <div>
-                                <span class="detail-value" id="windSpeed">12</span>
-                                <span class="detail-unit">km/h</span>
+                            
+                            <div class="detail-card">
+                                <div class="detail-header">
+                                    <div class="detail-icon">
+                                        <i class="fas fa-tint"></i>
+                                    </div>
+                                    <div class="detail-title" data-translate="humidity" data-label="humidity">Humidity</div>
+                                </div>
+                                <div>
+                                    <span class="detail-value" id="humidity">--</span>
+                                    <span class="detail-unit">%</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Complete Kurdistan Database Panel -->
-                <div class="kurdistan-database-panel">
-                    <div class="panel-header">
-                        <h3 class="panel-title">
-                            <i class="fas fa-database"></i> Kurdistan Database
-                        </h3>
-                        <div class="province-count">
-                            <span id="provinceCount">5</span> provinces
-                        </div>
-                    </div>
-                    
-                    <!-- Kurdistan Database List -->
-                    <div class="database-list" id="databaseList">
-                        <!-- Provinces will be populated here -->
                     </div>
                 </div>
             </div>
         </main>
         
-        <!-- Footer -->
+        <!-- ===== FOOTER ===== -->
         <footer class="app-footer">
-            <p>© 2023 Kurdistan Weather Intelligence | Smart location detection for Barzan area villages</p>
-            <p style="margin-top: 8px; font-size: 12px; opacity: 0.8;">Automatically detects nearest village when between locations</p>
+            <p>© 2026 <span data-translate="footerText">Global Weather</span> | <a target="_blank" class="app-footer" href="https://kurdor.is-a.dev">Kurdor Dev</a></p>
         </footer>
     </div>
 
-    <script>
-        // COMPLETE KURDISTAN DATABASE WITH PRECISE BARZAN AREA COORDINATES
-        const kurdistanDatabase = {
-            provinces: [
-                {
-                    name: "Erbil Province",
-                    type: "province",
-                    population: "2.1M",
-                    districts: 9,
-                    locations: [
-                        { name: "Erbil City", type: "city", lat: 36.1900, lon: 44.0089 },
-                        { name: "Kasnazan", type: "town", lat: 36.2667, lon: 44.0667 },
-                        { name: "Khabat", type: "town", lat: 36.2833, lon: 43.7500 },
-                        { name: "Shaqlawa", type: "district", lat: 36.4033, lon: 44.3264 },
-                        { name: "Soran", type: "district", lat: 36.6531, lon: 44.5431 },
-                        { name: "Rawanduz", type: "town", lat: 36.6125, lon: 44.5228 },
-                        { name: "Choman", type: "district", lat: 36.6333, lon: 44.8833 },
-                        { name: "Mergasur", type: "district", lat: 37.0000, lon: 44.0000 },
-                        { name: "Koya", type: "district", lat: 36.0833, lon: 44.6333 },
-                        { name: "Makhmur", type: "district", lat: 35.7667, lon: 43.6000 },
-                        { name: "Bardarash", type: "town", lat: 36.8667, lon: 43.9667 },
-                        { name: "Daratu", type: "village", lat: 36.1000, lon: 44.0667 },
-                        { name: "Degala", type: "village", lat: 36.1500, lon: 44.6500 },
-                        { name: "Bekhal", type: "village", lat: 36.6833, lon: 44.2500 },
-                        { name: "Gali Ali Beg", type: "village", lat: 36.6667, lon: 44.3500 },
-                        { name: "Haji Omeran", type: "village", lat: 36.6000, lon: 44.8500 },
-                        { name: "Pir Dawood", type: "village", lat: 35.8000, lon: 43.6500 },
-                        
-                        // BARZAN AREA VILLAGES WITH PRECISE COORDINATES
-                        // Main Barzan Village
-                        { name: "Barzan", type: "village", lat: 37.1333, lon: 44.1167 },
-                        
-                        // Villages around Barzan with precise coordinates
-                        { name: "Dara Dazan", type: "village", lat: 37.1400, lon: 44.1300 },
-                        { name: "Balindah", type: "village", lat: 37.1500, lon: 44.1000 },
-                        { name: "Baze", type: "village", lat: 37.1200, lon: 44.1400 },
-                        { name: "Hamdlah", type: "village", lat: 37.1100, lon: 44.1500 },
-                        { name: "Savra", type: "village", lat: 37.1450, lon: 44.1250 },
-                        { name: "Razyan", type: "village", lat: 37.1250, lon: 44.1250 },
-                        { name: "Mla", type: "village", lat: 37.1350, lon: 44.1350 },
-                        { name: "Ble", type: "village", lat: 37.1400, lon: 44.1400 },
-                        { name: "Shre", type: "village", lat: 37.1300, lon: 44.1300 },
-                        { name: "Zewi", type: "village", lat: 37.2500, lon: 44.0000 },
-                        { name: "Kore", type: "village", lat: 37.2600, lon: 43.9900 },
-                        { name: "Serekepi", type: "village", lat: 37.2700, lon: 43.9800 },
-                        { name: "Beyasur", type: "village", lat: 37.2800, lon: 43.9700 },
-                        { name: "Derkar", type: "village", lat: 37.2900, lon: 43.9600 },
-                        { name: "Kanireş", type: "village", lat: 37.3000, lon: 43.9500 },
-                        { name: "Gali Zheri", type: "village", lat: 37.3100, lon: 43.9400 },
-                        { name: "Mamizawa", type: "village", lat: 37.3200, lon: 43.9300 }
-                    ]
-                },
-                {
-                    name: "Duhok Province",
-                    type: "province",
-                    population: "1.5M",
-                    districts: 7,
-                    locations: [
-                        { name: "Duhok City", type: "city", lat: 36.8667, lon: 43.0000 },
-                        { name: "Zakho", type: "city", lat: 36.9500, lon: 42.6833 },
-                        { name: "Amedi", type: "town", lat: 37.0925, lon: 43.4872 },
-                        { name: "Simele", type: "town", lat: 36.8500, lon: 42.8500 },
-                        { name: "Sumel", type: "district", lat: 36.8833, lon: 42.8333 },
-                        { name: "Sharya", type: "town", lat: 36.8833, lon: 43.5167 },
-                        { name: "Batufa", type: "village", lat: 36.9167, lon: 42.7833 },
-                        { name: "Sarsing", type: "village", lat: 36.9333, lon: 43.0167 },
-                        { name: "Gali Shkifta", type: "village", lat: 36.9500, lon: 43.0667 },
-                        { name: "Mangesh", type: "village", lat: 36.9667, lon: 43.0833 }
-                    ]
-                },
-                {
-                    name: "Sulaymaniyah Province",
-                    type: "province",
-                    population: "2.0M",
-                    districts: 10,
-                    locations: [
-                        { name: "Sulaymaniyah City", type: "city", lat: 35.5572, lon: 45.4356 },
-                        { name: "Halabja", type: "city", lat: 35.1833, lon: 45.9833 },
-                        { name: "Kalar", type: "town", lat: 34.6333, lon: 45.3167 },
-                        { name: "Dukan", type: "town", lat: 35.1333, lon: 45.0500 },
-                        { name: "Ranya", type: "district", lat: 36.2500, lon: 44.8833 },
-                        { name: "Pshdar", type: "district", lat: 36.3167, lon: 45.0833 },
-                        { name: "Qadir Karam", type: "village", lat: 35.5333, lon: 45.5167 },
-                        { name: "Sarchinar", type: "village", lat: 35.5500, lon: 45.4500 }
-                    ]
-                },
-                {
-                    name: "Kirkuk Province",
-                    type: "province",
-                    population: "1.4M",
-                    districts: 4,
-                    locations: [
-                        { name: "Kirkuk City", type: "city", lat: 35.4667, lon: 44.3167 },
-                        { name: "Dibis", type: "town", lat: 35.5833, lon: 44.2333 },
-                        { name: "Daquq", type: "town", lat: 35.1333, lon: 44.4500 },
-                        { name: "Hawija", type: "district", lat: 35.3167, lon: 43.7667 },
-                        { name: "Rashad", type: "village", lat: 35.2833, lon: 44.4167 }
-                    ]
-                },
-                {
-                    name: "Nineveh Province",
-                    type: "province",
-                    population: "3.5M",
-                    districts: 8,
-                    locations: [
-                        { name: "Mosul", type: "city", lat: 36.3400, lon: 43.1300 },
-                        { name: "Sinjar", type: "district", lat: 36.3167, lon: 41.8500 },
-                        { name: "Tal Afar", type: "town", lat: 36.3667, lon: 42.4500 },
-                        { name: "Bashiqa", type: "town", lat: 36.4333, lon: 43.3167 },
-                        { name: "Bahzani", type: "village", lat: 36.4167, lon: 43.3333 },
-                        { name: "Bardiya", type: "village", lat: 36.3500, lon: 43.4333 }
-                    ]
-                }
-            ]
-        };
-
-        // Calculate distance between two coordinates using Haversine formula
-        function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; // Earth's radius in kilometers
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = 
-                Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return R * c;
-        }
-
-        // Find nearest location from database
-        function findNearestLocation(userLat, userLon) {
-            let nearestLocation = null;
-            let minDistance = Infinity;
-            let provinceName = "";
-            
-            kurdistanDatabase.provinces.forEach(province => {
-                province.locations.forEach(location => {
-                    const distance = calculateDistance(userLat, userLon, location.lat, location.lon);
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        nearestLocation = location;
-                        provinceName = province.name;
-                    }
-                });
-            });
-            
-            return {
-                location: nearestLocation,
-                distance: minDistance,
-                province: provinceName
-            };
-        }
-
-        // DOM Elements
-        const locationBtn = document.getElementById('locationBtn');
-        const locationStatus = document.getElementById('locationStatus');
-        const searchInput = document.getElementById('searchInput');
-        const searchResults = document.getElementById('searchResults');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const errorToast = document.getElementById('errorToast');
-
-        // Current selected location
-        let currentLocation = kurdistanDatabase.provinces[0].locations[0];
-        let currentProvince = kurdistanDatabase.provinces[0].name;
-
-        // Initialize the application
-        function init() {
-            renderDatabase();
-            updateTime();
-            setInterval(updateTime, 1000);
-            
-            // Load initial location
-            loadLocationData(currentLocation, currentProvince);
-            
-            // Set up event listeners
-            locationBtn.addEventListener('click', getCurrentLocation);
-            searchInput.addEventListener('input', handleSearch);
-            
-            // Hide search results when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.search-container')) {
-                    searchResults.style.display = 'none';
-                }
-            });
-        }
-
-        // Get current location from browser
-        function getCurrentLocation() {
-            showLoading(true, 'Detecting your location...');
-            
-            if (!navigator.geolocation) {
-                showError('Geolocation not supported', 'Your browser does not support location services.');
-                showLoading(false);
-                return;
-            }
-            
-            navigator.geolocation.getCurrentPosition(
-                // Success callback
-                (position) => {
-                    const userLat = position.coords.latitude;
-                    const userLon = position.coords.longitude;
-                    
-                    // Find nearest location
-                    const result = findNearestLocation(userLat, userLon);
-                    
-                    // Show location status
-                    showLocationStatus(result, userLat, userLon);
-                    
-                    // Load the nearest location data
-                    loadLocationData(result.location, result.province, result.distance);
-                    
-                    // Update distance indicator
-                    if (result.distance < 100) { // Only show if within 100km
-                        document.getElementById('distanceIndicator').style.display = 'inline-flex';
-                        document.getElementById('distanceValue').textContent = result.distance.toFixed(1) + ' km';
-                    }
-                    
-                    showLoading(false);
-                },
-                // Error callback
-                (error) => {
-                    showLoading(false);
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            showError('Location access denied', 'Please allow location access to use this feature.');
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            showError('Location unavailable', 'Could not determine your location.');
-                            break;
-                        case error.TIMEOUT:
-                            showError('Location timeout', 'Location request timed out.');
-                            break;
-                        default:
-                            showError('Location error', 'An error occurred while getting your location.');
-                    }
-                },
-                // Options
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-        }
-
-        // Show location detection status
-        function showLocationStatus(result, userLat, userLon) {
-            const statusTitle = document.getElementById('statusTitle');
-            const statusMessage = document.getElementById('statusMessage');
-            const statusDetails = document.getElementById('statusDetails');
-            
-            // Special handling for Barzan area
-            const isBarzanArea = result.province === "Erbil Province" && 
-                                result.location.lat >= 37.1 && 
-                                result.location.lat <= 37.4 &&
-                                result.location.lon >= 43.9 && 
-                                result.location.lon <= 44.2;
-            
-            if (isBarzanArea) {
-                statusTitle.textContent = 'Barzan Area Detected';
-                statusMessage.textContent = `Nearest village: ${result.location.name}`;
-                statusDetails.innerHTML = `
-                    <strong>Smart Location Detection Active:</strong><br>
-                    • User coordinates: ${userLat.toFixed(4)}, ${userLon.toFixed(4)}<br>
-                    • Nearest village: ${result.location.name}<br>
-                    • Distance: ${result.distance.toFixed(1)} km<br>
-                    • Barzan area villages clustered for accuracy
-                `;
-            } else {
-                statusTitle.textContent = 'Location Detected';
-                statusMessage.textContent = `Nearest location: ${result.location.name}`;
-                statusDetails.innerHTML = `
-                    <strong>Location Details:</strong><br>
-                    • User coordinates: ${userLat.toFixed(4)}, ${userLon.toFixed(4)}<br>
-                    • Nearest location: ${result.location.name} (${result.location.type})<br>
-                    • Distance: ${result.distance.toFixed(1)} km<br>
-                    • Province: ${result.province}
-                `;
-            }
-            
-            // Show status panel
-            locationStatus.style.display = 'block';
-            
-            // Hide after 10 seconds
-            setTimeout(() => {
-                locationStatus.style.display = 'none';
-            }, 10000);
-        }
-
-        // Load location data and update UI
-        function loadLocationData(location, province, distance = null) {
-            // Update current location
-            currentLocation = location;
-            currentProvince = province;
-            
-            // Update location display
-            document.getElementById('currentCity').textContent = `${location.name}, Kurdistan`;
-            document.getElementById('currentRegion').textContent = province;
-            
-            // Generate realistic weather data based on location
-            generateWeatherData(location);
-            
-            // Highlight active location in database
-            highlightActiveLocation(location);
-        }
-
-        // Generate realistic weather data
-        function generateWeatherData(location) {
-            // Base temperature varies by location
-            let baseTemp = 20;
-            
-            // Adjust temperature based on latitude and type
-            if (location.type === 'village' && location.lat > 37) {
-                baseTemp = 15 + Math.random() * 8; // Colder in northern villages
-            } else if (location.type === 'city') {
-                baseTemp = 22 + Math.random() * 10; // Warmer in cities
-            } else {
-                baseTemp = 18 + Math.random() * 12; // Moderate for others
-            }
-            
-            const temp = Math.round(baseTemp);
-            const feelsLike = Math.round(temp + (Math.random() * 3 - 1));
-            const windSpeed = Math.round(5 + Math.random() * 25);
-            
-            // Weather conditions
-            const conditions = ['Clear Sky', 'Partly Cloudy', 'Sunny', 'Light Clouds', 'Mild'];
-            const condition = conditions[Math.floor(Math.random() * conditions.length)];
-            
-            // Weather icon
-            const weatherIcon = document.getElementById('weatherIcon');
-            weatherIcon.innerHTML = '<i class="fas fa-sun"></i>';
-            
-            // Update UI
-            document.getElementById('temperature').textContent = temp;
-            document.getElementById('feelsLike').textContent = feelsLike + '°C';
-            document.getElementById('weatherDescription').textContent = condition;
-            document.getElementById('windSpeed').textContent = windSpeed;
-        }
-
-        // Handle search functionality
-        function handleSearch() {
-            const query = searchInput.value.toLowerCase().trim();
-            const results = [];
-            
-            if (query.length < 2) {
-                searchResults.style.display = 'none';
-                return;
-            }
-            
-            // Search through all locations
-            kurdistanDatabase.provinces.forEach(province => {
-                province.locations.forEach(location => {
-                    if (location.name.toLowerCase().includes(query) || 
-                        province.name.toLowerCase().includes(query)) {
-                        results.push({
-                            location: location,
-                            province: province.name
-                        });
-                    }
-                });
-            });
-            
-            // Display results
-            if (results.length > 0) {
-                searchResults.innerHTML = results.slice(0, 10).map(result => `
-                    <div class="search-result-item" data-lat="${result.location.lat}" data-lon="${result.location.lon}" data-province="${result.province}">
-                        <div>
-                            <div class="result-name">${result.location.name}</div>
-                            <div class="result-region">${result.province}</div>
-                        </div>
-                        <div>${result.location.type}</div>
-                    </div>
-                `).join('');
-                
-                // Add click event to results
-                searchResults.querySelectorAll('.search-result-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        const lat = parseFloat(item.dataset.lat);
-                        const lon = parseFloat(item.dataset.lon);
-                        const province = item.dataset.province;
-                        const location = findLocationByCoords(lat, lon);
-                        
-                        if (location) {
-                            loadLocationData(location, province);
-                            searchInput.value = location.name;
-                            searchResults.style.display = 'none';
-                        }
-                    });
-                });
-                
-                searchResults.style.display = 'block';
-            } else {
-                searchResults.innerHTML = '<div class="no-results">No locations found</div>';
-                searchResults.style.display = 'block';
-            }
-        }
-
-        // Find location by coordinates
-        function findLocationByCoords(lat, lon) {
-            for (const province of kurdistanDatabase.provinces) {
-                for (const location of province.locations) {
-                    if (location.lat === lat && location.lon === lon) {
-                        return location;
-                    }
-                }
-            }
-            return null;
-        }
-
-        // Render the database panel
-        function renderDatabase() {
-            const databaseList = document.getElementById('databaseList');
-            let totalLocations = 0;
-            
-            databaseList.innerHTML = kurdistanDatabase.provinces.map(province => {
-                totalLocations += province.locations.length;
-                
-                return `
-                    <div class="province-section">
-                        <div class="province-header" onclick="toggleProvince(this)">
-                            <div class="province-name">
-                                ${province.name}
-                                <span class="province-count-badge">${province.locations.length}</span>
-                            </div>
-                            <div class="province-toggle">
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                        </div>
-                        <div class="locations-grid">
-                            ${province.locations.map(location => `
-                                <div class="location-item ${location === currentLocation ? 'active' : ''}" 
-                                     data-lat="${location.lat}" 
-                                     data-lon="${location.lon}"
-                                     onclick="selectLocation(this, '${province.name}')">
-                                    <div class="location-type ${location.type}">${location.type}</div>
-                                    <div class="location-name">${location.name}</div>
-                                    <div class="location-temp">${Math.round(15 + Math.random() * 15)}°C</div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            document.getElementById('provinceCount').textContent = kurdistanDatabase.provinces.length;
-        }
-
-        // Toggle province expansion
-        function toggleProvince(element) {
-            element.classList.toggle('active');
-            const grid = element.nextElementSibling;
-            grid.classList.toggle('show');
-        }
-
-        // Select location from database
-        function selectLocation(element, provinceName) {
-            const lat = parseFloat(element.dataset.lat);
-            const lon = parseFloat(element.dataset.lon);
-            const location = findLocationByCoords(lat, lon);
-            
-            if (location) {
-                // Remove active class from all locations
-                document.querySelectorAll('.location-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                
-                // Add active class to selected location
-                element.classList.add('active');
-                
-                // Load location data
-                loadLocationData(location, provinceName);
-                
-                // Hide distance indicator when manually selecting
-                document.getElementById('distanceIndicator').style.display = 'none';
-            }
-        }
-
-        // Highlight active location in database
-        function highlightActiveLocation(location) {
-            document.querySelectorAll('.location-item').forEach(item => {
-                item.classList.remove('active');
-                const itemLat = parseFloat(item.dataset.lat);
-                const itemLon = parseFloat(item.dataset.lon);
-                
-                if (itemLat === location.lat && itemLon === location.lon) {
-                    item.classList.add('active');
-                }
-            });
-        }
-
-        // Update time display
-        function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-US', { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                hour12: false 
-            });
-            const dateStr = now.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-            
-            document.getElementById('currentTime').textContent = timeStr;
-            document.getElementById('currentDate').textContent = dateStr;
-        }
-
-        // Show/hide loading overlay
-        function showLoading(show, message = '') {
-            if (show) {
-                loadingOverlay.style.display = 'flex';
-                if (message) {
-                    loadingOverlay.querySelector('p').textContent = message;
-                }
-            } else {
-                loadingOverlay.style.display = 'none';
-            }
-        }
-
-        // Show error toast
-        function showError(title, message) {
-            document.getElementById('errorTitle').textContent = title;
-            document.getElementById('errorMessage').textContent = message;
-            errorToast.style.display = 'flex';
-            
-            // Auto-hide after 5 seconds
-            setTimeout(hideError, 5000);
-        }
-
-        // Hide error toast
-        function hideError() {
-            errorToast.style.display = 'none';
-        }
-
-        // Initialize the app when DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="assets/script/weather.js"></script>
 </body>
 </html>
