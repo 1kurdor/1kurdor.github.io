@@ -39,6 +39,7 @@
 }
 
 body {
+    user-select: none;
     background: var(--gradient-primary);
     min-height: 100vh;
     color: var(--dark);
