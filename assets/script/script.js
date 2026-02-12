@@ -1,385 +1,385 @@
-// ============ KURDOR DEV APP ============
-class KurdorApp {
-    constructor() {
-        this.translations = {
-            en: {
-                "logo": "Kurdor",
-                "nav-home": "Home",
-                "nav-contact": "Contact Me",
-                "available": "Available For Work",
-                "name": "Kurdor Dev",
-                "tagline": "No Matter How Tall The Mountain Is, The Sun Always Rise... ☀️",
-                "terminal-title": "KurdorDev ~ bash$",
-                "terminal-name": "Rashid Farhad $",
-                "terminal-title2": "FullStack Developer | UI/UX",
-                "terminal-prompt": "kurdor@projects:~$",
-                "terminal-command": "VSCode Theme",
-                "theme-text": "Kurdor Theme...",
-                "install-link": "[Click to Install]",
-                "contact-title": "Contact Me",
-                "footer-text": "© 2025 Kurdor Dev"
-            },
-            
-            ku: {
-                "logo": "کوردۆردێڤ",
-                "nav-home": "سەرەتا",
-                "nav-contact": "پەیوەندیم پێوەبکە",
-                "available": "بەردەستە بۆ کار",
-                "name": "کوردۆردێڤ",
-                "tagline": "گرنگ نیە چیە شاخەکە چەن بەرزە، هەمیشه خۆر هەڵدەستێ... ☀️",
-                "terminal-title": "کوردۆردێڤ ~ bash$",
-                "terminal-name": "ڕەشید فەرهەد $",
-                "terminal-title2": "گەشەپێدەری FullStack | UI/UX",
-                "terminal-prompt": "kurdor@پڕۆژەکان:~$",
-                "terminal-command": "ڕەنگەمەی VSCode",
-                "theme-text": "ڕەنگەمەی کوردۆر...",
-                "install-link": "[کرتە بکە بۆ دامەزراندن]",
-                "contact-title": "پەیوەندیم پێوەبکە",
-                "footer-text": "© 2025 کوردۆردێڤ"
+// KurdorDev Portfolio - Fixed Language Issue
+document.addEventListener('DOMContentLoaded', function() {
+    
+    console.log('✅ Website loaded successfully');
+    
+    // ========== 1. MOBILE MENU ==========
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    
+    if (menuToggle && navLinks) {
+        const menuIcon = menuToggle.querySelector('i');
+        
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+            if (navLinks.classList.contains('active')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+            } else {
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
             }
-        };
-        
-        this.currentLang = 'en';
-        this.init();
-    }
-    
-    init() {
-        this._loadLanguage();
-        this._loadTheme();
-        this._setupMobileMenu();
-        this._setupSmoothScroll();
-        this._setupEventListeners();
-        this._setupPerformance();
-        this._showInstallLink();
-    }
-    
-    // ============ LANGUAGE SYSTEM ============
-    _loadLanguage() {
-        const saved = localStorage.getItem('kurdor-lang');
-        const browserLang = navigator.language?.substring(0, 2) || 'en';
-        const defaultLang = saved || (browserLang === 'ku' ? 'ku' : 'en');
-        
-        this.setLanguage(defaultLang);
-        
-        // Language switcher buttons
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const lang = btn.getAttribute('data-lang');
-                this.setLanguage(lang);
-            });
-        });
-    }
-    
-    setLanguage(lang) {
-        if (lang === this.currentLang) return;
-        
-        this.currentLang = lang;
-        const html = document.documentElement;
-        
-        // Update HTML attributes
-        html.setAttribute('data-lang', lang);
-        html.setAttribute('lang', lang);
-        html.setAttribute('dir', lang === 'ku' ? 'rtl' : 'ltr');
-        
-        // Update language buttons
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            const isActive = btn.getAttribute('data-lang') === lang;
-            btn.classList.toggle('active', isActive);
-            
-            // Button animation
-            if (isActive) {
-                btn.style.transform = 'scale(1.1)';
-                setTimeout(() => btn.style.transform = '', 200);
-            }
-        });
-        
-        // Update all translatable text
-        this._updateTranslations(lang);
-        
-        // Save to localStorage
-        localStorage.setItem('kurdor-lang', lang);
-        
-        // Load Rabar font for Kurdish
-        if (lang === 'ku') {
-            this._loadRabarFont();
-        }
-        
-        // Dispatch event for any listeners
-        document.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
-    }
-    
-    _updateTranslations(lang) {
-        const texts = this.translations[lang];
-        if (!texts) return;
-        
-        // Batch update for better performance
-        requestAnimationFrame(() => {
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                const text = texts[key];
-                
-                if (text) {
-                    if (element.hasAttribute('data-text')) {
-                        element.setAttribute('data-text', text);
-                    }
-                    element.textContent = text;
-                }
-            });
-        });
-    }
-    
-    _loadRabarFont() {
-        // Preload Rabar font for better performance
-        if (document.fonts && document.fonts.check('12px Rabar')) {
-            return; // Font already loaded
-        }
-        
-        // Trigger font load
-        const testSpan = document.createElement('span');
-        testSpan.style.fontFamily = 'Rabar';
-        testSpan.style.opacity = '0';
-        testSpan.style.position = 'absolute';
-        testSpan.textContent = 'کوردی';
-        document.body.appendChild(testSpan);
-        
-        setTimeout(() => {
-            document.body.removeChild(testSpan);
-        }, 100);
-    }
-    
-    // ============ THEME SYSTEM ============
-    _loadTheme() {
-        const saved = localStorage.getItem('kurdor-theme') || 'dark';
-        this.setTheme(saved);
-        
-        // Theme toggle button
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                const current = document.documentElement.getAttribute('data-theme');
-                this.setTheme(current === 'dark' ? 'light' : 'dark');
-            });
-        }
-    }
-    
-    setTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('kurdor-theme', theme);
-        
-        // Update toggle button label
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.setAttribute('aria-label', 
-                theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
-        }
-    }
-    
-    // ============ MOBILE MENU ============
-    _setupMobileMenu() {
-        const menuBtn = document.getElementById('menu-toggle');
-        const navMenu = document.getElementById('nav-links');
-        
-        if (!menuBtn || !navMenu) return;
-        
-        menuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            navMenu.classList.toggle('active');
-            menuBtn.innerHTML = navMenu.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-            
-            // Toggle body scroll
-            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
         });
         
         // Close menu when clicking links
-        navMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                document.body.style.overflow = '';
+        const navLinksItems = navLinks.querySelectorAll('a');
+        navLinksItems.forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
             });
         });
+    }
+    
+    // ========== 2. THEME TOGGLE ==========
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+    
+    if (themeToggle) {
+        // Get saved theme or use dark as default
+        let currentTheme = localStorage.getItem('theme');
+        if (!currentTheme) {
+            currentTheme = 'dark';
+            localStorage.setItem('theme', 'dark');
+        }
         
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!navMenu.contains(e.target) && !menuBtn.contains(e.target)) {
-                navMenu.classList.remove('active');
-                menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                document.body.style.overflow = '';
-            }
-        });
+        // Apply saved theme
+        html.setAttribute('data-theme', currentTheme);
         
-        // Close on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-                navMenu.classList.remove('active');
-                menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                document.body.style.overflow = '';
+        // Toggle theme on click
+        themeToggle.addEventListener('click', function() {
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
             }
         });
     }
     
-    // ============ SMOOTH SCROLL ============
-    _setupSmoothScroll() {
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href === '#') return;
+    // ========== 3. LANGUAGE SWITCHER - FIXED ==========
+    const langButtons = document.querySelectorAll('.lang-btn');
+    
+    if (langButtons.length > 0) {
+        // Get saved language or use English as default
+        let savedLang = localStorage.getItem('language');
+        
+        // If no saved language, set to English
+        if (!savedLang) {
+            savedLang = 'en';
+            localStorage.setItem('language', 'en');
+        }
+        
+        // REMOVE ALL ACTIVE CLASSES FIRST
+        langButtons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Apply saved language on page load
+        applyLanguage(savedLang);
+        
+        // Set the correct button as active
+        langButtons.forEach(btn => {
+            if (btn.getAttribute('data-lang') === savedLang) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // Click handler for language buttons
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
                 
-                const target = document.querySelector(href);
-                if (target) {
-                    e.preventDefault();
-                    
-                    // Close mobile menu if open
-                    const navMenu = document.getElementById('nav-links');
-                    const menuBtn = document.getElementById('menu-toggle');
-                    if (navMenu && navMenu.classList.contains('active')) {
-                        navMenu.classList.remove('active');
-                        menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                        document.body.style.overflow = '';
-                    }
-                    
-                    // Calculate scroll position
-                    const headerHeight = 80;
-                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
-                    const offsetPosition = targetPosition - headerHeight;
-                    
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
+                // Remove active class from ALL buttons first
+                langButtons.forEach(b => {
+                    b.classList.remove('active');
+                });
+                
+                // Add active class only to clicked button
+                this.classList.add('active');
+                
+                // Apply language
+                applyLanguage(lang);
+                
+                // Save to localStorage
+                localStorage.setItem('language', lang);
             });
         });
     }
     
-    // ============ EVENT LISTENERS ============
-    _setupEventListeners() {
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            // Alt + L: Toggle language
-            if (e.altKey && e.key === 'l') {
-                e.preventDefault();
-                const newLang = this.currentLang === 'en' ? 'ku' : 'en';
-                this.setLanguage(newLang);
+    // ========== 4. APPLY LANGUAGE FUNCTION ==========
+    function applyLanguage(lang) {
+        // Set HTML attribute
+        html.setAttribute('data-lang', lang);
+        
+        // Set direction (RTL for Kurdish)
+        if (lang === 'ku') {
+            document.documentElement.dir = 'rtl';
+            document.body.style.direction = 'rtl';
+        } else {
+            document.documentElement.dir = 'ltr';
+            document.body.style.direction = 'ltr';
+        }
+        
+        // TRANSLATE CONTENT
+        if (lang === 'ku') {
+            // KURDISH TRANSLATIONS
+            document.title = 'کوردۆر';
+            
+            // Navigation
+           const logo = document.querySelector('.logo');
+            if (logo) logo.textContent = 'کوردۆر';
+            const navHome = document.querySelector('[data-i18n="nav-home"]');
+            const navContact = document.querySelector('[data-i18n="nav-contact"]');
+            if (navHome) navHome.textContent = 'دەستپێک';
+            if (navContact) navContact.textContent = 'پەیوەندیکرن';
+            
+            // Hero section
+            const available = document.querySelector('[data-i18n="available"]');
+            const name = document.querySelector('[data-i18n="name"]');
+            const tagline = document.querySelector('[data-i18n="tagline"]');
+            if (available) available.textContent = 'بەرهەڤە بۆ کارکرنێ';
+            if (name) name.textContent = 'کوردۆر دێڤ';
+            if (tagline) tagline.textContent = ' چەند چیا بڵند بیت، رۆژ دێ هەر هەلیت... ☀️';
+            
+            // Terminal
+            const terminalName = document.querySelector('[data-i18n="terminal-name"]');
+            const terminalTitle = document.querySelector('[data-i18n="terminal-title"]');
+            const terminalPrompt = document.querySelector('[data-i18n="terminal-prompt"]');
+            const terminalCommand = document.querySelector('[data-i18n="terminal-command"]');
+            const themeText = document.querySelector('[data-i18n="theme-text"]');
+            const installLink = document.querySelector('[data-i18n="install-link"]');
+            
+            if (terminalName) terminalName.textContent = 'ڕەشید فەرهاد $';
+            if (terminalTitle) terminalTitle.textContent = 'گەشەپێدەرێ تەمام | UI/UX';
+            if (terminalPrompt) terminalPrompt.textContent = 'کوردۆر@پرۆژە:~$';
+            if (terminalCommand) terminalCommand.textContent = 'ثیمێ ڤیشوال ستودیو کودی';
+            if (themeText) themeText.textContent = 'ثیمێ کوردۆر...';
+            if (installLink) installLink.textContent = '[کلیک بکە بۆ داونلودکرنێ]';
+            
+            // Contact
+            const contactTitle = document.querySelector('[data-i18n="contact-title"]');
+            if (contactTitle) contactTitle.textContent = 'پەیوەندیکرن';
+            
+            // Footer
+            const footerText = document.querySelector('[data-i18n="footer-text"]');
+            if (footerText) footerText.textContent = '© 2025 .کوردۆر. ';
+            
+        } else {
+            // ENGLISH TRANSLATIONS (DEFAULT)
+            document.title = 'Kurdor';
+            
+            // Navigation
+            const logo = document.querySelector('.logo');
+            if (logo) logo.textContent = 'Kurdor';
+            const navHome = document.querySelector('[data-i18n="nav-home"]');
+            const navContact = document.querySelector('[data-i18n="nav-contact"]');
+            if (navHome) navHome.textContent = 'Home';
+            if (navContact) navContact.textContent = 'Contact Me';
+            
+            // Hero section
+            const available = document.querySelector('[data-i18n="available"]');
+            const name = document.querySelector('[data-i18n="name"]');
+            const tagline = document.querySelector('[data-i18n="tagline"]');
+            if (available) available.textContent = 'Available For Work';
+            if (name) name.textContent = 'KurdorDev';
+            if (tagline) tagline.textContent = 'No Matter How Tall The Mountain Is, The Sun Always Rise.. ☀️';
+            
+            // Terminal
+            const terminalName = document.querySelector('[data-i18n="terminal-name"]');
+            const terminalTitle = document.querySelector('[data-i18n="terminal-title"]');
+            const terminalPrompt = document.querySelector('[data-i18n="terminal-prompt"]');
+            const terminalCommand = document.querySelector('[data-i18n="terminal-command"]');
+            const themeText = document.querySelector('[data-i18n="theme-text"]');
+            const installLink = document.querySelector('[data-i18n="install-link"]');
+            
+            if (terminalName) terminalName.textContent = 'Rashid Farhad $';
+            if (terminalTitle) terminalTitle.textContent = 'FullStack Developer | UI/UX';
+            if (terminalPrompt) terminalPrompt.textContent = 'kurdor@projects:~$';
+            if (terminalCommand) terminalCommand.textContent = 'VSCode Theme';
+            if (themeText) themeText.textContent = 'Kurdor Theme...';
+            if (installLink) installLink.textContent = '[Click to Install]';
+            
+            // Contact
+            const contactTitle = document.querySelector('[data-i18n="contact-title"]');
+            if (contactTitle) contactTitle.textContent = 'Contact Me';
+            
+            // Footer
+            const footerText = document.querySelector('[data-i18n="footer-text"]');
+            if (footerText) footerText.textContent = '© 2025 Kurdor Dev. ';
+        }
+    }
+    
+    // ========== 5. TERMINAL TYPING EFFECT ==========
+    function startTerminalTyping() {
+        const terminalLines = document.querySelectorAll('.terminal-line');
+        
+        if (terminalLines.length === 0) return;
+        
+        let currentLine = 0;
+        
+        function typeLine() {
+            if (currentLine >= terminalLines.length) {
+                // All lines typed - show install link
+                const installLink = document.querySelector('.install-link');
+                if (installLink) {
+                    installLink.classList.add('show');
+                }
+                return;
             }
             
-            // Alt + T: Toggle theme
-            if (e.altKey && e.key === 't') {
-                e.preventDefault();
-                const current = document.documentElement.getAttribute('data-theme');
-                this.setTheme(current === 'dark' ? 'light' : 'dark');
+            const line = terminalLines[currentLine];
+            const originalText = line.textContent;
+            
+            // Clear line
+            line.textContent = '';
+            line.style.display = 'flex';
+            line.style.opacity = '1';
+            
+            let i = 0;
+            function typeCharacter() {
+                if (i < originalText.length) {
+                    line.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeCharacter, 40);
+                } else {
+                    currentLine++;
+                    
+                    // If this line has install link, show it
+                    if (line.querySelector('.install-link')) {
+                        const link = line.querySelector('.install-link');
+                        setTimeout(() => {
+                            link.classList.add('show');
+                        }, 300);
+                    }
+                    
+                    // Type next line after delay
+                    setTimeout(typeLine, 600);
+                }
             }
-        });
+            
+            typeCharacter();
+        }
         
-        // Header shadow on scroll
-        window.addEventListener('scroll', this._debounce(() => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 20) {
-                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        // Start typing after 1 second
+        setTimeout(typeLine, 1000);
+    }
+    
+    // Start terminal typing
+    startTerminalTyping();
+    
+    // ========== 6. SCROLL HEADER EFFECT ==========
+    window.addEventListener('scroll', function() {
+        const header = document.getElementById('header');
+        if (header) {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
             } else {
-                header.style.boxShadow = 'none';
+                header.classList.remove('scrolled');
             }
-        }, 10));
-        
-        // Social icons hover effects
-        this._setupSocialIcons();
-    }
+        }
+    });
     
-    _setupSocialIcons() {
-        const icons = document.querySelectorAll('.icons a');
-        icons.forEach(icon => {
-            icon.addEventListener('mouseenter', () => {
-                icon.style.transition = 'all 0.3s ease';
+    // ========== 7. SMOOTH SCROLLING ==========
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // ========== 8. VS CODE LINK CLICK ==========
+    document.addEventListener('click', function(e) {
+        // Check if clicked on install link
+        if (e.target.classList.contains('install-link')) {
+            e.preventDefault();
+            window.open('https://marketplace.visualstudio.com/items?itemName=rashidfarhad.kurdor', '_blank');
+            return;
+        }
+        
+        // Check if clicked on theme text
+        if (e.target.classList.contains('typing-text')) {
+            e.preventDefault();
+            window.open('https://marketplace.visualstudio.com/items?itemName=rashidfarhad.kurdor', '_blank');
+            return;
+        }
+    });
+    
+    // ========== 9. BACKUP: SHOW INSTALL LINK ==========
+    setTimeout(function() {
+        const installLink = document.querySelector('.install-link');
+        if (installLink && !installLink.classList.contains('show')) {
+            installLink.classList.add('show');
+        }
+    }, 5000);
+    
+    // ========== 10. SOCIAL ICONS HOVER ==========
+    const socialIcons = document.querySelectorAll('.icons a');
+    socialIcons.forEach(icon => {
+        icon.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        
+        icon.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+    
+    // ========== 11. GLITCH EFFECT ==========
+    function startGlitchEffect() {
+        const glitchElements = document.querySelectorAll('.glitch');
+        
+        if (glitchElements.length === 0) return;
+        
+        function randomGlitch() {
+            glitchElements.forEach(element => {
+                if (Math.random() > 0.8) {
+                    element.classList.add('glitching');
+                    setTimeout(() => {
+                        element.classList.remove('glitching');
+                    }, 200);
+                }
             });
-        });
-    }
-    
-    // ============ PERFORMANCE ============
-    _setupPerformance() {
-        // Reduce motion for users who prefer it
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-        
-        if (prefersReducedMotion.matches) {
-            this._reduceMotion();
+            
+            // Next glitch in random time (2-5 seconds)
+            setTimeout(randomGlitch, 2000 + Math.random() * 3000);
         }
         
-        prefersReducedMotion.addEventListener('change', (e) => {
-            if (e.matches) {
-                this._reduceMotion();
-            }
+        // Start first glitch after 3 seconds
+        setTimeout(randomGlitch, 3000);
+    }
+    
+    startGlitchEffect();
+    
+    // ========== 12. CHECK IF HTML HAS ACTIVE CLASS PROBLEM ==========
+    // This fixes the issue where HTML might have both buttons as active
+    setTimeout(function() {
+        const langButtons = document.querySelectorAll('.lang-btn');
+        const currentLang = localStorage.getItem('language') || 'en';
+        
+        // Remove active from all
+        langButtons.forEach(btn => {
+            btn.classList.remove('active');
         });
         
-        // Preload images
-        this._preloadImages();
-    }
-    
-    _reduceMotion() {
-        // Disable animations for users who prefer reduced motion
-        document.documentElement.style.setProperty('--transition-slow', '0.1s ease');
-        document.documentElement.style.setProperty('--transition-fast', '0.05s ease');
-        
-        // Disable glitch effect
-        const glitch = document.querySelector('.glitch');
-        if (glitch) {
-            glitch.style.animation = 'none';
-        }
-    }
-    
-    _preloadImages() {
-        // Preload social media icons
-        const images = [
-            'image/w.png',
-            'image/telegram.png', 
-            'image/insta.png',
-            'image/snap.png',
-            'image/tiktok.png'
-        ];
-        
-        images.forEach(src => {
-            const img = new Image();
-            img.src = src;
-        });
-    }
-    
-    _showInstallLink() {
-        // Show the install link
-        setTimeout(() => {
-            const installLink = document.querySelector('.install-link');
-            if (installLink) {
-                installLink.classList.add('show');
+        // Add active to correct one
+        langButtons.forEach(btn => {
+            if (btn.getAttribute('data-lang') === currentLang) {
+                btn.classList.add('active');
             }
-        }, 1500);
-    }
-    
-    // ============ UTILITY ============
-    _debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-}
-
-// ============ INITIALIZE APP ============
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize the app
-    const app = new KurdorApp();
-    
-    // Add loaded class for transitions
-    setTimeout(() => {
-        document.body.classList.add('loaded');
+        });
     }, 100);
-    
-    // Log initialization
-    console.log('🎯 Kurdor Dev - Bilingual Portfolio Loaded');
-    console.log('🌍 Language:', app.currentLang);
-    console.log('🎨 Theme:', document.documentElement.getAttribute('data-theme'));
 });
