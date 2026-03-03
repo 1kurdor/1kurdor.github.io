@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+
+<html lang="ckb">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>سیخوڕ ئۆنلاین | Sikhur Online</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+
+:root {
+–bg: #0a0c14;
+–surface: #12151f;
+–surface2: #1a1e2e;
+–surface3: #222840;
+–blue: #3b7fff;
+–blue2: #5c9bff;
+–gold: #ffcc00;
+–gold2: #ffd740;
+–red: #ff4455;
+–green: #00e676;
+–text: #e8ecff;
+–text2: #8899cc;
+–border: rgba(59,127,255,0.15);
+–glow: rgba(59,127,255,0.25);
+}
+
+- { margin:0; padding:0; box-sizing:border-box; -webkit-user-select:none; user-select:none; }
+  input, textarea { -webkit-user-select:text; user-select:text; }
+
+body {
+font-family: ‘Tajawal’, sans-serif;
+background: var(–bg);
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: flex-start;
+direction: rtl;
+padding: 16px 12px 80px;
+position: relative;
+overflow-x: hidden;
+}
+
+/* Animated background */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background:
+radial-gradient(ellipse 600px 400px at 20% 20%, rgba(59,127,255,0.08) 0%, transparent 70%),
+radial-gradient(ellipse 400px 300px at 80% 80%, rgba(255,204,0,0.05) 0%, transparent 70%);
+pointer-events: none;
+z-index: 0;
+}
+
+.wrap {
+width: 100%;
+max-width: 460px;
+position: relative;
+z-index: 1;
+}
+
+/* ── CARD ── */
+.card {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 28px;
+padding: 28px 22px;
+margin-bottom: 14px;
+box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+}
+
+/* ── TITLE ── */
+.logo {
+text-align: center;
+margin-bottom: 6px;
+}
+.logo-main {
+font-size: 2.4rem;
+font-weight: 900;
+background: linear-gradient(135deg, var(–blue), var(–blue2), var(–gold));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+line-height: 1.1;
+}
+.logo-sub {
+font-size: 1.1rem;
+color: var(–text2);
+margin-top: 4px;
+}
+.badge-online {
+display: inline-block;
+background: linear-gradient(135deg, var(–blue), var(–blue2));
+color: white;
+font-size: 0.85rem;
+padding: 3px 14px;
+border-radius: 30px;
+margin-top: 8px;
+font-weight: 700;
+letter-spacing: 1px;
+}
+
+/* ── BUTTONS ── */
+.btn {
+width: 100%;
+padding: 16px 20px;
+border: none;
+border-radius: 50px;
+font-size: 1.15rem;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.2s;
+margin: 7px 0;
+font-family: ‘Tajawal’, sans-serif;
+letter-spacing: 0.3px;
+}
+.btn-primary {
+background: linear-gradient(135deg, var(–blue), var(–blue2));
+color: white;
+box-shadow: 0 4px 20px rgba(59,127,255,0.35);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(59,127,255,0.45); }
+.btn-primary:active { transform: scale(0.97); }
+.btn-gold {
+background: linear-gradient(135deg, var(–gold), var(–gold2));
+color: #1a1000;
+box-shadow: 0 4px 20px rgba(255,204,0,0.3);
+}
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,204,0,0.4); }
+.btn-danger {
+background: linear-gradient(135deg, #ff4455, #cc1122);
+color: white;
+box-shadow: 0 4px 20px rgba(255,68,85,0.3);
+}
+.btn-ghost {
+background: var(–surface2);
+color: var(–text2);
+border: 1px solid var(–border);
+}
+.btn-ghost:hover { background: var(–surface3); color: var(–text); }
+.btn-sm {
+padding: 10px 18px;
+font-size: 1rem;
+width: auto;
+display: inline-block;
+}
+
+/* ── INPUTS ── */
+.input {
+width: 100%;
+padding: 14px 18px;
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 50px;
+color: var(–text);
+font-size: 1rem;
+text-align: right;
+direction: rtl;
+font-family: ‘Tajawal’, sans-serif;
+margin: 7px 0;
+transition: all 0.2s;
+outline: none;
+}
+.input:focus {
+border-color: var(–blue);
+box-shadow: 0 0 0 3px rgba(59,127,255,0.15);
+}
+.input::placeholder { color: var(–text2); }
+
+/* ── LABEL ── */
+.label {
+color: var(–text2);
+font-size: 0.95rem;
+margin: 12px 0 4px;
+display: block;
+}
+
+/* ── SECTION TITLE ── */
+.section-title {
+color: var(–text);
+font-size: 1.4rem;
+font-weight: 700;
+text-align: center;
+margin-bottom: 16px;
+}
+.section-title span {
+color: var(–gold);
+}
+
+/* ── ROOM LINK BOX ── */
+.link-box {
+background: var(–surface2);
+border: 1px solid var(–gold);
+border-radius: 18px;
+padding: 16px;
+margin: 14px 0;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.link-text {
+flex: 1;
+color: var(–gold2);
+font-size: 0.88rem;
+word-break: break-all;
+direction: ltr;
+text-align: left;
+}
+.copy-btn {
+background: var(–gold);
+border: none;
+border-radius: 12px;
+padding: 8px 14px;
+font-size: 0.85rem;
+font-weight: 700;
+cursor: pointer;
+color: #1a1000;
+white-space: nowrap;
+transition: all 0.2s;
+}
+.copy-btn:active { transform: scale(0.95); }
+
+/* ── PLAYERS LIST ── */
+.players-list {
+margin: 14px 0;
+}
+.player-item {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 12px 16px;
+background: var(–surface2);
+border-radius: 18px;
+margin: 6px 0;
+border: 1px solid var(–border);
+transition: all 0.2s;
+}
+.player-item.host { border-color: var(–gold); }
+.player-avatar {
+width: 38px;
+height: 38px;
+border-radius: 50%;
+background: linear-gradient(135deg, var(–blue), var(–blue2));
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.2rem;
+flex-shrink: 0;
+}
+.player-info { flex: 1; }
+.player-name-txt { color: var(–text); font-size: 1rem; font-weight: 600; }
+.player-role-txt { color: var(–text2); font-size: 0.82rem; }
+.badge-host {
+background: linear-gradient(135deg, var(–gold), var(–gold2));
+color: #1a1000;
+padding: 3px 12px;
+border-radius: 20px;
+font-size: 0.82rem;
+font-weight: 700;
+}
+.badge-ready {
+background: var(–green);
+color: #001a00;
+padding: 3px 12px;
+border-radius: 20px;
+font-size: 0.82rem;
+font-weight: 700;
+}
+.badge-wait {
+background: var(–surface3);
+color: var(–text2);
+padding: 3px 12px;
+border-radius: 20px;
+font-size: 0.82rem;
+}
+
+/* ── STATUS BANNER ── */
+.status-bar {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 50px;
+padding: 10px 18px;
+text-align: center;
+color: var(–text2);
+font-size: 0.95rem;
+margin: 10px 0;
+}
+.status-bar.good { border-color: var(–green); color: var(–green); }
+.status-bar.warn { border-color: var(–gold); color: var(–gold); }
+.status-bar.err { border-color: var(–red); color: var(–red); }
+
+/* ── VOICE PANEL ── */
+.voice-panel {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 22px;
+padding: 16px;
+margin: 10px 0;
+}
+.voice-title {
+color: var(–text2);
+font-size: 0.9rem;
+margin-bottom: 10px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.voice-dot {
+width: 8px; height: 8px;
+border-radius: 50%;
+background: var(–red);
+display: inline-block;
+}
+.voice-dot.active {
+background: var(–green);
+box-shadow: 0 0 8px var(–green);
+animation: pulse 1.2s infinite;
+}
+@keyframes pulse {
+0%,100% { opacity: 1; transform: scale(1); }
+50% { opacity: 0.6; transform: scale(1.3); }
+}
+.voice-users {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+}
+.voice-chip {
+display: flex;
+align-items: center;
+gap: 6px;
+background: var(–surface3);
+border-radius: 30px;
+padding: 6px 14px;
+font-size: 0.88rem;
+color: var(–text);
+border: 1px solid var(–border);
+}
+.voice-chip.speaking {
+border-color: var(–green);
+color: var(–green);
+box-shadow: 0 0 10px rgba(0,230,118,0.2);
+}
+.mic-btn {
+background: var(–red);
+border: none;
+border-radius: 50%;
+width: 48px; height: 48px;
+font-size: 1.4rem;
+cursor: pointer;
+transition: all 0.2s;
+box-shadow: 0 4px 16px rgba(255,68,85,0.3);
+flex-shrink: 0;
+}
+.mic-btn.muted { background: var(–surface3); box-shadow: none; }
+.mic-btn:active { transform: scale(0.92); }
+
+/* ── CHAT ── */
+.chat-panel {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 22px;
+overflow: hidden;
+margin: 10px 0;
+}
+.chat-messages {
+height: 180px;
+overflow-y: auto;
+padding: 14px;
+display: flex;
+flex-direction: column;
+gap: 8px;
+scrollbar-width: thin;
+scrollbar-color: var(–surface3) transparent;
+}
+.chat-msg {
+background: var(–surface3);
+border-radius: 14px 14px 4px 14px;
+padding: 8px 14px;
+max-width: 80%;
+align-self: flex-end;
+animation: slideIn 0.2s ease;
+}
+.chat-msg.other {
+border-radius: 14px 14px 14px 4px;
+align-self: flex-start;
+background: var(–surface);
+border: 1px solid var(–border);
+}
+.chat-msg.system {
+background: transparent;
+border: none;
+align-self: center;
+color: var(–text2);
+font-size: 0.82rem;
+text-align: center;
+max-width: 100%;
+padding: 2px 8px;
+}
+@keyframes slideIn {
+from { opacity: 0; transform: translateY(6px); }
+to { opacity: 1; transform: translateY(0); }
+}
+.chat-sender { color: var(–blue2); font-size: 0.8rem; font-weight: 700; margin-bottom: 3px; }
+.chat-text { color: var(–text); font-size: 0.95rem; word-break: break-word; }
+.chat-input-row {
+display: flex;
+gap: 8px;
+padding: 10px;
+border-top: 1px solid var(–border);
+background: var(–surface);
+}
+.chat-input {
+flex: 1;
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 30px;
+padding: 10px 16px;
+color: var(–text);
+font-size: 0.95rem;
+font-family: ‘Tajawal’, sans-serif;
+outline: none;
+direction: rtl;
+text-align: right;
+transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: var(–blue); }
+.chat-input::placeholder { color: var(–text2); }
+.send-btn {
+background: linear-gradient(135deg, var(–blue), var(–blue2));
+border: none;
+border-radius: 50%;
+width: 42px; height: 42px;
+font-size: 1.2rem;
+cursor: pointer;
+transition: all 0.2s;
+flex-shrink: 0;
+}
+.send-btn:hover { transform: scale(1.08); }
+
+/* ── GAME CARD ── */
+.game-card {
+background: linear-gradient(145deg, var(–surface2), var(–surface3));
+border: 2px solid var(–blue);
+border-radius: 28px;
+padding: 36px 20px;
+text-align: center;
+cursor: pointer;
+transition: all 0.25s;
+animation: cardIn 0.35s ease;
+box-shadow: 0 8px 40px rgba(59,127,255,0.15);
+}
+@keyframes cardIn {
+from { opacity: 0; transform: translateY(12px) scale(0.97); }
+to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.game-card:hover { transform: translateY(-3px); box-shadow: 0 14px 50px rgba(59,127,255,0.25); }
+.game-card:active { transform: scale(0.97); }
+.game-card.spy { border-color: var(–red); box-shadow: 0 8px 40px rgba(255,68,85,0.2); cursor: default; }
+.game-card.civil { border-color: var(–green); box-shadow: 0 8px 40px rgba(0,230,118,0.2); cursor: default; }
+.card-icon { font-size: 4rem; margin-bottom: 12px; }
+.card-player { color: var(–blue2); font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
+.card-tap { color: var(–text2); font-size: 1rem; margin-top: 14px; }
+.word-reveal {
+font-size: 2.8rem;
+font-weight: 900;
+background: linear-gradient(135deg, var(–gold), var(–gold2));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+margin: 10px 0;
+display: block;
+}
+.progress-pill {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 50px;
+padding: 9px 18px;
+text-align: center;
+color: var(–text2);
+font-size: 0.95rem;
+margin: 10px 0;
+}
+
+/* ── REVEAL CARD ── */
+.reveal-card {
+background: linear-gradient(145deg, #1a0d0d, #2a1515);
+border: 2px solid var(–gold);
+border-radius: 28px;
+padding: 30px 20px;
+text-align: center;
+animation: cardIn 0.4s ease;
+box-shadow: 0 10px 50px rgba(255,204,0,0.15);
+margin: 14px 0;
+}
+.reveal-name { color: var(–gold); font-size: 2rem; font-weight: 700; margin: 12px 0; }
+.reveal-label { color: var(–text2); font-size: 1rem; margin: 6px 0 3px; }
+.reveal-word { color: white; font-size: 1.8rem; font-weight: 700; }
+
+/* ── RESULT LIST ── */
+.result-row {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 13px 16px;
+background: var(–surface2);
+border-radius: 16px;
+margin: 6px 0;
+border: 1px solid var(–border);
+}
+.result-name { color: var(–text); font-size: 1rem; font-weight: 600; }
+.badge {
+padding: 4px 14px;
+border-radius: 20px;
+font-size: 0.85rem;
+font-weight: 700;
+}
+.badge-spy { background: linear-gradient(135deg, var(–red), #cc0011); color: white; }
+.badge-civil { background: linear-gradient(135deg, var(–green), #00b050); color: #001a00; }
+.badge-diff { background: linear-gradient(135deg, var(–red), #cc0011); color: white; }
+.badge-norm { background: linear-gradient(135deg, var(–blue), var(–blue2)); color: white; }
+
+/* ── WORD BOX ── */
+.word-box {
+background: var(–surface2);
+border: 2px solid var(–gold);
+border-radius: 20px;
+padding: 18px;
+text-align: center;
+margin: 10px 0;
+}
+.word-box .lbl { color: var(–text2); font-size: 0.9rem; margin-bottom: 6px; }
+.word-box .val { color: var(–gold); font-size: 2.2rem; font-weight: 900; }
+.word-box .val.diff { color: var(–red); }
+
+/* ── COUNTER ── */
+.counter-row {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 18px;
+margin: 14px 0;
+}
+.ctr-btn {
+width: 46px; height: 46px;
+border-radius: 50%;
+background: linear-gradient(135deg, var(–blue), var(–blue2));
+border: none;
+font-size: 1.8rem;
+color: white;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.2s;
+box-shadow: 0 4px 14px rgba(59,127,255,0.3);
+}
+.ctr-btn:active { transform: scale(0.92); }
+.ctr-val {
+font-size: 2.8rem;
+font-weight: 900;
+color: var(–blue2);
+min-width: 70px;
+text-align: center;
+}
+
+/* ── GAME MODE SELECTOR ── */
+.mode-btn {
+width: 100%;
+padding: 16px;
+border: 2px solid var(–border);
+border-radius: 22px;
+background: var(–surface2);
+color: var(–text);
+font-family: ‘Tajawal’, sans-serif;
+font-size: 1.1rem;
+font-weight: 700;
+cursor: pointer;
+margin: 7px 0;
+transition: all 0.2s;
+text-align: center;
+}
+.mode-btn.selected { border-color: var(–blue); background: rgba(59,127,255,0.12); color: var(–blue2); }
+.mode-btn:hover { border-color: var(–blue2); }
+.mode-btn.red-mode.selected { border-color: var(–red); background: rgba(255,68,85,0.1); color: var(–red); }
+.mode-btn.red-mode:hover { border-color: var(–red); }
+
+/* ── WAITING SPINNER ── */
+.spinner {
+width: 40px; height: 40px;
+border: 3px solid var(–surface3);
+border-top-color: var(–blue);
+border-radius: 50%;
+animation: spin 0.8s linear infinite;
+margin: 16px auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── DIVIDER ── */
+.divider {
+height: 1px;
+background: var(–border);
+margin: 16px 0;
+}
+
+/* ── HIDDEN ── */
+.hidden { display: none !important; }
+
+/* ── STARTER BOX ── */
+.starter-box {
+background: linear-gradient(135deg, rgba(59,127,255,0.15), rgba(255,204,0,0.08));
+border: 2px solid var(–gold);
+border-radius: 24px;
+padding: 22px;
+text-align: center;
+margin: 14px 0;
+animation: cardIn 0.3s ease;
+}
+.starter-label { color: var(–text2); font-size: 1rem; }
+.starter-name-big { color: var(–gold); font-size: 2.2rem; font-weight: 900; margin: 8px 0; }
+.starter-note { color: var(–text2); font-size: 0.9rem; margin-top: 8px; }
+
+/* ── HOST CONTROLS ── */
+.host-panel {
+background: linear-gradient(135deg, rgba(255,204,0,0.08), transparent);
+border: 1px solid var(–gold);
+border-radius: 22px;
+padding: 16px;
+margin: 10px 0;
+}
+.host-title { color: var(–gold); font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(–surface3); border-radius: 4px; }
+
+/* ── FOOTER ── */
+.footer {
+text-align: center;
+color: var(–text2);
+font-size: 0.9rem;
+margin-top: 10px;
+padding: 8px;
+}
+.footer a { color: var(–blue2); text-decoration: none; }
+
+/* ── ERROR TOAST ── */
+.toast {
+position: fixed;
+bottom: 24px;
+left: 50%;
+transform: translateX(-50%);
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 50px;
+padding: 12px 24px;
+color: var(–text);
+font-size: 0.95rem;
+z-index: 9999;
+box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+white-space: nowrap;
+animation: toastIn 0.3s ease;
+max-width: 90vw;
+text-align: center;
+}
+.toast.err { border-color: var(–red); color: var(–red); }
+.toast.ok { border-color: var(–green); color: var(–green); }
+@keyframes toastIn {
+from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+</style>
+
+</head>
+<body>
+<div class="wrap" id="app">
+
+<!-- ══════════════════════════════════════
+     PAGE: LOBBY (Home)
+══════════════════════════════════════ -->
+
+<div id="page-lobby">
+  <div class="card" style="text-align:center; padding-top:32px; padding-bottom:32px;">
+    <div class="logo">
+      <div class="logo-main">🕵️ یارییا سیخوڕی</div>
+      <div class="logo-sub">Sikhur Online</div>
+      <span class="badge-online">🌐 ئۆنلاین</span>
+    </div>
+    <div style="color:var(--text2); font-size:1rem; margin:18px 0; line-height:1.7;">
+      ئۆدەیێک دروست بکە یا بخوپێ — دگەل هاتیێ دەنگ و گفتوگۆ
+    </div>
+    <div style="margin-bottom:8px;">
+      <label class="label" style="text-align:right; padding:0 4px;">ناوێ خو بنڤیسە</label>
+      <input id="my-name-input" class="input" placeholder="ناوێ خو..." maxlength="20" />
+    </div>
+    <button class="btn btn-primary" onclick="createRoom()">➕ دروست کرنا ئۆدە</button>
+    <button class="btn btn-gold" onclick="showJoinUI()">🔗 بخوپێ ئۆدەیێ</button>
+    <div id="join-ui" class="hidden" style="margin-top:10px;">
+      <input id="join-code-input" class="input" placeholder="کودا ئۆدەیێ یا لینکی بنڤیسە..." style="direction:ltr; text-align:left;" />
+      <button class="btn btn-ghost" onclick="joinRoom()">بخوپێ</button>
+    </div>
+  </div>
+  <div class="footer">
+    - هاتییە دروستکرن ژلایێ <a href="https://kurdor.is-a.dev" target="_blank">رەشید فەرهاد</a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE: ROOM (Waiting / In-game)
+══════════════════════════════════════ -->
+
+<div id="page-room" class="hidden">
+
+  <!-- Room header -->
+
+  <div class="card" style="padding:18px 22px;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div style="color:var(--text2); font-size:0.85rem;">کودا ئۆدە</div>
+        <div id="room-code-display" style="color:var(--gold); font-size:1.4rem; font-weight:900; letter-spacing:2px; direction:ltr;"></div>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="leaveRoom()" style="width:auto; color:var(--red); border-color:var(--red);">
+        دەرچون ✕
+      </button>
+    </div>
+    <div id="room-link-box" class="link-box" style="margin:12px 0 4px;">
+      <span class="link-text" id="room-link-text"></span>
+      <button class="copy-btn" onclick="copyRoomLink()">📋 کۆپی</button>
+    </div>
+    <div id="conn-status" class="status-bar">🔄 پەیوەندی...</div>
+  </div>
+
+  <!-- Voice + Chat (always visible in room) -->
+
+  <div class="card" style="padding:14px 16px;">
+    <!-- Voice -->
+    <div class="voice-panel">
+      <div class="voice-title">
+        <span class="voice-dot" id="voice-dot"></span>
+        <span id="voice-label">دەنگ: داخراوە</span>
+        <button class="mic-btn muted" id="mic-btn" onclick="toggleMic()" title="میکرۆفۆن" style="margin-right:auto;">🔇</button>
+      </div>
+      <div class="voice-users" id="voice-users">
+        <!-- chips -->
+      </div>
+    </div>
+    <!-- Chat -->
+    <div class="divider"></div>
+    <div class="chat-panel">
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="chat-input-row">
+        <input id="chat-input" class="chat-input" placeholder="نامەیێ بنڤیسە..." maxlength="200"
+          onkeydown="if(event.key==='Enter')sendChat()" />
+        <button class="send-btn" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── WAITING PHASE ─── -->
+
+  <div id="phase-waiting">
+    <div class="card">
+      <div class="section-title">⏳ چاوەڕوانی <span id="wait-count">0</span> / <span id="wait-min">2</span></div>
+      <div id="players-list-ui" class="players-list"></div>
+      <div id="spinner-wait" style="text-align:center;">
+        <div class="spinner"></div>
+        <div style="color:var(--text2); font-size:0.9rem;">چاوەڕوانیا ئەندامان...</div>
+      </div>
+      <!-- Host setup -->
+      <div id="host-setup" class="hidden">
+        <div class="divider"></div>
+        <div class="host-panel">
+          <div class="host-title">⚙️ ڕێکخستنا میوان (Host)</div>
+          <label class="label">جۆرێ یاری</label>
+          <button class="mode-btn selected" id="mode-btn-1" onclick="selectMode(1)">🕵️ یارییا سیخوڕی</button>
+          <button class="mode-btn red-mode" id="mode-btn-2" onclick="selectMode(2)">🎭 یارییا وشەیێن جیاواز</button>
+        </div>
+        <button class="btn btn-primary" id="start-btn" onclick="hostStartGame()">🎮 دەستپێکرن</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── CARD REVEAL PHASE ─── -->
+
+  <div id="phase-cards" class="hidden">
+    <div class="card">
+      <div class="section-title">🎴 کارتەکان</div>
+      <div class="progress-pill" id="cards-progress"></div>
+      <div id="card-area"></div>
+      <button class="btn btn-primary hidden" id="next-card-btn" onclick="nextCard()">یارییکەرێ دویفرا ▶</button>
+    </div>
+  </div>
+
+  <!-- ─── REVEAL PHASE ─── -->
+
+  <div id="phase-reveal" class="hidden">
+    <div class="card">
+      <div class="section-title" id="reveal-phase-title">🕵️ سیخوڕەکە</div>
+      <div id="reveal-area"></div>
+      <button class="btn btn-gold" onclick="showResults()">🏆 دییتنا ئەنجام</button>
+    </div>
+  </div>
+
+  <!-- ─── RESULTS PHASE ─── -->
+
+  <div id="phase-results" class="hidden">
+    <div class="card">
+      <div class="section-title">🏆 ئەنجام</div>
+      <div id="results-area"></div>
+      <div id="play-again-area"></div>
+    </div>
+  </div>
+
+</div><!-- /page-room -->
+
+</div><!-- /app -->
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  GAME DATA
+// ═══════════════════════════════════════════════════════════
+const wordPairs = [
+  { normal:"پیتزا", different:"بەرگر" },
+  { normal:"کۆکا کۆلا", different:"پێپسی" },
+  { normal:"ئایفون", different:"ئەندرۆید" },
+  { normal:"نایک", different:"ئەدیداس" },
+  { normal:"تایۆتا", different:"نیسان" },
+  { normal:"فەیسبووک", different:"ئیستاگرام" },
+  { normal:"مێسی", different:"مەرەدونا" },
+  { normal:"رونالدو", different:"رونالدیمهو" },
+  { normal:"قەهوە", different:"چا" },
+  { normal:"شەتەرەنج", different:"دومینە" },
+  { normal:"پاس", different:"قیتار" },
+  { normal:"ئیلۆن ماسک", different:"جێف بێزۆس" },
+  { normal:"نێتفلیکس", different:"یوتیوب" },
+  { normal:"واتساپ", different:"تێلیگرام" },
+  { normal:"ئەمازۆن", different:"ئالیبابا" },
+];
+const kurdishWords = [
+  "کەباب","برنج","شاورمە","نارگیل","ریڤی","چێل","بزن","سەگ",
+  "مامۆستا","دختور","مەهندس","بازرگان","فەلاح","هناروک","ساحە",
+  "سەیارە","طەیارە","هیتلەر","گیڤارا","مێسی","حەمدی","کردستان",
+  "باشور","باکور","ڕوژهەڵات","ژاپۆن","فرانسا","کاک","خانم",
+];
+
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+const S = {
+  myName: '',
+  myPeerId: null,
+  roomId: null,   // 6-char code = host's peer ID prefix
+  isHost: false,
+  peer: null,
+  hostConn: null,   // guest → host connection
+  guestConns: {},   // host: peerId → DataConnection
+  voiceCalls: {},   // peerId → MediaConnection
+  localStream: null,
+  micMuted: true,
+  players: [],      // [{id, name, isHost}]
+  gameMode: 1,
+  currentCardIdx: 0,
+  assignments: [],  // [{id, name, isSpy, hasDiff, word}]
+  secretWord: '',
+  differentWord: '',
+  phase: 'waiting', // waiting | cards | reveal | results
+  cardRevealed: false,
+};
+
+// ═══════════════════════════════════════════════════════════
+//  UTILITIES
+// ═══════════════════════════════════════════════════════════
+function genRoomId() {
+  return Math.random().toString(36).substr(2,6).toUpperCase();
+}
+function roomLink(id) {
+  return window.location.origin + window.location.pathname + '?room=' + id;
+}
+function toast(msg, type='', dur=3000) {
+  document.querySelectorAll('.toast').forEach(e=>e.remove());
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), dur);
+}
+function showPage(id) {
+  ['page-lobby','page-room'].forEach(p => {
+    document.getElementById(p).classList.toggle('hidden', p !== id);
+  });
+}
+function showPhase(ph) {
+  ['waiting','cards','reveal','results'].forEach(p => {
+    document.getElementById('phase-'+p).classList.toggle('hidden', p !== ph);
+  });
+  S.phase = ph;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PEER SETUP
+// ═══════════════════════════════════════════════════════════
+function initPeer(customId) {
+  return new Promise((res, rej) => {
+    const opts = {
+      debug: 0,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' },
+          { urls: 'stun:global.stun.twilio.com:3478' }
+        ]
+      }
+    };
+    const peer = customId ? new Peer(customId, opts) : new Peer(opts);
+    peer.on('open', id => { S.myPeerId = id; res(peer); });
+    peer.on('error', e => {
+      console.error('Peer error', e);
+      if (e.type === 'unavailable-id') rej(new Error('unavailable-id'));
+      else rej(e);
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CREATE ROOM
+// ═══════════════════════════════════════════════════════════
+async function createRoom() {
+  const name = document.getElementById('my-name-input').value.trim() || 'میوان';
+  S.myName = name;
+  const roomId = genRoomId();
+  S.roomId = roomId;
+  S.isHost = true;
+
+  // Host peer ID = 'SIK-' + roomId
+  const hostPeerId = 'SIK-' + roomId;
+  try {
+    S.peer = await initPeer(hostPeerId);
+  } catch(e) {
+    if (e.message === 'unavailable-id') {
+      // Retry with new ID
+      S.roomId = genRoomId();
+      S.peer = await initPeer('SIK-' + S.roomId);
+    } else throw e;
+  }
+
+  S.players = [{ id: S.myPeerId, name: S.myName, isHost: true }];
+
+  // Listen for guest connections
+  S.peer.on('connection', conn => {
+    conn.on('open', () => {
+      console.log('Guest connected:', conn.peer);
+      S.guestConns[conn.peer] = conn;
+      // Send them current players list and state
+      sendToGuest(conn, { type:'welcome', players: S.players, mode: S.gameMode });
+      // Announce new player to all
+      broadcastAll({ type:'player_join', id: conn.peer, name: conn.metadata?.name || '؟' });
+      S.players.push({ id: conn.peer, name: conn.metadata?.name || '؟', isHost: false });
+      renderPlayers();
+    });
+    conn.on('data', d => handleData(d, conn.peer));
+    conn.on('close', () => {
+      delete S.guestConns[conn.peer];
+      S.players = S.players.filter(p => p.id !== conn.peer);
+      broadcastAll({ type:'player_leave', id: conn.peer });
+      renderPlayers();
+      addChat('', `یارییکارێ دەرچو`, 'system');
+    });
+  });
+
+  // Voice calls from guests
+  S.peer.on('call', call => {
+    if (S.localStream) call.answer(S.localStream);
+    else call.answer();
+    handleVoiceCall(call);
+  });
+
+  setupRoomUI();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  JOIN ROOM
+// ═══════════════════════════════════════════════════════════
+function showJoinUI() {
+  document.getElementById('join-ui').classList.toggle('hidden');
+}
+
+async function joinRoom() {
+  const name = document.getElementById('my-name-input').value.trim() || 'میوان';
+  S.myName = name;
+  let raw = document.getElementById('join-code-input').value.trim();
+
+  // Extract code from full URL if pasted
+  if (raw.includes('room=')) {
+    const u = new URL(raw.includes('://') ? raw : 'https://x.com/?' + raw.split('?')[1]);
+    raw = u.searchParams.get('room') || raw;
+  }
+  const roomId = raw.toUpperCase();
+  if (!roomId || roomId.length < 4) { toast('کودا ئۆدەیێ بنڤیسە', 'err'); return; }
+  S.roomId = roomId;
+  S.isHost = false;
+
+  try {
+    S.peer = await initPeer();
+  } catch(e) { toast('هەڵەیا پەیوەندی', 'err'); return; }
+
+  const hostPeerId = 'SIK-' + roomId;
+  const conn = S.peer.connect(hostPeerId, { metadata: { name: S.myName }, reliable: true });
+  S.hostConn = conn;
+
+  conn.on('open', () => {
+    setConnStatus('good', '✅ پەیوەست بووی!');
+    // Voice calls from host
+    S.peer.on('call', call => {
+      if (S.localStream) call.answer(S.localStream);
+      else call.answer();
+      handleVoiceCall(call);
+    });
+  });
+  conn.on('data', d => handleData(d, hostPeerId));
+  conn.on('close', () => {
+    setConnStatus('err', '❌ پەیوەند قطع بوو');
+    toast('پەیوەند قطع بوو', 'err');
+  });
+  conn.on('error', e => { console.error(e); setConnStatus('err', '❌ هەڵە'); });
+
+  // Timeout
+  setTimeout(() => {
+    if (!S.players.length) { toast('نەشیایێ پەیوەست بیت — کودە بپشکنە', 'err'); }
+  }, 8000);
+
+  S.players = [{ id: S.myPeerId, name: S.myName, isHost: false }];
+  setupRoomUI();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ROOM UI
+// ═══════════════════════════════════════════════════════════
+function setupRoomUI() {
+  showPage('page-room');
+  showPhase('waiting');
+
+  document.getElementById('room-code-display').textContent = S.roomId;
+  const link = roomLink(S.roomId);
+  document.getElementById('room-link-text').textContent = link;
+
+  // Host controls
+  document.getElementById('host-setup').classList.toggle('hidden', !S.isHost);
+  document.getElementById('spinner-wait').classList.toggle('hidden', S.isHost);
+
+  renderPlayers();
+  setConnStatus('warn', '🔄 پەیوەندی...');
+  if (S.isHost) setConnStatus('good', '✅ ئۆدە هاتییە دروستکرن');
+
+  addChat('', '🎮 بخێربێن بو ئۆدەیا سیخوڕی!', 'system');
+}
+
+function renderPlayers() {
+  const ul = document.getElementById('players-list-ui');
+  ul.innerHTML = '';
+  document.getElementById('wait-count').textContent = S.players.length;
+  document.getElementById('wait-min').textContent = '2';
+
+  const avatars = ['🦊','🐺','🦁','🐯','🦅','🐉','🦋','🐙'];
+  S.players.forEach((p,i) => {
+    const li = document.createElement('div');
+    li.className = 'player-item' + (p.isHost ? ' host' : '');
+    li.innerHTML = `
+      <div class="player-avatar">${avatars[i % avatars.length]}</div>
+      <div class="player-info">
+        <div class="player-name-txt">${esc(p.name)}${p.id===S.myPeerId?' (تۆ)':''}</div>
+        <div class="player-role-txt">${p.isHost?'میوان (Host)':'ئەندام'}</div>
+      </div>
+      ${p.isHost ? '<span class="badge-host">👑 میوان</span>' : '<span class="badge-wait">چاوەڕوانی</span>'}
+    `;
+    ul.appendChild(li);
+  });
+
+  // Update voice chips
+  renderVoiceChips();
+}
+
+function setConnStatus(type, msg) {
+  const el = document.getElementById('conn-status');
+  el.className = 'status-bar ' + (type==='good'?'good':type==='warn'?'warn':'err');
+  el.textContent = msg;
+}
+
+function copyRoomLink() {
+  const link = roomLink(S.roomId);
+  navigator.clipboard.writeText(link).then(()=>toast('لینک کۆپی بوو! ✅','ok')).catch(()=>{
+    navigator.clipboard.writeText(S.roomId).then(()=>toast('کود کۆپی بوو! ✅','ok'));
+  });
+}
+
+function leaveRoom() {
+  if (S.peer) S.peer.destroy();
+  Object.values(S.voiceCalls).forEach(c=>c.close());
+  if (S.localStream) S.localStream.getTracks().forEach(t=>t.stop());
+  Object.assign(S, {
+    peer:null, hostConn:null, guestConns:{}, voiceCalls:{},
+    localStream:null, players:[], roomId:null, isHost:false,
+    assignments:[], phase:'waiting', micMuted:true
+  });
+  showPage('page-lobby');
+  document.getElementById('mic-btn').className = 'mic-btn muted';
+  document.getElementById('mic-btn').textContent = '🔇';
+  document.getElementById('voice-dot').className = 'voice-dot';
+  document.getElementById('voice-label').textContent = 'دەنگ: داخراوە';
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('voice-users').innerHTML = '';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  MESSAGING (Host ↔ Guests)
+// ═══════════════════════════════════════════════════════════
+function broadcastAll(msg) {
+  Object.values(S.guestConns).forEach(c => { if(c.open) c.send(msg); });
+}
+function sendToGuest(conn, msg) { if(conn.open) conn.send(msg); }
+function sendToHost(msg) { if(S.hostConn?.open) S.hostConn.send(msg); }
+
+function handleData(d, fromId) {
+  switch(d.type) {
+    case 'welcome':
+      S.players = d.players;
+      // Add self if not already there
+      if (!S.players.find(p=>p.id===S.myPeerId)) {
+        S.players.push({ id:S.myPeerId, name:S.myName, isHost:false });
+      }
+      S.gameMode = d.mode;
+      updateModeUI();
+      renderPlayers();
+      setConnStatus('good','✅ پەیوەست بووی!');
+      break;
+
+    case 'player_join':
+      if (!S.players.find(p=>p.id===d.id)) {
+        S.players.push({ id:d.id, name:d.name, isHost:false });
+        renderPlayers();
+        addChat('', `${esc(d.name)} هاتی ژۆرە`, 'system');
+      }
+      break;
+
+    case 'player_leave':
+      S.players = S.players.filter(p=>p.id!==d.id);
+      renderPlayers();
+      break;
+
+    case 'mode_change':
+      S.gameMode = d.mode;
+      updateModeUI();
+      break;
+
+    case 'game_start':
+      S.assignments = d.assignments;
+      S.secretWord = d.secretWord;
+      S.differentWord = d.differentWord;
+      S.gameMode = d.mode;
+      beginCardPhase();
+      break;
+
+    case 'chat':
+      addChat(d.name, d.text, 'other');
+      break;
+
+    // Voice signaling (for late joiners / cross calls)
+    case 'call_me':
+      // Host tells guest to initiate voice call
+      if (S.localStream) startVoiceCallTo(d.peerId);
+      break;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  HOST: SELECT MODE & START
+// ═══════════════════════════════════════════════════════════
+function selectMode(m) {
+  S.gameMode = m;
+  document.getElementById('mode-btn-1').className = 'mode-btn' + (m===1?' selected':'');
+  document.getElementById('mode-btn-2').className = 'mode-btn red-mode' + (m===2?' selected':'');
+  broadcastAll({ type:'mode_change', mode:m });
+}
+function updateModeUI() {
+  document.getElementById('mode-btn-1').className = 'mode-btn' + (S.gameMode===1?' selected':'');
+  document.getElementById('mode-btn-2').className = 'mode-btn red-mode' + (S.gameMode===2?' selected':'');
+}
+
+function hostStartGame() {
+  if (S.players.length < 2) { toast('دەبێت لانی کەم 2 یارییکار بن', 'err'); return; }
+
+  const players = [...S.players];
+  const n = players.length;
+  let secretWord='', differentWord='', spyIndices=[];
+
+  if (S.gameMode === 1) {
+    // Pick random spies
+    let spyCount = n>=9?3 : n>=6?2 : 1;
+    while(spyIndices.length < spyCount) {
+      const r = Math.floor(Math.random()*n);
+      if(!spyIndices.includes(r)) spyIndices.push(r);
+    }
+    secretWord = kurdishWords[Math.floor(Math.random()*kurdishWords.length)];
+    differentWord = '';
+  } else {
+    const ri = Math.floor(Math.random()*n);
+    spyIndices = [ri];
+    const pair = wordPairs[Math.floor(Math.random()*wordPairs.length)];
+    secretWord = pair.normal;
+    differentWord = pair.different;
+  }
+
+  const assignments = players.map((p,i) => {
+    const isSpy = spyIndices.includes(i);
+    const word = S.gameMode===1
+      ? (isSpy ? null : secretWord)
+      : (isSpy ? differentWord : secretWord);
+    return { id:p.id, name:p.name, isSpy, word, hasDiff: S.gameMode===2 && isSpy };
+  });
+
+  // Pick starter (non-spy civilian)
+  const eligible = assignments.filter(a=>!a.isSpy);
+  const starter = eligible[Math.floor(Math.random()*eligible.length)] || assignments[0];
+
+  const msg = { type:'game_start', assignments, secretWord, differentWord, mode:S.gameMode, starter };
+  broadcastAll(msg);
+  handleData(msg, 'self');
+
+  // Also tell guests to call host for voice
+  Object.keys(S.guestConns).forEach(gid => {
+    sendToGuest(S.guestConns[gid], { type:'call_me', peerId: S.myPeerId });
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CARD PHASE
+// ═══════════════════════════════════════════════════════════
+function beginCardPhase() {
+  S.currentCardIdx = 0;
+  S.cardRevealed = false;
+  showPhase('cards');
+  renderCard();
+}
+
+function renderCard() {
+  const total = S.assignments.length;
+  const idx = S.currentCardIdx;
+  const prog = document.getElementById('cards-progress');
+  const area = document.getElementById('card-area');
+  const nextBtn = document.getElementById('next-card-btn');
+
+  if (idx >= total) {
+    // All done — find starter
+    const eligible = S.assignments.filter(a=>!a.isSpy);
+    const starter = eligible[Math.floor(Math.random()*eligible.length)] || S.assignments[0];
+    area.innerHTML = `
+      <div class="starter-box">
+        <div class="starter-label">🎤 دەست پێ بکە:</div>
+        <div class="starter-name-big">${esc(starter.name)}</div>
+        <div class="starter-note">سیخوڕ ناتوانیت دەستپێ بکات</div>
+      </div>
+    `;
+    prog.textContent = `${total}/${total} — تەمام ✅`;
+    nextBtn.classList.add('hidden');
+
+    // Show reveal button
+    const revBtn = document.createElement('button');
+    revBtn.className = 'btn btn-gold';
+    revBtn.style.marginTop = '10px';
+    revBtn.textContent = S.gameMode===1 ? '🔍 کەشفکرنا سیخوڕ' : '🔍 کەشفکرنا کەسێ جیاواز';
+    revBtn.onclick = goReveal;
+    area.appendChild(revBtn);
+    return;
+  }
+
+  prog.textContent = `یارییکەرێ ${idx+1} ل ${total}`;
+  const a = S.assignments[idx];
+  const isMe = a.id === S.myPeerId;
+
+  if (!S.cardRevealed) {
+    area.innerHTML = `
+      <div class="game-card" onclick="${isMe ? 'revealMyCard()' : ''}">
+        <div class="card-icon">🃏</div>
+        <div class="card-player">${esc(a.name)}</div>
+        <div class="card-tap">${isMe ? 'کلیک بکە تا بینی' : 'چاوەڕووانیا ${esc(a.name)}...'}</div>
+      </div>
+    `;
+    nextBtn.classList.add('hidden');
+  }
+}
+
+function revealMyCard() {
+  const idx = S.currentCardIdx;
+  const a = S.assignments[idx];
+  if (a.id !== S.myPeerId) return; // Not my card
+  S.cardRevealed = true;
+
+  const area = document.getElementById('card-area');
+  const nextBtn = document.getElementById('next-card-btn');
+
+  if (S.gameMode === 1) {
+    if (a.isSpy) {
+      area.innerHTML = `
+        <div class="game-card spy">
+          <div class="card-icon">🕵️</div>
+          <div style="color:var(--red); font-size:1.8rem; font-weight:900; margin:8px 0;">تۆ سیخوڕی!</div>
+          <div style="color:var(--text2); font-size:1rem; margin-top:12px;">تۆ وشێ نزانی — هەوڵبدە بزانی!</div>
+          <div style="color:var(--gold); font-size:0.9rem; margin-top:14px; background:rgba(255,204,0,0.1); padding:10px; border-radius:14px;">
+            ئاگاداری: ئەو کەسێ پشت تو دێت دێ کارتی خو ببینیت!
+          </div>
+        </div>
+      `;
+    } else {
+      area.innerHTML = `
+        <div class="game-card civil">
+          <div class="card-icon">👨‍🌾</div>
+          <div style="color:var(--green); font-size:1.8rem; font-weight:900; margin:8px 0;">تۆ مەدەنی</div>
+          <div style="color:var(--text2); margin:10px 0;">وشە:</div>
+          <span class="word-reveal">${esc(a.word)}</span>
+          <div style="color:var(--gold); font-size:0.9rem; margin-top:14px; background:rgba(255,204,0,0.1); padding:10px; border-radius:14px;">
+            ئاگاداری: ئەو کەسێ پشت تو دێت دێ کارتی خو ببینیت!
+          </div>
+        </div>
+      `;
+    }
+  } else {
+    area.innerHTML = `
+      <div class="game-card civil">
+        <div class="card-icon">${a.hasDiff ? '🎭' : '📝'}</div>
+        <div style="color:var(--gold); font-size:1.8rem; font-weight:900; margin:8px 0;">وشەی تو:</div>
+        <span class="word-reveal">${esc(a.word)}</span>
+        <div style="color:var(--gold); font-size:0.9rem; margin-top:14px; background:rgba(255,204,0,0.1); padding:10px; border-radius:14px;">
+          ئاگاداری: ئەو کەسێ پشت تو دێت دێ کارتی خو ببینیت!
+        </div>
+      </div>
+    `;
+  }
+  nextBtn.classList.remove('hidden');
+}
+
+function nextCard() {
+  S.currentCardIdx++;
+  S.cardRevealed = false;
+  renderCard();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  REVEAL & RESULTS
+// ═══════════════════════════════════════════════════════════
+function goReveal() {
+  showPhase('reveal');
+  const area = document.getElementById('reveal-area');
+  const title = document.getElementById('reveal-phase-title');
+
+  if (S.gameMode === 1) {
+    title.textContent = '🕵️ سیخوڕەکە';
+    const spies = S.assignments.filter(a=>a.isSpy);
+    let inner = spies.map(s=>`
+      <div class="reveal-card">
+        <div style="font-size:4rem;">🕵️</div>
+        <div style="color:var(--text2); font-size:1rem; margin-top:8px;">سیخوڕ بریتییە ل:</div>
+        <div class="reveal-name">${esc(s.name)}</div>
+        <div class="reveal-label">وشە:</div>
+        <div class="reveal-word">${esc(S.secretWord)}</div>
+      </div>
+    `).join('');
+    area.innerHTML = inner;
+  } else {
+    title.textContent = '🎭 کەسێ جیاواز';
+    const diff = S.assignments.find(a=>a.hasDiff);
+    area.innerHTML = `
+      <div class="reveal-card">
+        <div style="font-size:4rem;">🎭</div>
+        <div style="color:var(--text2); font-size:1rem; margin-top:8px;">کەسێ جیاواز بریتییە ل:</div>
+        <div class="reveal-name">${esc(diff?.name||'؟')}</div>
+        <div class="reveal-label">وشەییا ئاسایی:</div>
+        <div class="reveal-word">${esc(S.secretWord)}</div>
+        <div class="reveal-label" style="margin-top:12px;">وشەییا جیاواز:</div>
+        <div class="reveal-word" style="color:var(--red);">${esc(S.differentWord)}</div>
+      </div>
+    `;
+  }
+}
+
+function showResults() {
+  showPhase('results');
+  const area = document.getElementById('results-area');
+  const playAgainArea = document.getElementById('play-again-area');
+
+  let rows = S.assignments.map(a => {
+    let badge = '';
+    if (S.gameMode===1) {
+      badge = a.isSpy
+        ? `<span class="badge badge-spy">سیخوڕ 🕵️</span>`
+        : `<span class="badge badge-civil">مەدەنی 👨‍🌾</span>`;
+    } else {
+      badge = a.hasDiff
+        ? `<span class="badge badge-diff">جیاواز 🎭</span>`
+        : `<span class="badge badge-norm">ئاسایی</span>`;
+    }
+    return `<div class="result-row"><span class="result-name">${esc(a.name)}</span>${badge}</div>`;
+  }).join('');
+
+  let wordHtml = '';
+  if (S.gameMode===1) {
+    wordHtml = `<div class="word-box"><div class="lbl">وشە</div><div class="val">${esc(S.secretWord)}</div></div>`;
+  } else {
+    wordHtml = `
+      <div class="word-box"><div class="lbl">وشەییا ئاسایی</div><div class="val">${esc(S.secretWord)}</div></div>
+      <div class="word-box"><div class="lbl">وشەییا جیاواز</div><div class="val diff">${esc(S.differentWord)}</div></div>
+    `;
+  }
+  area.innerHTML = rows + wordHtml;
+
+  if (S.isHost) {
+    playAgainArea.innerHTML = `
+      <button class="btn btn-primary" onclick="hostStartGame()">🔁 دوبارە یارییکرن</button>
+      <button class="btn btn-ghost" onclick="leaveRoom()" style="margin-top:6px;">🏠 دەستپێک</button>
+    `;
+  } else {
+    playAgainArea.innerHTML = `
+      <div style="color:var(--text2); text-align:center; font-size:0.95rem; margin:12px 0;">
+        چاوەڕووانیا میوانێ بکە بو دوباره دەستپێکرن
+      </div>
+      <button class="btn btn-ghost" onclick="leaveRoom()" style="margin-top:6px;">🏠 دەستپێک</button>
+    `;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CHAT
+// ═══════════════════════════════════════════════════════════
+function sendChat() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  const msg = { type:'chat', name: S.myName, text };
+  if (S.isHost) {
+    broadcastAll(msg);
+  } else {
+    sendToHost(msg);
+    // Host will rebroadcast — but also add local
+  }
+  addChat(S.myName, text, 'self');
+
+  // If host, also broadcast to others
+  if (S.isHost) {
+    // already broadcast above
+  }
+}
+
+// Guests: when host gets chat from guest, rebroadcast
+// (handled in handleData: guests send to host, host broadcasts)
+// We override handleData for host:
+const _origHandleData = handleData;
+function handleData(d, fromId) {
+  if (S.isHost && d.type === 'chat') {
+    // Re-broadcast to all other guests
+    Object.entries(S.guestConns).forEach(([gid, conn]) => {
+      if (gid !== fromId) sendToGuest(conn, d);
+    });
+    addChat(d.name, d.text, 'other');
+    return;
+  }
+  _origHandleData(d, fromId);
+}
+
+function addChat(sender, text, type) {
+  const box = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + (type==='self'?'':type==='other'?'other':'system');
+  if (type === 'system') {
+    div.textContent = text;
+  } else {
+    div.innerHTML = `<div class="chat-sender">${esc(sender)}</div><div class="chat-text">${esc(text)}</div>`;
+  }
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  VOICE
+// ═══════════════════════════════════════════════════════════
+async function toggleMic() {
+  const btn = document.getElementById('mic-btn');
+  const dot = document.getElementById('voice-dot');
+  const lbl = document.getElementById('voice-label');
+
+  if (S.micMuted) {
+    // Turn ON
+    try {
+      S.localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+      S.micMuted = false;
+      btn.textContent = '🎙️';
+      btn.className = 'mic-btn';
+      dot.className = 'voice-dot active';
+      lbl.textContent = 'دەنگ: چالاک';
+
+      // Call all connected peers
+      const allPeerIds = S.isHost
+        ? Object.keys(S.guestConns)
+        : [S.hostConn?.peer].filter(Boolean);
+
+      allPeerIds.forEach(pid => startVoiceCallTo(pid));
+    } catch(e) {
+      toast('میکرۆفۆن نەشیایە وەرگرت — مافی میکرۆفۆن بدە', 'err', 4000);
+    }
+  } else {
+    // Turn OFF
+    if (S.localStream) {
+      S.localStream.getTracks().forEach(t => t.stop());
+      S.localStream = null;
+    }
+    Object.values(S.voiceCalls).forEach(c => c.close());
+    S.voiceCalls = {};
+    S.micMuted = true;
+    btn.textContent = '🔇';
+    btn.className = 'mic-btn muted';
+    dot.className = 'voice-dot';
+    lbl.textContent = 'دەنگ: داخراوە';
+  }
+  renderVoiceChips();
+}
+
+function startVoiceCallTo(peerId) {
+  if (!S.localStream || !peerId || S.voiceCalls[peerId]) return;
+  try {
+    const call = S.peer.call(peerId, S.localStream);
+    handleVoiceCall(call);
+  } catch(e) { console.error('Call error', e); }
+}
+
+function handleVoiceCall(call) {
+  const pid = call.peer;
+  S.voiceCalls[pid] = call;
+
+  call.on('stream', remoteStream => {
+    // Play remote audio
+    let audio = document.getElementById('audio-' + pid);
+    if (!audio) {
+      audio = document.createElement('audio');
+      audio.id = 'audio-' + pid;
+      audio.autoplay = true;
+      audio.style.display = 'none';
+      document.body.appendChild(audio);
+    }
+    audio.srcObject = remoteStream;
+    renderVoiceChips();
+
+    // Simple speaking detection via AudioContext
+    try {
+      const ctx = new AudioContext();
+      const src = ctx.createMediaStreamSource(remoteStream);
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 512;
+      src.connect(analyser);
+      const data = new Uint8Array(analyser.frequencyBinCount);
+      function check() {
+        if (!S.voiceCalls[pid]) return;
+        analyser.getByteFrequencyData(data);
+        const avg = data.reduce((a,b)=>a+b,0)/data.length;
+        const chip = document.getElementById('vc-'+pid);
+        if (chip) chip.className = 'voice-chip' + (avg>10?' speaking':'');
+        requestAnimationFrame(check);
+      }
+      check();
+    } catch(e){}
+  });
+
+  call.on('close', () => {
+    delete S.voiceCalls[pid];
+    const audio = document.getElementById('audio-' + pid);
+    if (audio) audio.remove();
+    renderVoiceChips();
+  });
+  call.on('error', e => { console.error('Call err', e); delete S.voiceCalls[pid]; });
+}
+
+function renderVoiceChips() {
+  const container = document.getElementById('voice-users');
+  container.innerHTML = '';
+
+  // Self
+  if (!S.micMuted && S.localStream) {
+    const chip = document.createElement('div');
+    chip.className = 'voice-chip speaking';
+    chip.id = 'vc-self';
+    chip.innerHTML = `🎙️ ${esc(S.myName)} (تۆ)`;
+    container.appendChild(chip);
+  }
+
+  // Others in voice call
+  Object.keys(S.voiceCalls).forEach(pid => {
+    const player = S.players.find(p=>p.id===pid);
+    const chip = document.createElement('div');
+    chip.className = 'voice-chip';
+    chip.id = 'vc-'+pid;
+    chip.innerHTML = `🔊 ${esc(player?.name || '؟')}`;
+    container.appendChild(chip);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  INIT: Check for ?room= in URL
+// ═══════════════════════════════════════════════════════════
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const roomParam = params.get('room');
+  if (roomParam) {
+    document.getElementById('join-ui').classList.remove('hidden');
+    document.getElementById('join-code-input').value = roomParam;
+    // Auto-fill focus on name
+    document.getElementById('my-name-input').focus();
+    toast('ناوێ خو بنڤیسە پاشان بخوپێ ئۆدەیێ', 'ok', 4000);
+  }
+});
+</script>
+
+</body>
+</html>
