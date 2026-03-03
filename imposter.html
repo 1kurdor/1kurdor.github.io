@@ -3,663 +3,808 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>سیخوڕ | imposter - یاری کۆمەڵایەتی</title>
+    <title>سیخوڕ | imposter</title>
     <style>
-        /* Rabar Font */
+        /* Rabar Font - Local Path */
         @font-face {
             font-family: 'Rabar';
             src: url('assets/fonts/Rabar.ttf') format('truetype');
             font-weight: normal;
+            font-style: normal;
+            font-display: swap;
         }
         
         @font-face {
             font-family: 'Rabar';
             src: url('assets/fonts/Rabar-bold.ttf') format('truetype');
             font-weight: bold;
+            font-style: normal;
+            font-display: swap;
         }
         
+        /* Reset & Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none;
         }
-        
-        input, textarea {
-            user-select: text;
-        }
+  /* ===== PREVENT TEXT SELECTION ON EVERYTHING ===== */
+    * {
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none;    /* Firefox */
+        -ms-user-select: none;     /* Internet Explorer/Edge */
+        user-select: none;         /* Non-prefixed version */
+    }
+    
+    /* Allow text selection ONLY in input fields */
+    input, textarea {
+        -webkit-user-select: text;  /* Safari */
+        -moz-user-select: text;     /* Firefox */
+        -ms-user-select: text;      /* Internet Explorer/Edge */
+        user-select: text;          /* Non-prefixed version */
+    }
         
         body {
-            font-family: 'Rabar', 'Arial Unicode MS', sans-serif;
-            background: linear-gradient(145deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
+            background: linear-gradient(145deg, #e6f0ff 0%, #f0f7ff 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             direction: rtl;
             padding: 12px;
+            position: relative;
         }
         
         /* Main Container */
         .game-container {
             width: 100%;
             max-width: 420px;
-            background: white;
-            border-radius: 48px;
-            padding: 24px 20px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-            border: 2px solid #ffd700;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 36px;
+            padding: 24px 20px 20px 20px;
+            box-shadow: 
+                0 15px 30px rgba(0, 100, 255, 0.1),
+                0 5px 15px rgba(255, 200, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.2);
             margin-bottom: 10px;
         }
         
+        /* Background Gradients */
+        .game-container::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(0, 150, 255, 0.1), transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        
+        .game-container::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        
+        /* Content */
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Headers */
         h1 {
             font-size: 2.2rem;
+            font-weight: bold;
             text-align: center;
             margin-bottom: 8px;
-            color: #667eea;
+            background: linear-gradient(135deg, #0066cc, #0099ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.5px;
         }
         
         h2 {
             font-size: 1.6rem;
             text-align: center;
             margin-bottom: 18px;
-            color: #667eea;
-            border-bottom: 3px solid #ffd700;
+            color: #0066cc;
+            position: relative;
             padding-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, #0066cc, #ffcc00);
+            border-radius: 2px;
+        }
+        
+        /* Kurdor Link - moved to footer now */
+        
+        /* How to Play Link - NEW */
+        .how-to-play-link {
+            text-align: center;
+            margin: 5px 0 15px 0;
+            font-size: 1rem;
+            color: #666;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.2s ease;
+        }
+        
+        .how-to-play-link:hover {
+            color: #0066cc;
         }
         
         /* Buttons */
         .btn {
             width: 100%;
-            padding: 16px;
+            padding: 16px 20px;
             border: none;
-            border-radius: 50px;
+            border-radius: 40px;
             font-size: 1.2rem;
+            font-weight: 500;
             cursor: pointer;
-            margin: 8px 0;
-            font-family: 'Rabar', sans-serif;
-            font-weight: bold;
-            transition: all 0.3s;
-            color: white;
+            transition: all 0.2s ease;
+            margin: 10px 0;
+            font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
+            box-shadow: 0 4px 10px rgba(0, 102, 204, 0.1);
         }
         
-        .btn-purple {
-            background: #667eea;
-            box-shadow: 0 4px 0 #4a3f8a;
-        }
-        
-        .btn-green {
-            background: #00b09b;
-            box-shadow: 0 4px 0 #2e7d32;
-        }
-        
+        /* Blue Button - Imposter Game */
         .btn-blue {
-            background: #667eea;
-            box-shadow: 0 4px 0 #4a3f8a;
+            background: linear-gradient(135deg, #0066cc, #0099ff);
+            color: white;
+            box-shadow: 0 4px 0 #003366;
         }
         
+        .btn-blue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #003366;
+        }
+        
+        /* Red Button - Different Word Game */
         .btn-red {
-            background: #ff4444;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
             box-shadow: 0 4px 0 #990000;
         }
         
-        .btn-yellow {
-            background: #ffd700;
-            color: #333;
-            box-shadow: 0 4px 0 #b26500;
-        }
-        
-        .btn:hover {
+        .btn-red:hover {
             transform: translateY(-2px);
+            box-shadow: 0 6px 0 #990000;
         }
         
-        .btn:active {
-            transform: translateY(4px);
-            box-shadow: none;
+        /* Yellow Button - Main Page */
+        .btn-yellow {
+            background: linear-gradient(135deg, #ffcc00, #ffaa00);
+            color: #1a2a3a;
+            box-shadow: 0 4px 0 #996600;
         }
         
-        /* Room Box */
-        .room-box {
-            background: #667eea;
-            border-radius: 40px;
-            padding: 20px;
-            margin: 15px 0;
-            color: white;
-            text-align: center;
-            border: 3px solid #ffd700;
+        .btn-yellow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #996600;
         }
         
-        .room-code {
-            font-size: 2.5rem;
-            font-weight: bold;
-            letter-spacing: 8px;
-            direction: ltr;
+        .btn-secondary {
             background: white;
-            color: #667eea;
-            padding: 10px;
-            border-radius: 30px;
-            margin: 15px 0;
-            font-family: monospace;
+            color: #0066cc;
+            border: 1px solid #ffcc00;
         }
         
-        .copy-btn {
-            background: #ffd700;
-            border: none;
-            border-radius: 30px;
-            padding: 12px 20px;
-            font-size: 1rem;
-            cursor: pointer;
-            font-family: 'Rabar', sans-serif;
-            font-weight: bold;
-            color: #333;
-            box-shadow: 0 3px 0 #b26500;
-            margin: 5px;
-        }
-        
-        /* Players Grid */
-        .players-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-            gap: 8px;
-            margin: 15px 0;
-        }
-        
-        .player-card {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid white;
-            border-radius: 20px;
-            padding: 10px;
-            text-align: center;
-            color: white;
-        }
-        
-        .player-card.host {
-            border-color: #ffd700;
-            background: rgba(255,215,0,0.3);
-        }
-        
-        .player-avatar {
-            width: 40px;
-            height: 40px;
-            background: #ffd700;
-            border-radius: 50%;
-            margin: 0 auto 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: #333;
-        }
-        
-        .player-name {
-            font-size: 0.9rem;
-            margin-bottom: 3px;
-        }
-        
-        .online-dot {
-            width: 8px;
-            height: 8px;
-            background: #4caf50;
-            border-radius: 50%;
-            display: inline-block;
-            margin-left: 3px;
-        }
-        
-        /* Ready Check */
-        .ready-container {
-            margin: 15px 0;
-        }
-        
-        .ready-progress {
-            background: rgba(255,255,255,0.3);
-            border-radius: 20px;
-            padding: 3px;
-        }
-        
-        .ready-bar {
-            height: 15px;
-            background: #4caf50;
-            border-radius: 20px;
-            transition: width 0.3s;
-        }
-        
-        .ready-text {
-            color: white;
-            margin: 8px 0;
-        }
-        
-        .ready-btn {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid #ffd700;
-            border-radius: 40px;
-            padding: 12px;
-            color: white;
-            font-size: 1.1rem;
-            cursor: pointer;
-            width: 100%;
-            font-family: 'Rabar', sans-serif;
-        }
-        
-        .ready-btn.ready {
-            background: #4caf50;
-        }
-        
-        /* Chat System - FIXED TEXT COLORS */
-        .chat-container {
-            background: #f5f5f5;
-            border-radius: 30px;
-            padding: 12px;
-            margin: 12px 0;
-            border: 2px solid #ffd700;
-        }
-        
-        .chat-header {
-            display: flex;
-            justify-content: space-between;
-            color: #333;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
-        
-        .chat-messages {
-            max-height: 120px;
-            overflow-y: auto;
-            padding: 8px;
-            background: white;
-            border-radius: 20px;
-            margin-bottom: 8px;
-        }
-        
-        .chat-message {
-            margin: 5px 0;
-            padding: 6px 10px;
-            border-radius: 15px;
-            max-width: 85%;
-            font-size: 0.9rem;
-        }
-        
-        .chat-message.own {
-            background: #667eea;
-            color: white;
-            margin-left: auto;
-        }
-        
-        .chat-message.other {
-            background: #e0e0e0;
-            color: #333;
-            margin-right: auto;
-        }
-        
-        .chat-message.system {
-            background: #ffd700;
-            color: #333;
-            text-align: center;
-            margin: 5px auto;
-            max-width: 100%;
-        }
-        
-        .chat-sender {
-            font-size: 0.7rem;
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-        
-        .chat-input-area {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .chat-input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 1px solid #ccc;
-            border-radius: 30px;
-            font-family: 'Rabar', sans-serif;
-            background: white;
-            color: #333;
-        }
-        
-        .chat-input::placeholder {
-            color: #999;
-        }
-        
-        .chat-send {
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 0 20px;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-        
-        /* Voice System */
-        .voice-container {
-            background: #667eea;
-            border-radius: 40px;
-            padding: 12px 15px;
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 2px solid #ffd700;
-        }
-        
-        .voice-participants {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-        
-        .voice-badge {
-            background: rgba(255,255,255,0.2);
-            border-radius: 30px;
-            padding: 5px 10px;
-            color: white;
-            font-size: 0.9rem;
-            border: 1px solid white;
-        }
-        
-        .voice-badge.speaking {
-            background: #ffd700;
-            color: #333;
-        }
-        
-        .voice-controls {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .voice-btn {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid white;
-            border-radius: 30px;
-            padding: 5px 12px;
-            color: white;
-            cursor: pointer;
-        }
-        
-        .voice-btn.muted {
-            background: #ff4444;
-        }
-        
-        /* Invite Link - FIXED TEXT COLOR */
-        .invite-link {
-            background: rgba(0,0,0,0.2);
-            border-radius: 40px;
-            padding: 8px 12px;
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            direction: ltr;
-        }
-        
-        .invite-link input {
-            flex: 1;
-            background: white;
-            border: none;
-            border-radius: 30px;
-            padding: 8px 12px;
-            color: #333;
-            font-size: 0.9rem;
-            font-family: monospace;
-        }
-        
-        .invite-link button {
-            background: #ffd700;
-            border: none;
-            border-radius: 30px;
-            padding: 8px 15px;
-            cursor: pointer;
-            color: #333;
-            font-weight: bold;
-        }
-        
-        /* Player Inputs - FIXED TEXT COLOR */
-        .player-input {
-            width: 100%;
-            padding: 12px 15px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 40px;
-            background: white;
-            color: #333;
-            font-family: 'Rabar', sans-serif;
-        }
-        
-        .player-input::placeholder {
-            color: #999;
-        }
-        
+        /* Player Counter */
         .counter-container {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 15px;
+            margin: 20px 0;
             background: white;
-            padding: 10px;
+            padding: 12px;
             border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0, 102, 204, 0.05);
+            border: 1px solid rgba(255, 204, 0, 0.2);
         }
         
         .counter-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            background: #667eea;
-            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #0066cc, #0099ff);
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: white;
             cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 102, 204, 0.2);
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .counter-btn:active {
+            transform: scale(0.95);
         }
         
         .counter-value {
-            font-size: 2rem;
-            color: #667eea;
-            min-width: 50px;
+            font-size: 2.5rem;
+            font-weight: 500;
+            color: #0066cc;
+            min-width: 60px;
             text-align: center;
         }
         
-        /* Game Cards */
+        /* Player Inputs */
+        .player-input {
+            width: 100%;
+            padding: 14px 18px;
+            margin: 8px 0;
+            border: 1px solid rgba(0, 102, 204, 0.2);
+            border-radius: 40px;
+            background: white;
+            font-size: 1rem;
+            text-align: right;
+            direction: rtl;
+            font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+        }
+        
+        .player-input:focus {
+            outline: none;
+            border-color: #ffcc00;
+            box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.1);
+        }
+        
+        .player-input::placeholder {
+            color: #99b8d9;
+            font-size: 0.95rem;
+        }
+        
+        /* Cards - BEFORE REVEAL (all white) */
         .card {
             background: white;
-            border-radius: 40px;
+            border-radius: 32px;
             padding: 40px 20px;
-            margin: 15px 0;
+            margin: 18px 0;
             text-align: center;
             cursor: pointer;
-            border: 3px solid #667eea;
+            transition: all 0.3s ease;
+            animation: gentleFade 0.4s ease;
+            border: 2px solid #0066cc;
+            box-shadow: 0 15px 30px rgba(0, 102, 204, 0.1);
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 102, 204, 0.2);
+        }
+        
+        .card:active {
+            transform: scale(0.98);
+        }
+        
+        @keyframes gentleFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .player-name {
             font-size: 2rem;
-            color: #667eea;
-            margin-bottom: 15px;
+            color: #0066cc;
+            margin-bottom: 20px;
+            font-weight: 500;
         }
         
         .tap-message {
-            background: #f0f7ff;
+            font-size: 1.1rem;
+            color: #666;
+            margin: 25px 0;
+            background: #f5f9ff;
             padding: 12px 20px;
             border-radius: 40px;
             display: inline-block;
-            border: 2px dashed #ffd700;
-            color: #333;
+            border: 1px solid rgba(255, 204, 0, 0.2);
         }
         
         .role-icon {
             font-size: 4rem;
             margin-bottom: 15px;
+            animation: gentleBounce 0.4s ease;
         }
         
-        /* Revealed Cards */
+        @keyframes gentleBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* AFTER REVEAL - Colored cards for imposter game */
         .card-spy-revealed {
-            background: #ff4444;
+            background: linear-gradient(145deg, #ff4444, #cc0000);
             color: white;
-            border: 3px solid #ffd700;
-            border-radius: 40px;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 15px 30px rgba(255, 0, 0, 0.3);
+            cursor: default;
             padding: 40px 20px;
+            border-radius: 32px;
             text-align: center;
         }
         
         .card-civilian-revealed {
-            background: #00b09b;
+            background: linear-gradient(145deg, #00cc66, #00994d);
             color: white;
-            border: 3px solid #ffd700;
-            border-radius: 40px;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 15px 30px rgba(0, 204, 0, 0.3);
+            cursor: default;
             padding: 40px 20px;
+            border-radius: 32px;
             text-align: center;
+        }
+        
+        .card-spy-revealed .player-name,
+        .card-civilian-revealed .player-name {
+            color: white;
+        }
+        
+        .card-spy-revealed .tap-message,
+        .card-civilian-revealed .tap-message {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
         }
         
         .word-display {
             font-size: 3rem;
             font-weight: bold;
-            background: rgba(0,0,0,0.2);
-            padding: 15px 30px;
-            border-radius: 50px;
+            padding: 20px 30px;
+            border-radius: 40px;
             display: inline-block;
+            margin: 15px 0;
+        }
+        
+        .card-spy-revealed .word-display,
+        .card-civilian-revealed .word-display {
+            background: rgba(0, 0, 0, 0.2);
             color: white;
         }
         
-        /* Progress */
+        /* White card after reveal (for different word game) */
+        .card-white-revealed {
+            background: white;
+            color: #333;
+            border: 2px solid #0066cc;
+            box-shadow: 0 15px 30px rgba(0, 102, 204, 0.1);
+            cursor: default;
+            padding: 40px 20px;
+            border-radius: 32px;
+            text-align: center;
+        }
+        
+        .card-white-revealed .word-display {
+            background: #f0f7ff;
+            color: #0066cc;
+            border: 2px solid #ffcc00;
+        }
+        
+        /* Progress Bar */
         .progress {
             background: white;
             padding: 12px;
             border-radius: 40px;
             text-align: center;
-            margin: 15px 0;
-            color: #667eea;
-            font-weight: bold;
-            border: 2px solid #ffd700;
+            margin: 18px 0;
+            font-size: 1rem;
+            color: #0066cc;
+            font-weight: 500;
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            box-shadow: 0 2px 5px rgba(0, 102, 204, 0.05);
         }
         
-        /* Starter Box */
+        /* Starter Display - NEW */
         .starter-box {
-            background: #667eea;
+            background: linear-gradient(135deg, #0066cc, #0099ff);
             color: white;
             padding: 25px;
             border-radius: 40px;
-            margin: 15px 0;
+            margin: 20px 0;
             text-align: center;
-            border: 3px solid #ffd700;
+            border: 3px solid #ffcc00;
+            box-shadow: 0 10px 20px rgba(0, 102, 204, 0.3);
+            animation: gentlePulse 1s ease;
+        }
+        
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
         
         .starter-name {
             font-size: 2.5rem;
-            color: #ffd700;
+            font-weight: bold;
             margin: 10px 0;
+            color: #ffcc00;
         }
         
-        /* Reveal Button */
+        .starter-message {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        .starter-note {
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 30px;
+        }
+        
+        /* Reveal Button - for both games */
         .reveal-btn {
-            background: #ffd700;
-            color: #333;
+            background: linear-gradient(135deg, #ffcc00, #ffaa00);
+            color: #1a2a3a;
             font-size: 1.3rem;
             padding: 18px;
             border-radius: 40px;
             border: none;
             width: 100%;
-            margin: 15px 0;
+            margin: 20px 0;
             cursor: pointer;
-            box-shadow: 0 4px 0 #b26500;
+            box-shadow: 0 4px 0 #996600;
+            transition: all 0.3s ease;
+            font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
             font-weight: bold;
-            font-family: 'Rabar', sans-serif;
         }
         
-        /* Reveal Card */
+        .reveal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #996600;
+        }
+        
+        /* Reveal Page Cards */
         .reveal-card {
-            background: #333;
-            border: 4px solid #ffd700;
-            border-radius: 40px;
+            background: linear-gradient(145deg, #1a1a1a, #333333);
+            border: 3px solid #ffcc00;
+            border-radius: 32px;
             padding: 30px 20px;
             text-align: center;
-            margin: 15px 0;
-            color: white;
+            animation: gentleReveal 0.5s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            margin: 20px 0;
+        }
+        
+        @keyframes gentleReveal {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .reveal-card .role-icon {
+            font-size: 5rem;
         }
         
         .person-name {
             font-size: 2.2rem;
-            color: #ffd700;
             margin: 15px 0;
+            font-weight: 500;
+            color: #ffcc00;
         }
         
-        /* Results */
+        /* Results Container */
         .results-container {
-            background: #f5f5f5;
-            border-radius: 30px;
-            padding: 15px;
-            margin: 15px 0;
+            background: #f8fbff;
+            border-radius: 32px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 204, 0, 0.2);
         }
         
         .player-result {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            margin: 6px 0;
             background: white;
-            padding: 12px 15px;
-            margin: 5px 0;
             border-radius: 30px;
-            color: #333;
-            border: 1px solid #ffd700;
+            font-size: 1.1rem;
+            border: 1px solid rgba(0, 102, 204, 0.1);
         }
         
         .spy-badge {
-            background: #ff4444;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
             color: white;
-            padding: 5px 15px;
+            padding: 6px 18px;
             border-radius: 30px;
+            font-size: 1rem;
         }
         
         .civilian-badge {
-            background: #00b09b;
+            background: linear-gradient(135deg, #00cc66, #00994d);
             color: white;
-            padding: 5px 15px;
+            padding: 6px 18px;
             border-radius: 30px;
+            font-size: 1rem;
         }
         
-        .word-box {
-            background: white;
-            border: 2px solid #ffd700;
-            border-radius: 30px;
-            padding: 15px;
-            margin: 10px 0;
-            text-align: center;
-        }
-        
-        .word-value {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: #333;
+        .different-badge {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
             color: white;
-            padding: 12px;
-            border-radius: 40px;
-            text-align: center;
-            border: 2px solid #ffd700;
-            z-index: 10000;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 1rem;
         }
         
-        /* Hidden */
+        .normal-badge {
+            background: linear-gradient(135deg, #0066cc, #0099ff);
+            color: white;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 1rem;
+        }
+        
+        /* Hidden Class */
         .hidden {
             display: none !important;
         }
         
-        /* Footer */
+        /* Welcome Text */
+        .welcome-text {
+            color: #4a5a6a;
+            text-align: center;
+            margin: 15px 0 25px 0;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        
+        /* Word box at results */
+        .word-box {
+            background: white;
+            border: 2px solid #ffcc00;
+            border-radius: 32px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .word-label {
+            color: #0066cc;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .word-value {
+            color: #333;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        .word-value-different {
+            color: #cc0000;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        /* Game Description Modal */
+        .game-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .game-modal-content {
+            background: white;
+            border-radius: 48px;
+            padding: 35px 25px;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 3px solid #ffcc00;
+            animation: modalPop 0.3s ease;
+        }
+        
+        @keyframes modalPop {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .game-modal-icon {
+            font-size: 5rem;
+            margin-bottom: 15px;
+        }
+        
+        .game-modal-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .game-modal-title.blue {
+            color: #0066cc;
+        }
+        
+        .game-modal-title.red {
+            color: #cc0000;
+        }
+        
+        .game-modal-text {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #333;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f9ff;
+            border-radius: 30px;
+            border: 1px solid #ffcc00;
+            text-align: right;
+        }
+        
+        .game-modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .game-modal-btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
+        }
+        
+        .game-modal-btn.confirm {
+            background: linear-gradient(135deg, #00cc66, #00994d);
+            color: white;
+            box-shadow: 0 4px 0 #006633;
+        }
+        
+        .game-modal-btn.confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #006633;
+        }
+        
+        .game-modal-btn.cancel {
+            background: white;
+            color: #666;
+            border: 2px solid #ccc;
+            box-shadow: 0 4px 0 #999;
+        }
+        
+        .game-modal-btn.cancel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #999;
+        }
+        
+        /* How to Play Modal - NEW */
+        .how-to-play-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 10001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .how-to-play-content {
+            background: white;
+            border-radius: 48px;
+            padding: 30px 25px;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 3px solid #ffcc00;
+            animation: modalPop 0.3s ease;
+        }
+        
+        .how-to-play-option {
+            width: 100%;
+            padding: 20px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
+        }
+        
+        .how-to-play-option.blue {
+            background: linear-gradient(135deg, #0066cc, #0099ff);
+            color: white;
+            box-shadow: 0 4px 0 #003366;
+        }
+        
+        .how-to-play-option.red {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+            box-shadow: 0 4px 0 #990000;
+        }
+        
+        .how-to-play-option:hover {
+            transform: translateY(-2px);
+        }
+        
+        .how-to-play-close {
+            margin-top: 15px;
+            padding: 12px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 40px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
+        }
+        
+        /* ===== GREY FOOTER ===== */
         .app-footer {
             text-align: center;
-            color: white;
+            color: #666;
             font-size: 1rem;
+            direction: rtl;
         }
         
         .footer-link {
-            color: #ffd700;
-            text-decoration: none;
+            color: #666;
+            text-decoration: underline;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .footer-link:hover {
+            color: #0066cc;
         }
     </style>
 </head>
@@ -667,624 +812,496 @@
     <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
         <div class="game-container">
             <div class="content" id="app">
-                <!-- HOME PAGE -->
+                <!-- Page 1: Home Page - WITH 2 BUTTONS! -->
                 <div id="home-page">
-                    <h1>🕵️ سیخوڕ کۆمەڵایەتی</h1>
+                    <h1>🕵️ یارییا سیخوڕی</h1>
                     
-                    <!-- Main Buttons ONLY -->
-                    <button class="btn btn-purple" onclick="createRoom()">
-                        ✨ دروستکرنا ژووری نوێ
-                    </button>
+                    <p class="welcome-text">
+                        یارییەک بو بوراندنا دەمێن خوش دگەل هەڤاڵان.
+                    </p>
                     
-                    <button class="btn btn-green" onclick="showJoinPage()">
-                        🔗 تێکەڤتن بە ژوور
-                    </button>
-                    
-                    <!-- How to Play Link -->
-                    <div style="text-align: center; margin: 20px 0;">
-                        <span onclick="showHowToPlay()" style="color: #667eea; cursor: pointer; font-size: 1.1rem; text-decoration: underline;">
-                            📖 چەوا دێ یاریی کەی؟
-                        </span>
+                    <!-- Simple How to Play Link -->
+                    <div class="how-to-play-link" onclick="showHowToPlayOptions()">
+                        چەوا دێ یاریی کەی؟ 📖
                     </div>
+                    
+                    <!-- TWO BUTTONS ONLY with popup messages -->
+                    <button class="btn btn-blue" onclick="showGameDescription(1)">یارییا سیخوڕی 🎮</button>
+                    <button class="btn btn-red" onclick="showGameDescription(2)">یارییا وشەیێن جیاواز 🎭</button>
                 </div>
                 
-                <!-- JOIN PAGE -->
-                <div id="join-page" class="hidden">
-                    <h2>🔗 تێکەڤتن بە ژوور</h2>
+                <!-- Page 2: Setup Page -->
+                <div id="setup-page" class="hidden">
+                    <h2 id="setup-title">⚙️ ڕێکخستن</h2>
                     
-                    <div style="background: white; border-radius: 40px; padding: 30px 20px; border: 3px solid #ffd700;">
-                        <div style="color: #667eea; margin-bottom: 15px;">کۆدێ ژوور بنڤیسە</div>
-                        <input type="text" class="chat-input" id="joinCode" placeholder="XXXX-XXXX" style="text-align: center; font-size: 1.5rem; letter-spacing: 5px;">
-                        
-                        <button class="btn btn-green" style="margin-top: 20px;" onclick="joinRoom()">تێکەڤتن</button>
-                        <button class="btn btn-red" onclick="goBackToHome()">زڤرین</button>
+                    <div class="counter-container">
+                        <button class="counter-btn" onclick="changePlayerCount(-1)">−</button>
+                        <span class="counter-value" id="player-count">5</span>
+                        <button class="counter-btn" onclick="changePlayerCount(1)">+</button>
                     </div>
+                    
+                    <div id="player-inputs-container">
+                        <!-- Player inputs will be added here -->
+                    </div>
+                    
+                    <button class="btn btn-blue" onclick="startGame()">دەستپێکرن</button>
+                    <button class="btn btn-red" onclick="goBackToHome()">زڤرین</button>
                 </div>
                 
-                <!-- ROOM PAGE -->
-                <div id="room-page" class="hidden">
-                    <div class="room-box">
-                        <div>کۆدی ژوور</div>
-                        <div class="room-code" id="roomCode">XXXX-XXXX</div>
-                        
-                        <!-- Invite Link -->
-                        <div class="invite-link">
-                            <input type="text" id="inviteLinkInput" readonly value="https://kurdor.is-a.dev/imposter?room=XXXX-XXXX">
-                            <button onclick="copyInviteLink()">کۆپی</button>
-                        </div>
-                        
-                        <!-- Share Buttons -->
-                        <div style="display: flex; gap: 10px; margin: 10px 0;">
-                            <button class="copy-btn" style="flex:1;" onclick="shareWhatsApp()">📱 واتساب</button>
-                            <button class="copy-btn" style="flex:1;" onclick="copyRoomCode()">📋 کۆپی کۆد</button>
-                        </div>
-                        
-                        <!-- Players Grid -->
-                        <div style="margin-top: 15px;">
-                            <div style="display: flex; justify-content: space-between; color: white; margin-bottom: 10px;">
-                                <span>👥 یاریکەر (۲+ پێویستە)</span>
-                                <span id="playersCount">1/10</span>
-                            </div>
-                            <div class="players-grid" id="playersGrid"></div>
-                        </div>
-                        
-                        <!-- Ready Check -->
-                        <div class="ready-container" id="readyContainer">
-                            <div class="ready-progress">
-                                <div class="ready-bar" id="readyBar" style="width: 0%"></div>
-                            </div>
-                            <div class="ready-text" id="readyText">۰/٤ ئامادە</div>
-                            <button class="ready-btn" id="readyBtn" onclick="toggleReady()">✅ ئامادە</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Chat Section -->
-                    <div class="chat-container">
-                        <div class="chat-header">
-                            <span>💬 چاتی ژوور</span>
-                            <span id="chatCount">0 پەیام</span>
-                        </div>
-                        <div class="chat-messages" id="chatMessages"></div>
-                        <div class="chat-input-area">
-                            <input type="text" class="chat-input" id="chatInput" placeholder="پەیام بنڤیسە...">
-                            <button class="chat-send" onclick="sendChatMessage()">📨</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Voice Section -->
-                    <div class="voice-container">
-                        <div class="voice-participants" id="voiceParticipants"></div>
-                        <div class="voice-controls">
-                            <button class="voice-btn" id="micBtn" onclick="toggleMic()">🎤</button>
-                            <button class="voice-btn" id="speakerBtn" onclick="toggleSpeaker()">🔊</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Game Selection -->
-                    <h3 style="color: #667eea; margin: 15px 0;">بژارە یاریێ:</h3>
-                    
-                    <div style="display: flex; gap: 10px;">
-                        <button class="btn btn-blue" style="flex:1;" onclick="selectGameMode(1)">سیخوڕی</button>
-                        <button class="btn btn-red" style="flex:1;" onclick="selectGameMode(2)">جیاواز</button>
-                    </div>
-                    
-                    <!-- Game Setup -->
-                    <div id="gameSetup" class="hidden">
-                        <div style="background: #f5f5f5; border-radius: 40px; padding: 20px; margin: 15px 0;">
-                            <div style="color: #667eea; margin-bottom: 15px;">ژمارا یاریکەران</div>
-                            <div class="counter-container">
-                                <button class="counter-btn" onclick="changeCount(-1)">−</button>
-                                <span class="counter-value" id="playerCount">5</span>
-                                <button class="counter-btn" onclick="changeCount(1)">+</button>
-                            </div>
-                            
-                            <div id="playerInputs"></div>
-                            
-                            <button class="btn btn-green" style="margin-top: 15px;" onclick="startOnlineGame()" id="startGameBtn" disabled>⏳ ۲+ یاریکەر پێویستە</button>
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-red" onclick="leaveRoom()">دەرچوون ژ ژوور</button>
-                </div>
-                
-                <!-- GAME PAGE -->
+                <!-- Page 3: Game Page (Card Reveal) -->
                 <div id="game-page" class="hidden">
-                    <h2 id="gameTitle">🎴 یاری</h2>
+                    <h2 id="game-title">🎴 کارتەکان</h2>
+                    <div class="progress" id="game-progress"></div>
                     
-                    <!-- Game Voice -->
-                    <div class="voice-container">
-                        <div class="voice-participants" id="gameVoiceParticipants"></div>
-                        <div class="voice-controls">
-                            <button class="voice-btn" id="gameMicBtn" onclick="toggleMic()">🎤</button>
-                            <button class="voice-btn" id="gameSpeakerBtn" onclick="toggleSpeaker()">🔊</button>
-                        </div>
+                    <div id="card-container">
+                        <!-- Card will be displayed here -->
                     </div>
                     
-                    <!-- Game Chat -->
-                    <div class="chat-container">
-                        <div class="chat-messages" id="gameChatMessages"></div>
-                        <div class="chat-input-area">
-                            <input type="text" class="chat-input" id="gameChatInput" placeholder="پەیام بنڤیسە...">
-                            <button class="chat-send" onclick="sendGameChat()">📨</button>
-                        </div>
-                    </div>
-                    
-                    <div class="progress" id="gameProgress"></div>
-                    <div id="cardContainer"></div>
-                    
-                    <button class="btn btn-blue hidden" id="nextBtn" onclick="nextPlayer()">یارییکەرێ دویفرا</button>
-                    <div id="starterContainer" class="hidden"></div>
-                    <button class="reveal-btn hidden" id="revealBtn" onclick="goToReveal()">🔍 ئاشکراکردن</button>
+                    <button class="btn btn-blue hidden" id="next-player-btn" onclick="nextPlayer()">یارییکەرێ دویفرا</button>
+                    <!-- Starter display will appear here after all cards revealed -->
+                    <div id="starter-container" class="hidden"></div>
+                    <button class="reveal-btn hidden" id="reveal-btn" onclick="goToRevealPage()">🔍 پیشاندانی کەسە جیاوازەکە</button>
                 </div>
                 
-                <!-- REVEAL PAGE -->
+                <!-- Page 4: Reveal Page (for both games) -->
                 <div id="reveal-page" class="hidden">
-                    <h2 id="revealTitle">🕵️ ئاشکراکردن</h2>
-                    <div id="revealContainer"></div>
-                    <button class="btn btn-blue" onclick="showResults()">دییتنا ئەنجام</button>
+                    <h2 id="reveal-title">🕵️ ئاشکراکردن</h2>
+                    
+                    <div id="reveal-container">
+                        <!-- Reveal content will be shown here -->
+                    </div>
+                    
+                    <button class="btn btn-blue" onclick="showFinalResults()">دییتنا ئەنجام</button>
                 </div>
                 
-                <!-- RESULTS PAGE -->
+                <!-- Page 5: Results Page - with fixed buttons! -->
                 <div id="results-page" class="hidden">
                     <h2>ئەنجام 🏆</h2>
-                    <div id="resultsContainer"></div>
-                    <div style="display: flex; gap: 10px;">
-                        <button class="btn btn-green" style="flex:1;" onclick="playAgain()">دوبارە 🔁</button>
-                        <button class="btn btn-yellow" style="flex:1;" onclick="goToRoom()">زڤرین بو ژوور</button>
+                    
+                    <div id="results-container">
+                        <!-- Results will be displayed here -->
                     </div>
+                    
+                    <!-- Play Again now replays same game mode! -->
+                    <button class="btn btn-blue" onclick="playAgain()">دوبارە یارییکرن 🔁</button>
+                    <!-- Main Page button is now YELLOW! -->
+                    <button class="btn btn-yellow" onclick="goToHomePage()">زڤرین بو دەستپێک 🏠</button>
                 </div>
             </div>
         </div>
         
-        <!-- Footer -->
+        <!-- ===== GREY FOOTER ===== -->
         <div class="app-footer">
-            <span>- هاتییە دروستکرن ژلایێ </span>
+            <span>- هاتییە دروستکرن ژلایێ</span>
             <a href="https://kurdor.is-a.dev" target="_blank" class="footer-link">رەشید فەرهاد</a>
         </div>
     </div>
     
-    <!-- HOW TO PLAY MODAL -->
-    <div id="howToPlayModal" style="position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.9); z-index:10000; display: none; align-items: center; justify-content: center; padding:20px;">
-        <div style="background: white; border-radius: 40px; padding: 30px; max-width: 380px; width:100%; border: 4px solid #ffd700;">
-            <div style="font-size: 3rem; text-align: center;">📖</div>
-            <h2 style="color: #667eea; text-align: center; margin: 15px 0;">چەوا دێ یاریی کەی؟</h2>
+    <!-- Game Description Modal (hidden by default) -->
+    <div id="game-description-modal" class="game-modal hidden">
+        <div class="game-modal-content">
+            <div id="modal-icon" class="game-modal-icon">🎮</div>
+            <div id="modal-title" class="game-modal-title blue">یاری سیخوڕ</div>
+            <div id="modal-text" class="game-modal-text"></div>
+            <div class="game-modal-buttons">
+                <button class="game-modal-btn confirm" onclick="confirmGame()">باشە</button>
+                <button class="game-modal-btn cancel" onclick="closeGameDescription()">زڤرین</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- How to Play Options Modal (hidden by default) -->
+    <div id="how-to-play-modal" class="how-to-play-modal hidden">
+        <div class="how-to-play-content">
+            <div class="game-modal-icon">📖</div>
+            <h2 style="color: #0066cc; margin-bottom: 20px;">چەوا دێ یاریی کەی؟</h2>
             
-            <div style="display: flex; gap: 10px; margin: 20px 0;">
-                <button class="btn btn-blue" style="flex:1;" onclick="showSpyInstructions()">سیخوڕی</button>
-                <button class="btn btn-red" style="flex:1;" onclick="showDiffInstructions()">جیاواز</button>
+            <button class="how-to-play-option blue" onclick="showHowToPlayInstructions(1)">
+                یارییا سیخوڕی 🕵️
+            </button>
+            
+            <button class="how-to-play-option red" onclick="showHowToPlayInstructions(2)">
+                یارییا وشەیێن جیاواز 🎭
+            </button>
+            
+            <button class="how-to-play-close" onclick="closeHowToPlayOptions()">گرتن</button>
+        </div>
+    </div>
+    
+    <!-- How to Play Instructions Modal (hidden by default) -->
+    <div id="how-to-play-instructions-modal" class="how-to-play-modal hidden">
+        <div class="how-to-play-content">
+            <div id="instructions-icon" class="game-modal-icon">🕵️</div>
+            <h2 id="instructions-title" style="color: #0066cc; margin-bottom: 20px;">یارییا سیخوڕی</h2>
+            
+            <div id="instructions-text" class="game-modal-text" style="text-align: right;">
+                <!-- Instructions will be inserted here -->
             </div>
             
-            <div id="instructionsText" style="background: #f5f5f5; border-radius: 30px; padding: 20px; line-height: 2; color: #333;">
-                • دروستکرنا ژوور یان تێکەڤتن<br>
-                • ۲ یاریکەر پێویستە بۆ دەستپێکرن<br>
-                • هەموو پێویستە "ئامادە" بن<br>
-                • کارتان بدەن و رولێ خو بینن<br>
-                • گفتوگۆ بکەن ل چات و ڤۆیس<br>
-                • دەنگدان بۆ دۆزینا سیخوڕ
-            </div>
-            
-            <button class="btn btn-yellow" style="margin-top: 20px;" onclick="closeHowToPlay()">باشە</button>
+            <button class="how-to-play-close" onclick="closeHowToPlayInstructions()">گرتن</button>
         </div>
     </div>
 
     <script>
         // ==================== GAME STATE ====================
         const gameState = {
-            roomCode: 'XXXX-XXXX',
-            gameMode: 1,
-            players: [{
-                id: 'player_' + Math.random().toString(36).substr(2, 9),
-                name: 'یاریکەر_' + Math.floor(Math.random() * 1000),
-                isHost: true,
-                ready: false,
-                avatar: '😎'
-            }],
-            currentPlayerId: 'player_' + Math.random().toString(36).substr(2, 9),
-            currentPlayerName: 'یاریکەر_' + Math.floor(Math.random() * 1000),
-            isHost: true,
-            playerCount: 5,
-            currentPlayerIndex: 0,
+            players: [],
             spies: [],
-            secretWord: '',
-            differentWord: '',
-            playerNames: [],
-            starterPlayer: null,
-            micOn: true,
-            speakerOn: true,
-            messages: []
+            secretWord: "",
+            differentWord: "", // For game mode 2
+            gameMode: 1, // 1 = Imposter Game, 2 = Different Word Game
+            currentPlayerIndex: 0,
+            gameOver: false,
+            playerNames: [], // Store player names for replay
+            starterPlayer: null // Who starts the game
         };
         
-        // Word pairs
+        // Word pairs for Game Mode 2 (Different Word)
         const wordPairs = [
             { normal: "پیتزا", different: "بەرگر" },
             { normal: "کۆکا کۆلا", different: "پێپسی" },
             { normal: "ئایفون", different: "ئەندرۆید" },
-            { normal: "نایک", different: "ئەدیداس" }
+            { normal: "نایک", different: "ئەدیداس" },
+            { normal: "تایۆتا", different: "‌نیسان" },
+            { normal: "فەیسبووک", different: "ئیستاگرام" },
+            { normal: "مێسی", different: "مەرەدونا" },
+            { normal: "رونالدو نازاریو", different: "رونالدیمهو" },
+            { normal: "قەهور", different: "چا" },
+            { normal: "شەتەڕەنج", different: "دومینە" },
+            { normal: "پاس", different: "قیتار" }
         ];
         
-        // Kurdish words
+        // Regular words for game mode 1
         const kurdishWords = {
-            خواردن: ["کەباب", "برنج", "کافی", "شاورمە"],
-            گیانلەبەران: ["ریڤی", "چێل", "بەراز", "بزن"],
-            پیشە: ["مامۆستا", "دکتۆر", "مەهندس"]
+            خواردن: ["کەباب", "برنج", "کافی", "نارگیل", "شاورمە", "بەرخ"],
+            گیانلەبەران: ["ریڤی", "چێل", "بەراز", "فەرماندە خورشید", "بزن", "سەگ"],
+            پیشە: ["مامۆستا", "دختور", "مەهندس", "بازرگان", "فەلاح"],
+            وڵات: ["کوردستان", "هیتلەر", "گیڤارا", "خوخ", "سێڤ"],
+            ڕەنگ: ["هناروک", "ساحە", "سەیارە", "طەیارە", "مێسی", "حەمدی"]
         };
         
         const categories = Object.keys(kurdishWords);
         
-        // ==================== HOW TO PLAY ====================
-        function showHowToPlay() {
-            document.getElementById('howToPlayModal').style.display = 'flex';
+        // ==================== HOW TO PLAY FUNCTIONS ====================
+        function showHowToPlayOptions() {
+            document.getElementById('how-to-play-modal').classList.remove('hidden');
         }
         
-        function closeHowToPlay() {
-            document.getElementById('howToPlayModal').style.display = 'none';
+        function closeHowToPlayOptions() {
+            document.getElementById('how-to-play-modal').classList.add('hidden');
         }
         
-        function showSpyInstructions() {
-            document.getElementById('instructionsText').innerHTML = `
-                <strong>🕵️ یارییا سیخوڕی:</strong><br>
-                • ۱-۳ سیخوڕ هەن<br>
-                • سیخوڕ وشە نزانیت<br>
-                • مەدەنی وشە دزانن<br>
-                • سیخوڕ ناتوانیت دەست پێ بکات<br>
-                • دەنگدان بۆ کەشفکرنا سیخوڕ
-            `;
-        }
-        
-        function showDiffInstructions() {
-            document.getElementById('instructionsText').innerHTML = `
-                <strong>🎭 یارییا وشەیێن جیاواز:</strong><br>
-                • ۱ کەس وشەی جیاواز هەیە<br>
-                • ئەو کەسە وشەی جیاواز بینیت<br>
-                • یاریکەرێن دی وشەی ئاسایی بینن<br>
-                • کەسێ جیاواز ناتوانیت دەست پێ بکات<br>
-                • دەنگدان بۆ کەشفکرنا کەسێ جیاواز
-            `;
-        }
-        
-        // ==================== ROOM FUNCTIONS ====================
-        function createRoom() {
-            gameState.roomCode = Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + 
-                                Math.random().toString(36).substring(2, 6).toUpperCase();
+        function showHowToPlayInstructions(mode) {
+            closeHowToPlayOptions();
             
-            gameState.isHost = true;
-            gameState.players = [{
-                id: gameState.currentPlayerId,
-                name: gameState.currentPlayerName,
-                isHost: true,
-                ready: false,
-                avatar: '😎'
-            }];
+            const modal = document.getElementById('how-to-play-instructions-modal');
+            const icon = document.getElementById('instructions-icon');
+            const title = document.getElementById('instructions-title');
+            const text = document.getElementById('instructions-text');
             
-            updateRoomDisplay();
-            showPage('room-page');
-            showToast('✨ ژوور دروست بوو!');
-        }
-        
-        function showJoinPage() {
-            showPage('join-page');
-        }
-        
-        function joinRoom() {
-            const code = document.getElementById('joinCode').value.trim();
-            if (code.length < 8) {
-                showToast('تکایە کۆدێ دروست بنڤیسە!');
-                return;
-            }
-            
-            gameState.roomCode = code;
-            gameState.isHost = false;
-            gameState.players = [{
-                id: gameState.currentPlayerId,
-                name: gameState.currentPlayerName,
-                isHost: false,
-                ready: false,
-                avatar: '😎'
-            }];
-            
-            updateRoomDisplay();
-            showPage('room-page');
-            
-            // Simulate other players
-            setTimeout(() => {
-                addTestPlayers();
-            }, 1500);
-        }
-        
-        function addTestPlayers() {
-            const names = ['شیرکۆ', 'ڕێبوار', 'دلڤین'];
-            const avatars = ['🕵️', '👨‍🌾', '🎭'];
-            
-            for (let i = 0; i < 2; i++) {
-                const newPlayer = {
-                    id: 'player_' + Math.random().toString(36).substr(2, 9),
-                    name: names[i],
-                    isHost: false,
-                    ready: false,
-                    avatar: avatars[i]
-                };
-                
-                gameState.players.push(newPlayer);
-                addChatMessage({
-                    type: 'system',
-                    text: `👤 ${newPlayer.name} تێکەڤت`
-                });
-            }
-            
-            updateRoomDisplay();
-        }
-        
-        function updateRoomDisplay() {
-            document.getElementById('roomCode').textContent = gameState.roomCode;
-            document.getElementById('inviteLinkInput').value = `https://kurdor.is-a.dev/imposter?room=${gameState.roomCode}`;
-            
-            // Players grid
-            const grid = document.getElementById('playersGrid');
-            let html = '';
-            let readyCount = 0;
-            
-            gameState.players.forEach(p => {
-                if (p.ready) readyCount++;
-                html += `
-                    <div class="player-card ${p.isHost ? 'host' : ''}">
-                        <div class="player-avatar">${p.avatar || '😎'}</div>
-                        <div class="player-name">${p.name}</div>
-                        <div>${p.ready ? '✅' : '⏳'}</div>
-                    </div>
+            if (mode === 1) {
+                // Imposter Game Instructions
+                icon.textContent = '🕵️';
+                title.textContent = 'یارییا سیخوڕی';
+                title.style.color = '#0066cc';
+                text.innerHTML = `
+                    <strong>🎯 ئارمانج:</strong>  سیخوڕی بگرن!<br>
+                    <strong>📋 چەوا دێ یاریێ کەی؟:</strong>
+                    - سیخوڕ وشێ نزانیت، لێ دێ هەولدەت ل تشتێن مەدەنیا وشێ بزانیت. <br>
+                    - نابیت وشە بخو بهێتە گوتن لێ تشتێن ب وشێ ڤە گرێدایی و نزیک درستن.<br>
+                    - ب گشتی راوند (فەرە) بدلێ هنگو نە، و هەر فەرێ تە ئێک کەلیمە یاهەی نە زێدەتر!!<br>
+                    - نابیت مناقشە بهێتە کرن!<br>
+                    `;
+            } else {
+                // Different Word Game Instructions
+                icon.textContent = '🎭';
+                title.textContent = 'یارییا وشەیێن جیاواز';
+                title.style.color = '#cc0000';
+                text.innerHTML = `
+                    <strong>🎯 ئارمانج:</strong> کەسێ  جیاواز بگرن!<br>
+                    <strong>📋 چەوا دێ یاریێ کەی؟:</strong>
+                    - بتنێ ئێک نەفەر وشەییا جیاواز یا هەی کو ئەوژی نزانیت ئەو یێ جیاوازە، لێ تشت هند نێزیکی ئێکن دێ یاپ زەحمەت بیتن هەتا دبینن, مناقشە نابیت بهێتە کرن.<br>
+نموونە وەک [تەیارە، عەلیکوپتەر] گەلەک 
+تشتا ڤە وەکی ئێکن!<br>
+- ب گشتی راوند (فەرە) بدلێ هنگو نە، و هەر فەرێ تە ئێک کەلیمە یاهەی نە زێدەتر!!
+<br>
                 `;
-            });
-            
-            grid.innerHTML = html;
-            document.getElementById('playersCount').textContent = `${gameState.players.length}/10`;
-            
-            // Ready bar
-            const percent = (readyCount / gameState.players.length) * 100;
-            document.getElementById('readyBar').style.width = percent + '%';
-            document.getElementById('readyText').textContent = `${readyCount}/${gameState.players.length} ئامادە`;
-            
-            // Start button
-            const startBtn = document.getElementById('startGameBtn');
-            if (startBtn) {
-                if (gameState.players.length >= 2 && readyCount === gameState.players.length) {
-                    startBtn.disabled = false;
-                    startBtn.textContent = '🚀 دەستپێکرن';
-                } else {
-                    startBtn.disabled = true;
-                    startBtn.textContent = '⏳ ۲+ یاریکەر پێویستە';
-                }
-            }
-        }
-        
-        function toggleReady() {
-            const player = gameState.players.find(p => p.id === gameState.currentPlayerId);
-            if (player) {
-                player.ready = !player.ready;
-                document.getElementById('readyBtn').classList.toggle('ready', player.ready);
-                document.getElementById('readyBtn').textContent = player.ready ? '✅ ئامادە' : '⏳ ئامادە نیم';
-                updateRoomDisplay();
-            }
-        }
-        
-        function copyRoomCode() {
-            navigator.clipboard.writeText(gameState.roomCode);
-            showToast('📋 کۆد کۆپی کرا!');
-        }
-        
-        function copyInviteLink() {
-            const link = document.getElementById('inviteLinkInput').value;
-            navigator.clipboard.writeText(link);
-            showToast('🔗 لینک کۆپی کرا!');
-        }
-        
-        function shareWhatsApp() {
-            const text = `بۆ یاری سیخوڕان تێکەڤە! کۆد: ${gameState.roomCode}`;
-            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
-        }
-        
-        function leaveRoom() {
-            if (confirm('دڵنیای دەتەوێت دەرچێیت؟')) {
-                showPage('home-page');
-            }
-        }
-        
-        // ==================== CHAT ====================
-        function addChatMessage(message) {
-            gameState.messages.push(message);
-            
-            const chatContainer = document.getElementById('chatMessages');
-            if (chatContainer) {
-                const msgDiv = document.createElement('div');
-                msgDiv.className = `chat-message ${message.type}`;
-                
-                if (message.type === 'system') {
-                    msgDiv.textContent = message.text;
-                } else {
-                    const isOwn = message.senderId === gameState.currentPlayerId;
-                    msgDiv.className = `chat-message ${isOwn ? 'own' : 'other'}`;
-                    msgDiv.innerHTML = `<div class="chat-sender">${message.sender}</div><div>${message.text}</div>`;
-                }
-                
-                chatContainer.appendChild(msgDiv);
-                chatContainer.scrollTop = chatContainer.scrollHeight;
             }
             
-            document.getElementById('chatCount').textContent = gameState.messages.length + ' پەیام';
+            modal.classList.remove('hidden');
         }
         
-        function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const text = input.value.trim();
-            if (!text) return;
-            
-            addChatMessage({
-                type: 'message',
-                senderId: gameState.currentPlayerId,
-                sender: gameState.currentPlayerName,
-                text: text
-            });
-            
-            input.value = '';
+        function closeHowToPlayInstructions() {
+            document.getElementById('how-to-play-instructions-modal').classList.add('hidden');
         }
         
-        function sendGameChat() {
-            const input = document.getElementById('gameChatInput');
-            const text = input.value.trim();
-            if (!text) return;
-            
-            const gameChat = document.getElementById('gameChatMessages');
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'chat-message own';
-            msgDiv.innerHTML = `<div>${text}</div>`;
-            gameChat.appendChild(msgDiv);
-            gameChat.scrollTop = gameChat.scrollHeight;
-            
-            input.value = '';
-        }
-        
-        // ==================== VOICE ====================
-        function toggleMic() {
-            gameState.micOn = !gameState.micOn;
-            const btns = document.querySelectorAll('#micBtn, #gameMicBtn');
-            btns.forEach(btn => {
-                btn.textContent = gameState.micOn ? '🎤' : '🔇';
-                btn.classList.toggle('muted', !gameState.micOn);
-            });
-        }
-        
-        function toggleSpeaker() {
-            gameState.speakerOn = !gameState.speakerOn;
-            const btns = document.querySelectorAll('#speakerBtn, #gameSpeakerBtn');
-            btns.forEach(btn => {
-                btn.textContent = gameState.speakerOn ? '🔊' : '🔈';
-                btn.classList.toggle('muted', !gameState.speakerOn);
-            });
-        }
-        
-        // ==================== GAME SETUP ====================
-        function selectGameMode(mode) {
+        // ==================== GAME DESCRIPTION MODAL ====================
+        function showGameDescription(mode) {
             gameState.gameMode = mode;
-            document.getElementById('gameSetup').classList.remove('hidden');
-            updatePlayerInputs();
+            
+            const modal = document.getElementById('game-description-modal');
+            const icon = document.getElementById('modal-icon');
+            const title = document.getElementById('modal-title');
+            const text = document.getElementById('modal-text');
+            
+            if (mode === 1) {
+                // Imposter Game description
+                icon.textContent = '🕵️';
+                title.textContent = 'یارییا سیخوڕی';
+                title.className = 'game-modal-title blue';
+                text.textContent = 'ڤێ یاریێ سیخوڕ یێ تێدا! سیخور دزانیت کو ئەو سیخورە. دڤێت سیخور بهێتە کەشف کرن!';
+            } else {
+                // Different Word Game description
+                icon.textContent = '🎭';
+                title.textContent = 'وشەیێن جیاواز';
+                title.className = 'game-modal-title red';
+                text.textContent = 'دڤێ یارییێدا سیخوڕ نینە! ئێک کەس دێ وشەییا جیاواز بینیت. دڤێت ئەو کەسە بهێتە کەشفکرن!';
+            }
+            
+            modal.classList.remove('hidden');
         }
         
-        function changeCount(delta) {
-            gameState.playerCount = Math.min(10, Math.max(3, gameState.playerCount + delta));
-            document.getElementById('playerCount').textContent = gameState.playerCount;
+        function closeGameDescription() {
+            document.getElementById('game-description-modal').classList.add('hidden');
+        }
+        
+        function confirmGame() {
+            closeGameDescription();
+            
+            if (gameState.gameMode === 1) {
+                document.getElementById('setup-title').textContent = '⚙️ ڕێکخستنا یارییا سیخوڕی';
+            } else {
+                document.getElementById('setup-title').textContent = '⚙️ ڕێکخستنا یارییا وشێن جیاواز';
+            }
+            
+            showPage('setup-page');
+        }
+        
+        // ==================== UI FUNCTIONS ====================
+        function showPage(pageId) {
+            // Hide all pages
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('setup-page').classList.add('hidden');
+            document.getElementById('game-page').classList.add('hidden');
+            document.getElementById('reveal-page').classList.add('hidden');
+            document.getElementById('results-page').classList.add('hidden');
+            
+            // Show requested page
+            document.getElementById(pageId).classList.remove('hidden');
+            
+            // Initialize page if needed
+            if (pageId === 'setup-page') {
+                initializeSetupPage();
+            }
+            
+            // Update reveal title based on game mode
+            if (pageId === 'reveal-page') {
+                if (gameState.gameMode === 1) {
+                    document.getElementById('reveal-title').textContent = '🕵️ سیخوڕەکە';
+                } else {
+                    document.getElementById('reveal-title').textContent = '🎭 کەسە جیاوازەکە';
+                }
+            }
+        }
+        
+        // New function to go back to home page from setup
+        function goBackToHome() {
+            showPage('home-page');
+        }
+        
+        // New function to go to home page from results (yellow button)
+        function goToHomePage() {
+            showPage('home-page');
+        }
+        
+        // ==================== SETUP FUNCTIONS ====================
+        let currentPlayerCount = 5;
+        
+        function changePlayerCount(delta) {
+            currentPlayerCount = Math.min(10, Math.max(3, currentPlayerCount + delta));
+            document.getElementById('player-count').textContent = currentPlayerCount;
             updatePlayerInputs();
         }
         
         function updatePlayerInputs() {
-            const container = document.getElementById('playerInputs');
+            const container = document.getElementById('player-inputs-container');
             let html = '';
             
-            for (let i = 1; i <= gameState.playerCount; i++) {
+            for (let i = 1; i <= currentPlayerCount; i++) {
                 html += `
-                    <input type="text" class="player-input" id="player${i}" 
-                           placeholder="یارییکەرێ ${i}" value="یاریکەر ${i}">
+                    <div style="margin: 8px 0;">
+                        <input type="text" class="player-input" id="player-name-${i}" 
+                               placeholder="یارییکەرێ ${i}">
+                    </div>
                 `;
             }
             
             container.innerHTML = html;
         }
         
-        function startOnlineGame() {
-            if (gameState.players.length < 2) {
-                showToast('⚠️ ۲ یاریکەر پێویستە!');
-                return;
-            }
-            
-            const players = [];
-            for (let i = 1; i <= gameState.playerCount; i++) {
-                const input = document.getElementById(`player${i}`);
-                players.push(input?.value || `یاریکەر ${i}`);
-            }
-            
-            gameState.playerNames = players;
-            startNewGame(players);
+        function initializeSetupPage() {
+            document.getElementById('player-count').textContent = currentPlayerCount;
+            updatePlayerInputs();
         }
         
-        // ==================== GAME LOGIC ====================
-        function startNewGame(players) {
+        // ==================== GAME FUNCTIONS ====================
+        function startGame() {
+            // Get player names and store them for replay
+            const players = [];
+            for (let i = 1; i <= currentPlayerCount; i++) {
+                const nameInput = document.getElementById(`player-name-${i}`);
+                const name = nameInput && nameInput.value.trim() !== '' ? nameInput.value : `یارییکەرێ ${i}`;
+                players.push(name);
+            }
+            
+            // Store player names for replay
+            gameState.playerNames = [...players];
+            
+            // Start a new game with current settings
+            startNewGameWithNames(players);
+        }
+        
+        function startNewGameWithNames(players) {
+            // Select words based on game mode
             let secretWord, differentWord, spyIndices = [];
             
             if (gameState.gameMode === 1) {
+                // IMPOSTER GAME
                 let spyCount = 1;
-                if (players.length >= 6) spyCount = 2;
+                if (currentPlayerCount >= 6 && currentPlayerCount <= 8) spyCount = 2;
+                if (currentPlayerCount >= 9) spyCount = 3;
                 
+                // Randomly select spies
                 while (spyIndices.length < spyCount) {
-                    const r = Math.floor(Math.random() * players.length);
-                    if (!spyIndices.includes(r)) spyIndices.push(r);
+                    const randomIndex = Math.floor(Math.random() * currentPlayerCount);
+                    if (!spyIndices.includes(randomIndex)) {
+                        spyIndices.push(randomIndex);
+                    }
                 }
                 
-                const category = categories[Math.floor(Math.random() * categories.length)];
-                secretWord = kurdishWords[category][Math.floor(Math.random() * kurdishWords[category].length)];
+                const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+                const categoryWords = kurdishWords[randomCategory];
+                secretWord = categoryWords[Math.floor(Math.random() * categoryWords.length)];
+                differentWord = "";
                 
             } else {
-                const diffIndex = Math.floor(Math.random() * players.length);
-                spyIndices = [diffIndex];
+                // DIFFERENT WORD GAME
+                // Randomly select ONE person to get different word
+                const differentIndex = Math.floor(Math.random() * currentPlayerCount);
+                spyIndices = [differentIndex];
                 
-                const pair = wordPairs[Math.floor(Math.random() * wordPairs.length)];
-                secretWord = pair.normal;
-                differentWord = pair.different;
+                // Select random word pair
+                const randomPair = wordPairs[Math.floor(Math.random() * wordPairs.length)];
+                secretWord = randomPair.normal;      // Most players get this
+                differentWord = randomPair.different; // One player gets this
             }
             
-            gameState.players = players.map((name, i) => ({
-                id: i + 1,
+            // Initialize game state
+            gameState.players = players.map((name, index) => ({
+                id: index + 1,
                 name: name,
-                isSpy: spyIndices.includes(i),
-                hasDifferentWord: gameState.gameMode === 2 ? spyIndices.includes(i) : false
+                isSpy: spyIndices.includes(index),
+                hasDifferentWord: gameState.gameMode === 2 ? spyIndices.includes(index) : false
             }));
             
+            gameState.spies = spyIndices.map(index => index + 1);
             gameState.secretWord = secretWord;
             gameState.differentWord = differentWord;
             gameState.currentPlayerIndex = 0;
+            gameState.gameOver = false;
+            gameState.starterPlayer = null; // Reset starter
             
+            // Go to game page
             showPage('game-page');
             showNextCard();
         }
         
-        function selectStarter() {
-            const eligible = gameState.players.filter(p => {
-                if (gameState.gameMode === 1) return !p.isSpy;
-                else return !p.hasDifferentWord;
+        // NEW FUNCTION: Select a civilian to start the game
+        function selectStarterPlayer() {
+            // Get all civilians (non-spies for game mode 1, or non-different for game mode 2)
+            const eligibleStarters = gameState.players.filter(player => {
+                if (gameState.gameMode === 1) {
+                    return !player.isSpy; // Not an imposter
+                } else {
+                    return !player.hasDifferentWord; // Not the different word person
+                }
             });
-            return eligible[0] || gameState.players[0];
+            
+            // Randomly select one starter
+            if (eligibleStarters.length > 0) {
+                const randomIndex = Math.floor(Math.random() * eligibleStarters.length);
+                gameState.starterPlayer = eligibleStarters[randomIndex];
+            } else {
+                // Fallback (should never happen, but just in case)
+                gameState.starterPlayer = gameState.players[0];
+            }
+            
+            return gameState.starterPlayer;
         }
         
         function showNextCard() {
-            const container = document.getElementById('cardContainer');
-            const progress = document.getElementById('gameProgress');
-            const nextBtn = document.getElementById('nextBtn');
-            const revealBtn = document.getElementById('revealBtn');
-            const starterDiv = document.getElementById('starterContainer');
+            const container = document.getElementById('card-container');
+            const progress = document.getElementById('game-progress');
+            const nextBtn = document.getElementById('next-player-btn');
+            const revealBtn = document.getElementById('reveal-btn');
+            const starterContainer = document.getElementById('starter-container');
             
-            const current = gameState.players[gameState.currentPlayerIndex];
+            const currentPlayer = gameState.players[gameState.currentPlayerIndex];
             
-            if (!current) {
-                const starter = selectStarter();
+            if (!currentPlayer) {
+                // All players have seen their cards - select a starter and show
+                const starter = selectStarterPlayer();
                 
-                starterDiv.innerHTML = `
+                let starterMessage = '';
+                let gameTypeMessage = '';
+                
+                if (gameState.gameMode === 1) {
+                    gameTypeMessage = 'سیخوڕ ناتوانیت دەست پێ بکات!';
+                } else {
+                    gameTypeMessage = 'کەسێ وشەی جیاواز ناتوانیت دەست پێ بکات!';
+                }
+                
+                starterContainer.innerHTML = `
                     <div class="starter-box">
                         <div class="starter-message">🎤 دەستپێک بکە!</div>
                         <div class="starter-name">${starter.name}</div>
+                        <div class="starter-note">${gameTypeMessage}</div>
                     </div>
                 `;
-                starterDiv.classList.remove('hidden');
+                starterContainer.classList.remove('hidden');
                 
-                container.innerHTML = `<div class="card"><div class="role-icon">🎯</div><div>هەمی کارت هاتتنە دیتن</div></div>`;
+                container.innerHTML = `
+                    <div class="card" style="cursor: default; background: #f0f7ff;">
+                        <div class="role-icon">🎯</div>
+                        <div class="role-text" style="color: #0066cc;">هەمی کارت هاتتنە دیتن</div>
+                        <div style="color: #666; margin-top: 15px;">کلیک ل خوارێ بکە بو دییتنا کەسە جیاوازەکە</div>
+                    </div>
+                `;
                 nextBtn.classList.add('hidden');
                 revealBtn.classList.remove('hidden');
+                
+                // Update reveal button text based on game mode
+                if (gameState.gameMode === 1) {
+                    revealBtn.textContent = 'کەشف کرنا سیخوڕی 🔎';
+                } else {
+                    revealBtn.textContent = 'کەشف کرنا کەسێ جیاواز 🔎';
+                }
+                
                 progress.textContent = `${gameState.players.length}/${gameState.players.length} - تەمام`;
                 return;
             }
             
-            starterDiv.classList.add('hidden');
+            // Hide starter container when showing next card
+            starterContainer.classList.add('hidden');
+            
             progress.textContent = `یارییکەرێ ${gameState.currentPlayerIndex + 1} ل ${gameState.players.length}`;
             
+            // All cards start white before reveal
             container.innerHTML = `
-                <div class="card" onclick="revealRole(${current.id})">
-                    <div class="player-name">${current.name}</div>
-                    <div class="tap-message">دەستێ خۆ ڵی بدە</div>
+                <div class="card" id="role-card" onclick="revealRole(${currentPlayer.id})">
+                    <div class="player-name">${currentPlayer.name}</div>
+                    <div class="tap-message">دەستێ خۆ ڵی بدە بو بینینا رولێ خو</div>
+                    <div style="color: #999; font-size: 0.9rem; margin-top: 15px;">(بتنێ تو دێ بینی)</div>
                 </div>
             `;
             
@@ -1292,163 +1309,208 @@
             revealBtn.classList.add('hidden');
         }
         
-        function revealRole(id) {
-            const player = gameState.players.find(p => p.id === id);
-            const container = document.getElementById('cardContainer');
+        function revealRole(playerId) {
+            const player = gameState.players.find(p => p.id === playerId);
+            const container = document.getElementById('card-container');
+            const nextBtn = document.getElementById('next-player-btn');
+            
+            if (!player) return;
             
             if (gameState.gameMode === 1) {
+                // IMPOSTER GAME - colors after reveal
                 if (player.isSpy) {
+                    // SPY - RED CARD
                     container.innerHTML = `
                         <div class="card-spy-revealed">
                             <div class="role-icon">🕵️</div>
-                            <div style="font-size:2rem;">تۆ سیخوڕی!</div>
+                            <div class="role-text" style="color: white; font-size: 2rem; margin-bottom: 15px;">تۆ سیخوڕی!</div>
+                            <div style="margin-top: 15px; font-size: 1.1rem; color: white;">تۆ وشێ نزانی</div>
+                            <div style="margin-top: 20px; color: #ffcc00; font-size: 1.1rem;">هەوڵبدە وشێ بزانی!</div>
                         </div>
                     `;
                 } else {
+                    // CIVILIAN - GREEN CARD
                     container.innerHTML = `
                         <div class="card-civilian-revealed">
                             <div class="role-icon">👨‍🌾</div>
-                            <div style="font-size:2rem;">تۆ مەدەنی</div>
+                            <div class="role-text" style="color: white; font-size: 2rem; margin-bottom: 15px;">تۆ مەدەنی</div>
+                            <div style="margin: 15px 0; font-size: 1.1rem; color: white;">وشە:</div>
                             <div class="word-display">${gameState.secretWord}</div>
                         </div>
                     `;
                 }
             } else {
-                const word = player.hasDifferentWord ? gameState.differentWord : gameState.secretWord;
+                // DIFFERENT WORD GAME - all white cards after reveal
+                const wordToShow = player.hasDifferentWord ? gameState.differentWord : gameState.secretWord;
+                
                 container.innerHTML = `
-                    <div class="card">
-                        <div class="word-display" style="color:#667eea;">${word}</div>
+                    <div class="card-white-revealed">
+                        <div class="word-display">${wordToShow}</div>
                     </div>
                 `;
             }
             
-            document.getElementById('nextBtn').classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
         }
         
         function nextPlayer() {
             gameState.currentPlayerIndex++;
-            showNextCard();
-        }
-        
-        function goToReveal() {
-            showPage('reveal-page');
             
-            const container = document.getElementById('revealContainer');
-            const spies = gameState.players.filter(p => p.isSpy);
-            
-            if (gameState.gameMode === 1) {
-                container.innerHTML = `
-                    <div class="reveal-card">
-                        <div class="role-icon">🕵️</div>
-                        <div style="color:#ffd700;">سیخوڕ بریتییە ل!</div>
-                        <div class="person-name">${spies[0].name}</div>
-                        <div style="background:#444; padding:15px; border-radius:30px;">
-                            <div style="color:#ffd700;">وشە:</div>
-                            <div style="font-size:2rem; color:white;">${gameState.secretWord}</div>
-                        </div>
-                    </div>
-                `;
+            if (gameState.currentPlayerIndex < gameState.players.length) {
+                showNextCard();
             } else {
-                const diff = gameState.players.find(p => p.hasDifferentWord);
-                container.innerHTML = `
-                    <div class="reveal-card">
-                        <div class="role-icon">🎭</div>
-                        <div style="color:#ffd700;">کەسێ جیاواز ئەڤەیە!</div>
-                        <div class="person-name">${diff.name}</div>
-                        <div style="background:#444; padding:15px; border-radius:30px;">
-                            <div style="color:#ffd700;">ئاسایی: ${gameState.secretWord}</div>
-                            <div style="color:#ff6b6b; margin-top:10px;">جیاواز: ${gameState.differentWord}</div>
-                        </div>
-                    </div>
-                `;
+                showNextCard();
             }
         }
         
-        function showResults() {
-            showPage('results-page');
+        function goToRevealPage() {
+            showPage('reveal-page');
             
-            const container = document.getElementById('resultsContainer');
-            let html = '<div class="results-container">';
+            const container = document.getElementById('reveal-container');
             
-            gameState.players.forEach(p => {
-                if (gameState.gameMode === 1) {
-                    html += `
-                        <div class="player-result">
-                            <span>${p.name}</span>
-                            <span class="${p.isSpy ? 'spy-badge' : 'civilian-badge'}">
-                                ${p.isSpy ? 'سیخوڕ' : 'مەدەنی'}
-                            </span>
+            if (gameState.gameMode === 1) {
+                // IMPOSTER GAME - show spies
+                const spies = gameState.players.filter(p => p.isSpy);
+                
+                if (spies.length === 1) {
+                    const imposter = spies[0];
+                    container.innerHTML = `
+                        <div class="reveal-card">
+                            <div class="role-icon">🕵️</div>
+                            <div class="role-text" style="color: #ffcc00;">سیخوڕ بریتییە ل!</div>
+                            <div class="person-name">${imposter.name}</div>
+                            <div style="background: #333; padding: 15px; border-radius: 30px; margin-top: 20px; border: 1px solid #ffcc00;">
+                                <div style="font-size: 1.1rem; color: #ffcc00;">وشە:</div>
+                                <div style="font-size: 2rem; font-weight: 500; margin-top: 5px; color: white;">${gameState.secretWord}</div>
+                            </div>
                         </div>
                     `;
                 } else {
-                    html += `
-                        <div class="player-result">
-                            <span>${p.name}</span>
-                            <span class="${p.hasDifferentWord ? 'spy-badge' : 'civilian-badge'}">
-                                ${p.hasDifferentWord ? 'جیاواز' : 'ئاسایی'}
-                            </span>
+                    let spiesHtml = '<div style="margin: 15px 0;">';
+                    spies.forEach(spy => {
+                        spiesHtml += `<div style="font-size: 1.8rem; margin: 10px 0; background: #333; padding: 12px; border-radius: 30px; border: 1px solid #ffcc00; color: #ffcc00;">${spy.name}</div>`;
+                    });
+                    spiesHtml += '</div>';
+                    
+                    container.innerHTML = `
+                        <div class="reveal-card">
+                            <div class="role-icon">🕵️🕵️</div>
+                            <div class="role-text" style="color: #ffcc00;">سیخوڕ ئەڤەنە!</div>
+                            ${spiesHtml}
+                            <div style="background: #333; padding: 15px; border-radius: 30px; margin-top: 20px; border: 1px solid #ffcc00;">
+                                <div style="font-size: 1.1rem; color: #ffcc00;">وشە:</div>
+                                <div style="font-size: 2rem; font-weight: 500; margin-top: 5px; color: white;">${gameState.secretWord}</div>
+                            </div>
                         </div>
                     `;
                 }
-            });
-            
-            html += '</div>';
-            
-            if (gameState.gameMode === 1) {
-                html += `<div class="word-box"><div class="word-value">${gameState.secretWord}</div></div>`;
             } else {
-                html += `
-                    <div class="word-box"><div class="word-value">${gameState.secretWord}</div></div>
-                    <div class="word-box"><div class="word-value" style="color:#ff4444;">${gameState.differentWord}</div></div>
+                // DIFFERENT WORD GAME - show the person with different word
+                const differentPerson = gameState.players.find(p => p.hasDifferentWord);
+                
+                container.innerHTML = `
+                    <div class="reveal-card">
+                        <div class="role-icon">🎭</div>
+                        <div class="role-text" style="color: #ffcc00;">کەسێ جیاواز ئەڤەیە!</div>
+                        <div class="person-name">${differentPerson.name}</div>
+                        <div style="background: #333; padding: 15px; border-radius: 30px; margin-top: 20px; border: 1px solid #ffcc00;">
+                            <div style="font-size: 1.1rem; color: #ffcc00;">وشەییا ئاسایی:</div>
+                            <div style="font-size: 1.8rem; font-weight: 500; color: white;">${gameState.secretWord}</div>
+                            <div style="font-size: 1.1rem; color: #ffcc00; margin-top: 15px;">وشەییا جیاواز:</div>
+                            <div style="font-size: 1.8rem; font-weight: 500; color: #ff6b6b;">${gameState.differentWord}</div>
+                        </div>
+                    </div>
                 `;
             }
+        }
+        
+        function showFinalResults() {
+            showPage('results-page');
             
-            container.innerHTML = html;
+            const container = document.getElementById('results-container');
+            
+            let playersHtml = '<div class="results-container">';
+            
+            if (gameState.gameMode === 1) {
+                // Imposter game results
+                gameState.players.forEach(player => {
+                    const roleText = player.isSpy ? '<span class="spy-badge">سیخوڕ</span>' : '<span class="civilian-badge">مەدەنی</span>';
+                    playersHtml += `
+                        <div class="player-result">
+                            <span>${player.name}</span>
+                            ${roleText}
+                        </div>
+                    `;
+                });
+                
+                playersHtml += '</div>';
+                
+                // Just show the word
+                container.innerHTML = `
+                    ${playersHtml}
+                    <div class="word-box">
+                        <div class="word-value">${gameState.secretWord}</div>
+                    </div>
+                `;
+                
+            } else {
+                // Different word game results
+                gameState.players.forEach(player => {
+                    const badge = player.hasDifferentWord ? 
+                        '<span class="different-badge">جیاواز</span>' : 
+                        '<span class="normal-badge">ئاسایی</span>';
+                    
+                    playersHtml += `
+                        <div class="player-result">
+                            <span>${player.name}</span>
+                            ${badge}
+                        </div>
+                    `;
+                });
+                
+                playersHtml += '</div>';
+                
+                // Show both words
+                container.innerHTML = `
+                    ${playersHtml}
+                    <div class="word-box">
+                        <div class="word-value">${gameState.secretWord}</div>
+                    </div>
+                    <div class="word-box">
+                        <div class="word-value-different">${gameState.differentWord}</div>
+                    </div>
+                `;
+            }
         }
         
+        // Play Again now starts a new game with the SAME mode and SAME player names!
         function playAgain() {
-            gameState.currentPlayerIndex = 0;
-            startNewGame(gameState.playerNames);
+            // Start a new game with the stored player names
+            startNewGameWithNames(gameState.playerNames);
         }
         
-        function goToRoom() {
-            showPage('room-page');
-        }
-        
-        // ==================== UI FUNCTIONS ====================
-        function showPage(pageId) {
-            document.getElementById('home-page').classList.add('hidden');
-            document.getElementById('join-page').classList.add('hidden');
-            document.getElementById('room-page').classList.add('hidden');
-            document.getElementById('game-page').classList.add('hidden');
-            document.getElementById('reveal-page').classList.add('hidden');
-            document.getElementById('results-page').classList.add('hidden');
-            document.getElementById(pageId).classList.remove('hidden');
-        }
-        
-        function goBackToHome() {
-            showPage('home-page');
-        }
-        
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2000);
-        }
-        
-        // ==================== INIT ====================
+        // ==================== INITIALIZATION ====================
         document.addEventListener('DOMContentLoaded', function() {
             showPage('home-page');
             
-            // Check URL for room code
-            const params = new URLSearchParams(window.location.search);
-            const room = params.get('room');
-            if (room) {
-                document.getElementById('joinCode').value = room;
-                setTimeout(joinRoom, 500);
-            }
+            // Close modals if clicking outside
+            document.getElementById('game-description-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeGameDescription();
+                }
+            });
+            
+            document.getElementById('how-to-play-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeHowToPlayOptions();
+                }
+            });
+            
+            document.getElementById('how-to-play-instructions-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeHowToPlayInstructions();
+                }
+            });
         });
     </script>
 </body>
