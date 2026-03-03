@@ -142,6 +142,21 @@
         
         /* Kurdor Link - moved to footer now */
         
+        /* How to Play Link - NEW */
+        .how-to-play-link {
+            text-align: center;
+            margin: 5px 0 15px 0;
+            font-size: 1rem;
+            color: #666;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.2s ease;
+        }
+        
+        .how-to-play-link:hover {
+            color: #0066cc;
+        }
+        
         /* Buttons */
         .btn {
             width: 100%;
@@ -407,6 +422,43 @@
             box-shadow: 0 2px 5px rgba(0, 102, 204, 0.05);
         }
         
+        /* Starter Display - NEW */
+        .starter-box {
+            background: linear-gradient(135deg, #0066cc, #0099ff);
+            color: white;
+            padding: 25px;
+            border-radius: 40px;
+            margin: 20px 0;
+            text-align: center;
+            border: 3px solid #ffcc00;
+            box-shadow: 0 10px 20px rgba(0, 102, 204, 0.3);
+            animation: gentlePulse 1s ease;
+        }
+        
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        .starter-name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #ffcc00;
+        }
+        
+        .starter-message {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        .starter-note {
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 30px;
+        }
+        
         /* Reveal Button - for both games */
         .reveal-btn {
             background: linear-gradient(135deg, #ffcc00, #ffaa00);
@@ -621,6 +673,7 @@
             background: #f5f9ff;
             border-radius: 30px;
             border: 1px solid #ffcc00;
+            text-align: right;
         }
         
         .game-modal-buttons {
@@ -664,6 +717,77 @@
             box-shadow: 0 6px 0 #999;
         }
         
+        /* How to Play Modal - NEW */
+        .how-to-play-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 10001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .how-to-play-content {
+            background: white;
+            border-radius: 48px;
+            padding: 30px 25px;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 3px solid #ffcc00;
+            animation: modalPop 0.3s ease;
+        }
+        
+        .how-to-play-option {
+            width: 100%;
+            padding: 20px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
+        }
+        
+        .how-to-play-option.blue {
+            background: linear-gradient(135deg, #0066cc, #0099ff);
+            color: white;
+            box-shadow: 0 4px 0 #003366;
+        }
+        
+        .how-to-play-option.red {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+            box-shadow: 0 4px 0 #990000;
+        }
+        
+        .how-to-play-option:hover {
+            transform: translateY(-2px);
+        }
+        
+        .how-to-play-close {
+            margin-top: 15px;
+            padding: 12px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 40px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
+        }
+        
         /* ===== GREY FOOTER ===== */
         .app-footer {
             text-align: center;
@@ -695,6 +819,11 @@
                     <p class="welcome-text">
                         یارییەک بو بوراندنا دەمێن خوش دگەل هەڤاڵان.
                     </p>
+                    
+                    <!-- Simple How to Play Link -->
+                    <div class="how-to-play-link" onclick="showHowToPlayOptions()">
+                        چەوا دێ یاریی کەی؟ 📖
+                    </div>
                     
                     <!-- TWO BUTTONS ONLY with popup messages -->
                     <button class="btn btn-blue" onclick="showGameDescription(1)">یارییا سیخوڕی 🎮</button>
@@ -729,6 +858,8 @@
                     </div>
                     
                     <button class="btn btn-blue hidden" id="next-player-btn" onclick="nextPlayer()">یارییکەرێ دویفرا</button>
+                    <!-- Starter display will appear here after all cards revealed -->
+                    <div id="starter-container" class="hidden"></div>
                     <button class="reveal-btn hidden" id="reveal-btn" onclick="goToRevealPage()">🔍 پیشاندانی کەسە جیاوازەکە</button>
                 </div>
                 
@@ -778,6 +909,38 @@
             </div>
         </div>
     </div>
+    
+    <!-- How to Play Options Modal (hidden by default) -->
+    <div id="how-to-play-modal" class="how-to-play-modal hidden">
+        <div class="how-to-play-content">
+            <div class="game-modal-icon">📖</div>
+            <h2 style="color: #0066cc; margin-bottom: 20px;">چەوا دێ یاریی کەی؟</h2>
+            
+            <button class="how-to-play-option blue" onclick="showHowToPlayInstructions(1)">
+                یارییا سیخوڕی 🕵️
+            </button>
+            
+            <button class="how-to-play-option red" onclick="showHowToPlayInstructions(2)">
+                یارییا وشەیێن جیاواز 🎭
+            </button>
+            
+            <button class="how-to-play-close" onclick="closeHowToPlayOptions()">گرتن</button>
+        </div>
+    </div>
+    
+    <!-- How to Play Instructions Modal (hidden by default) -->
+    <div id="how-to-play-instructions-modal" class="how-to-play-modal hidden">
+        <div class="how-to-play-content">
+            <div id="instructions-icon" class="game-modal-icon">🕵️</div>
+            <h2 id="instructions-title" style="color: #0066cc; margin-bottom: 20px;">یارییا سیخوڕی</h2>
+            
+            <div id="instructions-text" class="game-modal-text" style="text-align: right;">
+                <!-- Instructions will be inserted here -->
+            </div>
+            
+            <button class="how-to-play-close" onclick="closeHowToPlayInstructions()">گرتن</button>
+        </div>
+    </div>
 
     <script>
         // ==================== GAME STATE ====================
@@ -789,7 +952,8 @@
             gameMode: 1, // 1 = Imposter Game, 2 = Different Word Game
             currentPlayerIndex: 0,
             gameOver: false,
-            playerNames: [] // Store player names for replay
+            playerNames: [], // Store player names for replay
+            starterPlayer: null // Who starts the game
         };
         
         // Word pairs for Game Mode 2 (Different Word)
@@ -800,8 +964,8 @@
             { normal: "نایک", different: "ئەدیداس" },
             { normal: "تایۆتا", different: "‌نیسان" },
             { normal: "فەیسبووک", different: "ئیستاگرام" },
- { normal: "مێسی", different: "مەرەدونا" },
- { normal: "رونالدو نازاریو", different: "رونالدیمهو" },
+            { normal: "مێسی", different: "مەرەدونا" },
+            { normal: "رونالدو نازاریو", different: "رونالدیمهو" },
             { normal: "قەهور", different: "چا" },
             { normal: "شەتەڕەنج", different: "دومینە" },
             { normal: "پاس", different: "قیتار" }
@@ -818,6 +982,59 @@
         
         const categories = Object.keys(kurdishWords);
         
+        // ==================== HOW TO PLAY FUNCTIONS ====================
+        function showHowToPlayOptions() {
+            document.getElementById('how-to-play-modal').classList.remove('hidden');
+        }
+        
+        function closeHowToPlayOptions() {
+            document.getElementById('how-to-play-modal').classList.add('hidden');
+        }
+        
+        function showHowToPlayInstructions(mode) {
+            closeHowToPlayOptions();
+            
+            const modal = document.getElementById('how-to-play-instructions-modal');
+            const icon = document.getElementById('instructions-icon');
+            const title = document.getElementById('instructions-title');
+            const text = document.getElementById('instructions-text');
+            
+            if (mode === 1) {
+                // Imposter Game Instructions
+                icon.textContent = '🕵️';
+                title.textContent = 'یارییا سیخوڕی';
+                title.style.color = '#0066cc';
+                text.innerHTML = `
+                    <strong>🎯 ئارمانج:</strong>  سیخوڕی بگرن!<br>
+                    <strong>📋 چەوا دێ یاریێ کەی؟:</strong>
+                    - سیخوڕ وشێ نزانیت، لێ دێ هەولدەت ل تشتێن مەدەنیا وشێ بزانیت. <br>
+                    - نابیت وشە بخو بهێتە گوتن لێ تشتێن ب وشێ ڤە گرێدایی و نزیک درستن.<br>
+                    - ب گشتی راوند (فەرە) بدلێ هنگو نە، و هەر فەرێ تە ئێک کەلیمە یاهەی نە زێدەتر!!<br>
+                    - نابیت مناقشە بهێتە کرن!<br>
+                    `;
+            } else {
+                // Different Word Game Instructions
+                icon.textContent = '🎭';
+                title.textContent = 'یارییا وشەیێن جیاواز';
+                title.style.color = '#cc0000';
+                text.innerHTML = `
+                    <strong>🎯 ئارمانج:</strong> کەسێ  جیاواز بگرن!<br>
+                    <strong>📋 چەوا دێ یاریێ کەی؟:</strong>
+                    - بتنێ ئێک نەفەر وشەییا جیاواز یا هەی کو ئەوژی نزانیت ئەو یێ جیاوازە، لێ تشت هند نێزیکی ئێکن دێ یاپ زەحمەت بیتن هەتا دبینن, مناقشە نابیت بهێتە کرن.<br>
+نموونە وەک [تەیارە، عەلیکوپتەر] گەلەک 
+تشتا ڤە وەکی ئێکن!<br>
+- ب گشتی راوند (فەرە) بدلێ هنگو نە، و هەر فەرێ تە ئێک کەلیمە یاهەی نە زێدەتر!!
+<br>
+                `;
+            }
+            
+            modal.classList.remove('hidden');
+        }
+        
+        function closeHowToPlayInstructions() {
+            document.getElementById('how-to-play-instructions-modal').classList.add('hidden');
+        }
+        
         // ==================== GAME DESCRIPTION MODAL ====================
         function showGameDescription(mode) {
             gameState.gameMode = mode;
@@ -832,13 +1049,13 @@
                 icon.textContent = '🕵️';
                 title.textContent = 'یارییا سیخوڕی';
                 title.className = 'game-modal-title blue';
-                text.textContent = 'ڤێ یاریێ سیخوڕ یێ تێدا! سیخور  دزانیت کو ئەو سیخورە.   دڤێت سیخور بهێتە کەشف کرن!';
+                text.textContent = 'ڤێ یاریێ سیخوڕ یێ تێدا! سیخور دزانیت کو ئەو سیخورە. دڤێت سیخور بهێتە کەشف کرن!';
             } else {
                 // Different Word Game description
                 icon.textContent = '🎭';
                 title.textContent = 'وشەیێن جیاواز';
                 title.className = 'game-modal-title red';
-                text.textContent = 'دڤێ یارییێدا سیخوڕ نینە!   ئێک کەس دێ وشەییا جیاواز بینیت. دڤێت ئەو کەسە بهێتە کەشفکرن!';
+                text.textContent = 'دڤێ یارییێدا سیخوڕ نینە! ئێک کەس دێ وشەییا جیاواز بینیت. دڤێت ئەو کەسە بهێتە کەشفکرن!';
             }
             
             modal.classList.remove('hidden');
@@ -968,7 +1185,7 @@
                 differentWord = "";
                 
             } else {
-                // DIFFERENT WORD GAME (4 pizza, 1 burger)
+                // DIFFERENT WORD GAME
                 // Randomly select ONE person to get different word
                 const differentIndex = Math.floor(Math.random() * currentPlayerCount);
                 spyIndices = [differentIndex];
@@ -992,10 +1209,34 @@
             gameState.differentWord = differentWord;
             gameState.currentPlayerIndex = 0;
             gameState.gameOver = false;
+            gameState.starterPlayer = null; // Reset starter
             
             // Go to game page
             showPage('game-page');
             showNextCard();
+        }
+        
+        // NEW FUNCTION: Select a civilian to start the game
+        function selectStarterPlayer() {
+            // Get all civilians (non-spies for game mode 1, or non-different for game mode 2)
+            const eligibleStarters = gameState.players.filter(player => {
+                if (gameState.gameMode === 1) {
+                    return !player.isSpy; // Not an imposter
+                } else {
+                    return !player.hasDifferentWord; // Not the different word person
+                }
+            });
+            
+            // Randomly select one starter
+            if (eligibleStarters.length > 0) {
+                const randomIndex = Math.floor(Math.random() * eligibleStarters.length);
+                gameState.starterPlayer = eligibleStarters[randomIndex];
+            } else {
+                // Fallback (should never happen, but just in case)
+                gameState.starterPlayer = gameState.players[0];
+            }
+            
+            return gameState.starterPlayer;
         }
         
         function showNextCard() {
@@ -1003,20 +1244,37 @@
             const progress = document.getElementById('game-progress');
             const nextBtn = document.getElementById('next-player-btn');
             const revealBtn = document.getElementById('reveal-btn');
+            const starterContainer = document.getElementById('starter-container');
             
             const currentPlayer = gameState.players[gameState.currentPlayerIndex];
             
             if (!currentPlayer) {
-                // All players have seen their cards - show reveal button for both games
-                let message = gameState.gameMode === 1 ? 
-                    'کلیک ل خوارێ بکە بو دییتنا سیخوڕی' : 
-                    'کلیک ل خوارێ بکە بۆ دییتنا کەسێ جیاواز';
+                // All players have seen their cards - select a starter and show
+                const starter = selectStarterPlayer();
+                
+                let starterMessage = '';
+                let gameTypeMessage = '';
+                
+                if (gameState.gameMode === 1) {
+                    gameTypeMessage = 'سیخوڕ ناتوانیت دەست پێ بکات!';
+                } else {
+                    gameTypeMessage = 'کەسێ وشەی جیاواز ناتوانیت دەست پێ بکات!';
+                }
+                
+                starterContainer.innerHTML = `
+                    <div class="starter-box">
+                        <div class="starter-message">🎤 دەستپێک بکە!</div>
+                        <div class="starter-name">${starter.name}</div>
+                        <div class="starter-note">${gameTypeMessage}</div>
+                    </div>
+                `;
+                starterContainer.classList.remove('hidden');
                 
                 container.innerHTML = `
                     <div class="card" style="cursor: default; background: #f0f7ff;">
                         <div class="role-icon">🎯</div>
                         <div class="role-text" style="color: #0066cc;">هەمی کارت هاتتنە دیتن</div>
-                        <div style="color: #666; margin-top: 15px;">${message}</div>
+                        <div style="color: #666; margin-top: 15px;">کلیک ل خوارێ بکە بو دییتنا کەسە جیاوازەکە</div>
                     </div>
                 `;
                 nextBtn.classList.add('hidden');
@@ -1032,6 +1290,9 @@
                 progress.textContent = `${gameState.players.length}/${gameState.players.length} - تەمام`;
                 return;
             }
+            
+            // Hide starter container when showing next card
+            starterContainer.classList.add('hidden');
             
             progress.textContent = `یارییکەرێ ${gameState.currentPlayerIndex + 1} ل ${gameState.players.length}`;
             
@@ -1063,7 +1324,7 @@
                         <div class="card-spy-revealed">
                             <div class="role-icon">🕵️</div>
                             <div class="role-text" style="color: white; font-size: 2rem; margin-bottom: 15px;">تۆ سیخوڕی!</div>
-                            <div style="margin-top: 15px; font-size: 1.1rem; color: white;"> تۆ وشێ نزانی</div>
+                            <div style="margin-top: 15px; font-size: 1.1rem; color: white;">تۆ وشێ نزانی</div>
                             <div style="margin-top: 20px; color: #ffcc00; font-size: 1.1rem;">هەوڵبدە وشێ بزانی!</div>
                         </div>
                     `;
@@ -1116,7 +1377,7 @@
                     container.innerHTML = `
                         <div class="reveal-card">
                             <div class="role-icon">🕵️</div>
-                            <div class="role-text" style="color: #ffcc00;"> سیخوڕ بریتییە ل!</div>
+                            <div class="role-text" style="color: #ffcc00;">سیخوڕ بریتییە ل!</div>
                             <div class="person-name">${imposter.name}</div>
                             <div style="background: #333; padding: 15px; border-radius: 30px; margin-top: 20px; border: 1px solid #ffcc00;">
                                 <div style="font-size: 1.1rem; color: #ffcc00;">وشە:</div>
@@ -1232,10 +1493,22 @@
         document.addEventListener('DOMContentLoaded', function() {
             showPage('home-page');
             
-            // Close modal if clicking outside
+            // Close modals if clicking outside
             document.getElementById('game-description-modal').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeGameDescription();
+                }
+            });
+            
+            document.getElementById('how-to-play-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeHowToPlayOptions();
+                }
+            });
+            
+            document.getElementById('how-to-play-instructions-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeHowToPlayInstructions();
                 }
             });
         });
