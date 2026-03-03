@@ -140,9 +140,50 @@
             border-radius: 2px;
         }
         
-        /* Kurdor Link - moved to footer now */
+        /* ANIMATED ICON STYLES - NEW */
+        .animated-icon {
+    text-align: center;
+    margin: 10px 0 20px 0;
+}
+
+.animated-icon img {
+    width: 300px;
+    height: auto;
+    display: inline-block;
+}
         
-        /* How to Play Link - NEW */
+        .game-icon {
+            width: 130px;
+            height: auto;
+            animation: gentlePulse 2.5s infinite ease-in-out;
+            filter: drop-shadow(0 8px 15px rgba(0,102,204,0.4));
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .game-icon:hover {
+            animation: none;
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 20px #ffcc00);
+        }
+        
+        @keyframes gentlePulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
+        }
+        
+        /* Optional floating animation (comment out pulse to use this) 
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        } */
+        
+        /* How to Play Link */
         .how-to-play-link {
             text-align: center;
             margin: 5px 0 15px 0;
@@ -422,7 +463,7 @@
             box-shadow: 0 2px 5px rgba(0, 102, 204, 0.05);
         }
         
-        /* Starter Display - NEW */
+        /* Starter Display - UPDATED */
         .starter-box {
             background: linear-gradient(135deg, #0066cc, #0099ff);
             color: white;
@@ -450,13 +491,6 @@
         .starter-message {
             font-size: 1.3rem;
             margin-bottom: 10px;
-        }
-        
-        .starter-note {
-            font-size: 1rem;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 30px;
         }
         
         /* Reveal Button - for both games */
@@ -814,7 +848,12 @@
             <div class="content" id="app">
                 <!-- Page 1: Home Page - WITH 2 BUTTONS! -->
                 <div id="home-page">
-                    <h1>🕵️ یارییا سیخوڕی</h1>
+                    
+                    
+                    <!-- YOUR ANIMATED ICON - ADDED HERE -->
+                    <div class="animated-icon">
+                        <img src="assets/image/sikhur.jpg" alt="سیخوڕ" class="game-icon" onclick="alert('Developed By Rashid Farhad')">
+                    </div>
                     
                     <p class="welcome-text">
                         یارییەک بو بوراندنا دەمێن خوش دگەل هەڤاڵان.
@@ -844,8 +883,8 @@
                         <!-- Player inputs will be added here -->
                     </div>
                     
-                    <button class="btn btn-blue" onclick="startGame()">دەستپێکرن</button>
-                    <button class="btn btn-red" onclick="goBackToHome()">زڤرین</button>
+                    <button class="btn btn-blue" onclick="startGame()">دەستپێکرن 🎬</button>
+                    <button class="btn btn-red" onclick="goBackToHome()">زڤرین 🔙</button>
                 </div>
                 
                 <!-- Page 3: Game Page (Card Reveal) -->
@@ -857,7 +896,7 @@
                         <!-- Card will be displayed here -->
                     </div>
                     
-                    <button class="btn btn-blue hidden" id="next-player-btn" onclick="nextPlayer()">یارییکەرێ دویفرا</button>
+                    <button class="btn btn-blue hidden" id="next-player-btn" onclick="nextPlayer()">یارییکەرێ دویفرا ⏭️</button>
                     <!-- Starter display will appear here after all cards revealed -->
                     <div id="starter-container" class="hidden"></div>
                     <button class="reveal-btn hidden" id="reveal-btn" onclick="goToRevealPage()">🔍 پیشاندانی کەسە جیاوازەکە</button>
@@ -871,7 +910,7 @@
                         <!-- Reveal content will be shown here -->
                     </div>
                     
-                    <button class="btn btn-blue" onclick="showFinalResults()">دییتنا ئەنجام</button>
+                    <button class="btn btn-blue" onclick="showFinalResults()">دییتنا ئەنجامی 📜</button>
                 </div>
                 
                 <!-- Page 5: Results Page - with fixed buttons! -->
@@ -1216,24 +1255,18 @@
             showNextCard();
         }
         
-        // NEW FUNCTION: Select a civilian to start the game
+        // UPDATED FUNCTION: Select a starter from ALL players (imposters can start too!)
         function selectStarterPlayer() {
-            // Get all civilians (non-spies for game mode 1, or non-different for game mode 2)
-            const eligibleStarters = gameState.players.filter(player => {
-                if (gameState.gameMode === 1) {
-                    return !player.isSpy; // Not an imposter
-                } else {
-                    return !player.hasDifferentWord; // Not the different word person
-                }
-            });
+            // Get ALL players - no filtering!
+            const allPlayers = gameState.players;
             
-            // Randomly select one starter
-            if (eligibleStarters.length > 0) {
-                const randomIndex = Math.floor(Math.random() * eligibleStarters.length);
-                gameState.starterPlayer = eligibleStarters[randomIndex];
+            // Randomly select one starter from all players
+            if (allPlayers.length > 0) {
+                const randomIndex = Math.floor(Math.random() * allPlayers.length);
+                gameState.starterPlayer = allPlayers[randomIndex];
             } else {
-                // Fallback (should never happen, but just in case)
-                gameState.starterPlayer = gameState.players[0];
+                // Fallback
+                gameState.starterPlayer = { name: "یاریکەر" };
             }
             
             return gameState.starterPlayer;
@@ -1249,23 +1282,14 @@
             const currentPlayer = gameState.players[gameState.currentPlayerIndex];
             
             if (!currentPlayer) {
-                // All players have seen their cards - select a starter and show
+                // All players have seen their cards - select a starter from ALL players
                 const starter = selectStarterPlayer();
-                
-                let starterMessage = '';
-                let gameTypeMessage = '';
-                
-                if (gameState.gameMode === 1) {
-                    gameTypeMessage = 'سیخوڕ ناتوانیت دەست پێ بکات!';
-                } else {
-                    gameTypeMessage = 'کەسێ وشەی جیاواز ناتوانیت دەست پێ بکات!';
-                }
                 
                 starterContainer.innerHTML = `
                     <div class="starter-box">
-                        <div class="starter-message">🎤 دەستپێک بکە!</div>
+                        <div class="starter-message">🎤 دەستپێ بکە!</div>
                         <div class="starter-name">${starter.name}</div>
-                        <div class="starter-note">${gameTypeMessage}</div>
+                        <div class="starter-note">چێدبیت سیخوڕ یان کەسێ جیاواز دەستپێک بیت !</div>
                     </div>
                 `;
                 starterContainer.classList.remove('hidden');
@@ -1274,7 +1298,7 @@
                     <div class="card" style="cursor: default; background: #f0f7ff;">
                         <div class="role-icon">🎯</div>
                         <div class="role-text" style="color: #0066cc;">هەمی کارت هاتتنە دیتن</div>
-                        <div style="color: #666; margin-top: 15px;">کلیک ل خوارێ بکە بو دییتنا کەسە جیاوازەکە</div>
+                        <div style="color: #666; margin-top: 15px;">کلیک ل خوارێ بکە بو دییتنا کەسێ جیاواز</div>
                     </div>
                 `;
                 nextBtn.classList.add('hidden');
