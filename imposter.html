@@ -884,11 +884,11 @@
                     
                     <button class="btn btn-blue hidden" id="next-player-btn" onclick="nextPlayer()">یارییکەرێ دویفرا ⏭️</button>
                     <div id="starter-container" class="hidden"></div>
-                    <button class="reveal-btn hidden" id="reveal-btn" onclick="goToRevealPage()">🔍 پیشاندانی کەسە جیاوازەکە</button>
+                    <button class="reveal-btn hidden" id="reveal-btn" onclick="goToRevealPage()">🔍نییشان دانا کەسێ جیاواز </button>
                 </div>
                 
                 <div id="reveal-page" class="hidden">
-                    <h2 id="reveal-title">🕵️ ئاشکراکردن</h2>
+                    <h2 id="reveal-title">🕵️ ئاشکراکرن</h2>
                     
                     <div id="reveal-container"></div>
                     
@@ -1169,9 +1169,9 @@
             
             if (pageId === 'reveal-page') {
                 if (gameState.gameMode === 1) {
-                    document.getElementById('reveal-title').textContent = '🕵️ سیخوڕەکە';
+                    document.getElementById('reveal-title').textContent = '🕵️ سیخوڕ';
                 } else {
-                    document.getElementById('reveal-title').textContent = '🎭 کەسە جیاوازەکە';
+                    document.getElementById('reveal-title').textContent = '🎭 کەسێ جیاواز';
                 }
             }
         }
@@ -1300,7 +1300,7 @@
                     <div class="starter-box">
                         <div class="starter-message">🎤 دەستپێ بکە!</div>
                         <div class="starter-name">${starter.name}</div>
-                        <div class="starter-note">چێدبیت سیخوڕ یان کەسێ جیاواز دەستپێ بکەت !</div>
+                        <div class="starter-note">🧠   مێشکێ خۆ بکاربیینە، هزر بکە پاشی باخڤە!  </div>
                     </div>
                 `;
                 starterContainer.classList.remove('hidden');
@@ -1327,7 +1327,7 @@
             
             starterContainer.classList.add('hidden');
             
-            progress.textContent = `یارییکەرێ ${gameState.currentPlayerIndex + 1} ل ${gameState.players.length}`;
+            progress.textContent = `یارییکەرێ ${gameState.currentPlayerIndex + 1} / ${gameState.players.length}`;
             
             container.innerHTML = `
                 <div class="card" id="role-card" onclick="revealRole(${currentPlayer.id})">
@@ -1364,7 +1364,6 @@
                             <div class="role-icon">👨‍🌾</div>
                             <div class="role-text" style="color: white; font-size: 2rem; margin-bottom: 15px;">تۆ مەدەنی</div>
 <div style="margin-top: 15px; font-size: 1.1rem; color: white;"> هەوڵبدە سیخوڕی بگری! </div>
-                            <div style="margin: 15px 0; font-size: 1.1rem; color: white;">پەیڤاتە:</div>
                             <div class="word-display">${gameState.secretWord}</div>
                         </div>
                     `;
@@ -1533,4 +1532,4 @@
         });
     </script>
 </body>
-</html>
+</html> 
