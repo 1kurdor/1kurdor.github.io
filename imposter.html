@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>سیخوڕ | imposter</title>
+    <title>سیخوڕ | Sikhur</title>
+    <link rel="icon" type="image/png" href="assets/image/sikhur.jpg">
     <style>
         /* Rabar Font - Local Path */
         @font-face {
@@ -822,27 +823,55 @@
             font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
         }
         
-        /* ===== GREY FOOTER ===== */
-        .app-footer {
+        /* ===== WELCOME NOTIFICATION ===== */
+        .welcome-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #0066cc, #0099ff);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 60px;
+            box-shadow: 0 10px 25px rgba(0,102,204,0.4), 0 0 0 3px #ffcc00;
+            z-index: 20000;
+            font-size: 1.2rem;
             text-align: center;
-            color: #666;
-            font-size: 1rem;
             direction: rtl;
+            max-width: 90%;
+            width: auto;
+            white-space: nowrap;
+            border: 2px solid white;
+            animation: slideDown 0.5s ease, fadeOut 0.5s ease 4.5s forwards;
+            pointer-events: none;
         }
         
-        .footer-link {
-            color: #666;
-            text-decoration: underline;
-            font-weight: 500;
-            transition: color 0.2s ease;
+        @keyframes slideDown {
+            from {
+                top: -100px;
+                opacity: 0;
+            }
+            to {
+                top: 20px;
+                opacity: 1;
+            }
         }
         
-        .footer-link:hover {
-            color: #0066cc;
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+                visibility: hidden;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- WELCOME NOTIFICATION (auto-removed after 5s) -->
+    <div id="welcomeToast" class="welcome-notification">
+        هاتییە دروستکرن ژ لایێ رەشید فەرهاد 
+    </div>
+
     <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
         <div class="game-container">
             <div class="content" id="app">
@@ -929,11 +958,7 @@
             </div>
         </div>
         
-        <!-- ===== GREY FOOTER ===== -->
-        <div class="app-footer">
-            <span>- هاتییە دروستکرن ژلایێ</span>
-            <a href="https://kurdor.is-a.dev" target="_blank" class="footer-link">رەشید فەرهاد</a>
-        </div>
+        <!-- ===== FOOTER REMOVED COMPLETELY ===== -->
     </div>
     
     <!-- Game Description Modal (hidden by default) -->
@@ -982,6 +1007,12 @@
     </div>
 
     <script>
+        // ==================== WELCOME NOTIFICATION AUTO-REMOVE ====================
+        setTimeout(() => {
+            const toast = document.getElementById('welcomeToast');
+            if (toast) toast.remove();
+        }, 5000); // disappears after 5 seconds
+
         // ==================== GAME STATE ====================
         const gameState = {
             players: [],
