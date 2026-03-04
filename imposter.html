@@ -858,7 +858,7 @@
                     </div>
                     
                     <button class="btn btn-blue" onclick="showGameDescription(1)">یارییا سیخوڕی 🎮</button>
-                    <button class="btn btn-red" onclick="showGameDescription(2)">یارییا وشەیێن جیاواز 🎭</button>
+                    <button class="btn btn-red" onclick="showGameDescription(2)">یارییا پەییڤێن جیاواز 🎭</button>
                 </div>
                 
                 <div id="setup-page" class="hidden">
@@ -929,7 +929,7 @@
             </button>
             
             <button class="how-to-play-option red" onclick="showHowToPlayInstructions(2)">
-                یارییا وشەیێن جیاواز 🎭
+                یارییا پەییڤێن جیاواز 🎭
             </button>
             
             <button class="how-to-play-close" onclick="closeHowToPlayOptions()">گرتن</button>
@@ -1042,7 +1042,7 @@
             "شە 🪮",
             "چەقماق (ماکینە)",
             "جگارە",
-            "نەرگیل",
+            "نارگیل",
             "فەحم",
             "ئاڤ",
             "چیا",
@@ -1061,7 +1061,7 @@
             "برنج",
             "بەرخ",
             "بەراز",
-            "بازرگام",
+            "بازرگان",
             "فەلاح"
         ];
         
@@ -1088,19 +1088,19 @@
                 text.innerHTML = `
                     <strong>🎯 ئارمانج:</strong>  سیخوڕی بگرن!<br>
                     <strong>📋 چەوا دێ یاریێ کەی؟:</strong>
-                    - سیخوڕ وشێ نزانیت، لێ دێ هەولدەت ل تشتێن مەدەنیا وشێ بزانیت. <br>
-                    - نابیت وشە بخو بهێتە گوتن لێ تشتێن ب وشێ ڤە گرێدایی و نزیک درستن.<br>
+                    - سیخوڕ پەیڤێ نزانیت، لێ دێ هەولدەت ل تشتێن مەدەنیا پەیڤێ بزانیت. <br>
+                    - نابیت پەیڤ بخو بهێتە گوتن لێ تشتێن ب پەیڤێ ڤە گرێدایی و نزیک درستن.<br>
                     - ب گشتی راوند (فەرە) بدلێ هنگو نە، و هەر فەرێ تە ئێک کەلیمە یاهەی نە زێدەتر!!<br>
                     - نابیت مناقشە بهێتە کرن، دناڤ راوندا (فەر)ا دا.!<br>
                     `;
             } else {
                 icon.textContent = '';
-                title.textContent = '  یارییا وشەیێن جیاواز 🎭';
+                title.textContent = '  یارییا پەییڤێن جیاواز 🎭';
                 title.style.color = '#cc0000';
                 text.innerHTML = `
                     <strong>🎯 ئارمانج:</strong> کەسێ  جیاواز بگرن!<br>
                     <strong>📋 چەوا دێ یاریێ کەی؟:</strong>
-                    - بتنێ ئێک نەفەر وشەییا جیاواز یا هەی کو ئەوژی نزانیت ئەو یێ جیاوازە، لێ تشت هند نێزیکی ئێکن دێ یاپ زەحمەت بیتن هەتا دبینن, - نابیت مناقشە بهێتە کرن، دناڤ راوندا (فەر)ا دا.!<br>
+                    - بتنێ ئێک نەفەر پەیڤا جیاواز یا هەی کو ئەوژی نزانیت ئەو یێ جیاوازە، لێ تشت هند نێزیکی ئێکن دێ یاپ زەحمەت بیتن هەتا دبینن, - نابیت مناقشە بهێتە کرن، دناڤ راوندا (فەر)ا دا.!<br>
 نموونە وەک [تەیارە، عەلیکوپتەر] گەلەک 
 تشتا ڤە وەکی ئێکن!<br>
 - ب گشتی راوند (فەرە) بدلێ هنگو نە، و هەر فەرێ تە ئێک کەلیمە یاهەی نە زێدەتر!!
@@ -1130,9 +1130,9 @@
                 text.textContent = 'ڤێ یاریێ سیخوڕ یێ تێدا! سیخور دزانیت کو ئەو سیخورە. دڤێت سیخور بهێتە کەشف کرن!';
             } else {
                 icon.textContent = '🎭';
-                title.textContent = 'وشەیێن جیاواز';
+                title.textContent = 'پەیڤێن جیاواز';
                 title.className = 'game-modal-title red';
-                text.textContent = 'دڤێ یارییێدا سیخوڕ نینە! ئێک کەس دێ وشەییا جیاواز بینیت. دڤێت ئەو کەسە بهێتە کەشفکرن!';
+                text.textContent = 'دڤێ یارییێدا سیخوڕ نینە! ئێک کەس دێ پەییڤا جیاواز بینیت. دڤێت ئەو کەسە بهێتە کەشفکرن!';
             }
             
             modal.classList.remove('hidden');
@@ -1148,7 +1148,7 @@
             if (gameState.gameMode === 1) {
                 document.getElementById('setup-title').textContent = '⚙️ ڕێکخستنا یارییا سیخوڕی';
             } else {
-                document.getElementById('setup-title').textContent = '⚙️ ڕێکخستنا یارییا وشێن جیاواز';
+                document.getElementById('setup-title').textContent = '⚙️ ڕێکخستنا یارییا پەیڤێن جیاواز';
             }
             
             showPage('setup-page');
@@ -1354,8 +1354,8 @@
                         <div class="card-spy-revealed">
                             <div class="role-icon">🕵️</div>
                             <div class="role-text" style="color: white; font-size: 2rem; margin-bottom: 15px;">تۆ سیخوڕی!</div>
-                            <div style="margin-top: 15px; font-size: 1.1rem; color: white;">تۆ وشێ نزانی</div>
-                            <div style="margin-top: 20px; color: #ffcc00; font-size: 1.1rem;">هەوڵبدە وشێ بزانی!</div>
+                            <div style="margin-top: 15px; font-size: 1.1rem; color: white;">تۆ پەیڤێ نزانی، هەوڵبدە پەییڤێ بزانی</div>
+                            <div style="margin-top: 20px; color: #ffcc00; font-size: 1.1rem;">خۆ دگەل مەدەنییا بگونجینە!</div>
                         </div>
                     `;
                 } else {
@@ -1363,7 +1363,8 @@
                         <div class="card-civilian-revealed">
                             <div class="role-icon">👨‍🌾</div>
                             <div class="role-text" style="color: white; font-size: 2rem; margin-bottom: 15px;">تۆ مەدەنی</div>
-                            <div style="margin: 15px 0; font-size: 1.1rem; color: white;">وشە:</div>
+<div style="margin-top: 15px; font-size: 1.1rem; color: white;"> هەوڵبدە سیخوڕی بگری! </div>
+                            <div style="margin: 15px 0; font-size: 1.1rem; color: white;">پەیڤاتە:</div>
                             <div class="word-display">${gameState.secretWord}</div>
                         </div>
                     `;
@@ -1404,10 +1405,10 @@
                     container.innerHTML = `
                         <div class="reveal-card">
                             <div class="role-icon">🕵️</div>
-                            <div class="role-text" style="color: #ffcc00;">سیخوڕ بریتییە ل!</div>
+                            <div class="role-text" style="color: #ffcc00;">سیخوڕ =!</div>
                             <div class="person-name">${imposter.name}</div>
                             <div style="background: #333; padding: 15px; border-radius: 30px; margin-top: 20px; border: 1px solid #ffcc00;">
-                                <div style="font-size: 1.1rem; color: #ffcc00;">وشە:</div>
+                                <div style="font-size: 1.1rem; color: #ffcc00;">پەیڤاتە:</div>
                                 <div style="font-size: 2rem; font-weight: 500; margin-top: 5px; color: white;">${gameState.secretWord}</div>
                             </div>
                         </div>
@@ -1425,7 +1426,7 @@
                             <div class="role-text" style="color: #ffcc00;">سیخوڕ ئەڤەنە!</div>
                             ${spiesHtml}
                             <div style="background: #333; padding: 15px; border-radius: 30px; margin-top: 20px; border: 1px solid #ffcc00;">
-                                <div style="font-size: 1.1rem; color: #ffcc00;">وشە:</div>
+                                <div style="font-size: 1.1rem; color: #ffcc00;">پەیڤاتە:</div>
                                 <div style="font-size: 2rem; font-weight: 500; margin-top: 5px; color: white;">${gameState.secretWord}</div>
                             </div>
                         </div>
@@ -1440,9 +1441,9 @@
                         <div class="role-text" style="color: #ffcc00;">کەسێ جیاواز ئەڤەیە!</div>
                         <div class="person-name">${differentPerson.name}</div>
                         <div style="background: #333; padding: 15px; border-radius: 30px; margin-top: 20px; border: 1px solid #ffcc00;">
-                            <div style="font-size: 1.1rem; color: #ffcc00;">وشەییا ئاسایی:</div>
+                            <div style="font-size: 1.1rem; color: #ffcc00;">پەییڤا ئاسایی:</div>
                             <div style="font-size: 1.8rem; font-weight: 500; color: white;">${gameState.secretWord}</div>
-                            <div style="font-size: 1.1rem; color: #ffcc00; margin-top: 15px;">وشەییا جیاواز:</div>
+                            <div style="font-size: 1.1rem; color: #ffcc00; margin-top: 15px;">پەییڤا جیاواز:</div>
                             <div style="font-size: 1.8rem; font-weight: 500; color: #ff6b6b;">${gameState.differentWord}</div>
                         </div>
                     </div>
