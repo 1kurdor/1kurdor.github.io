@@ -361,26 +361,30 @@
             50% { transform: scale(1.1); }
         }
         
+        /* 🔴 LOW OPACITY RED FOR SPY - 25% opacity */
         .card-spy-revealed {
-            background: linear-gradient(145deg, #ff4444, #cc0000);
+            background: linear-gradient(145deg, rgba(255, 68, 68, 0.25), rgba(204, 0, 0, 0.25));
             color: white;
             border: 2px solid #ffcc00;
-            box-shadow: 0 15px 30px rgba(255, 0, 0, 0.3);
+            box-shadow: 0 15px 30px rgba(255, 0, 0, 0.15);
             cursor: default;
             padding: 40px 20px;
             border-radius: 32px;
             text-align: center;
+            backdrop-filter: blur(2px);
         }
         
+        /* 🟢 LOW OPACITY GREEN FOR CIVILIAN - 25% opacity */
         .card-civilian-revealed {
-            background: linear-gradient(145deg, #00cc66, #00994d);
+            background: linear-gradient(145deg, rgba(0, 204, 102, 0.25), rgba(0, 153, 77, 0.25));
             color: white;
             border: 2px solid #ffcc00;
-            box-shadow: 0 15px 30px rgba(0, 204, 0, 0.3);
+            box-shadow: 0 15px 30px rgba(0, 204, 0, 0.15);
             cursor: default;
             padding: 40px 20px;
             border-radius: 32px;
             text-align: center;
+            backdrop-filter: blur(2px);
         }
         
         .card-spy-revealed .player-name,
@@ -406,7 +410,7 @@
         .card-spy-revealed .word-display,
         .card-civilian-revealed .word-display {
             background: rgba(0, 0, 0, 0.2);
-            color: white;
+            color: #2E6F40;
         }
         
         .card-white-revealed {
@@ -422,7 +426,7 @@
         
         .card-white-revealed .word-display {
             background: #f0f7ff;
-            color: #0066cc;
+            color: #00FF00;
             border: 2px solid #ffcc00;
         }
         
@@ -1353,17 +1357,17 @@
                     container.innerHTML = `
                         <div class="card-spy-revealed">
                             <div class="role-icon">🕵️</div>
-                            <div class="role-text" style="color: white; font-size: 2rem; margin-bottom: 15px;">تۆ سیخوڕی!</div>
-                            <div style="margin-top: 15px; font-size: 1.1rem; color: white;">تۆ پەیڤێ نزانی، هەوڵبدە پەییڤێ بزانی</div>
-                            <div style="margin-top: 20px; color: #ffcc00; font-size: 1.1rem;">خۆ دگەل مەدەنییا بگونجینە!</div>
+                            <div class="role-text" style="color: #FF0000; font-size: 2rem; margin-bottom: 15px;">تۆ سیخوڕی!</div>
+                            <div style="margin-top: 15px; font-size: 1.1rem; color: #000000;">تۆ پەیڤێ نزانی، هەوڵبدە پەییڤێ بزانی</div>
+                            <div style="margin-top: 20px; color: #000000; font-size: 1.1rem;">خۆ دگەل مەدەنییا بگونجینە!</div>
                         </div>
                     `;
                 } else {
                     container.innerHTML = `
                         <div class="card-civilian-revealed">
                             <div class="role-icon">👨‍🌾</div>
-                            <div class="role-text" style="color: white; font-size: 2rem; margin-bottom: 15px;">تۆ مەدەنی</div>
-<div style="margin-top: 15px; font-size: 1.1rem; color: white;"> هەوڵبدە سیخوڕی بگری! </div>
+                            <div class="role-text" style="color:  #000000; font-size: 2rem; margin-bottom: 15px;">تۆ مەدەنی</div>
+<div style="margin-top: 15px; font-size: 1.1rem; color: #000000;"> هەوڵبدە سیخوڕی بگری! </div>
                             <div class="word-display">${gameState.secretWord}</div>
                         </div>
                     `;
@@ -1532,4 +1536,4 @@
         });
     </script>
 </body>
-</html> 
+</html>
