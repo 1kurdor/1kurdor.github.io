@@ -6,7 +6,6 @@
     <title>سیخوڕ | Sikhur</title>
     <link rel="icon" type="image/png" href="assets/image/sikhur.jpg">
     <style>
-        /* Rabar Font - Local Path */
         @font-face {
             font-family: 'Rabar';
             src: url('assets/fonts/Rabar.ttf') format('truetype');
@@ -23,27 +22,25 @@
             font-display: swap;
         }
         
-        /* Reset & Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-  /* ===== PREVENT TEXT SELECTION ON EVERYTHING ===== */
-    * {
-        -webkit-user-select: none; /* Safari */
-        -moz-user-select: none;    /* Firefox */
-        -ms-user-select: none;     /* Internet Explorer/Edge */
-        user-select: none;         /* Non-prefixed version */
-    }
+  
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
     
-    /* Allow text selection ONLY in input fields */
-    input, textarea {
-        -webkit-user-select: text;  /* Safari */
-        -moz-user-select: text;     /* Firefox */
-        -ms-user-select: text;      /* Internet Explorer/Edge */
-        user-select: text;          /* Non-prefixed version */
-    }
+        input, textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
         
         body {
             font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
@@ -57,7 +54,6 @@
             position: relative;
         }
         
-        /* Main Container */
         .game-container {
             width: 100%;
             max-width: 420px;
@@ -75,7 +71,6 @@
             margin-bottom: 10px;
         }
         
-        /* Background Gradients */
         .game-container::before {
             content: "";
             position: absolute;
@@ -100,13 +95,11 @@
             z-index: 0;
         }
         
-        /* Content */
         .content {
             position: relative;
             z-index: 2;
         }
         
-        /* Headers */
         h1 {
             font-size: 2.2rem;
             font-weight: bold;
@@ -141,17 +134,16 @@
             border-radius: 2px;
         }
         
-        /* ANIMATED ICON STYLES - NEW */
         .animated-icon {
-    text-align: center;
-    margin: 10px 0 20px 0;
-}
+            text-align: center;
+            margin: 10px 0 20px 0;
+        }
 
-.animated-icon img {
-    width: 300px;
-    height: auto;
-    display: inline-block;
-}
+        .animated-icon img {
+            width: 300px;
+            height: auto;
+            display: inline-block;
+        }
         
         .game-icon {
             width: 130px;
@@ -178,13 +170,6 @@
             }
         }
         
-        /* Optional floating animation (comment out pulse to use this) 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        } */
-        
-        /* How to Play Link */
         .how-to-play-link {
             text-align: center;
             margin: 5px 0 15px 0;
@@ -199,7 +184,6 @@
             color: #0066cc;
         }
         
-        /* Buttons */
         .btn {
             width: 100%;
             padding: 16px 20px;
@@ -214,7 +198,6 @@
             box-shadow: 0 4px 10px rgba(0, 102, 204, 0.1);
         }
         
-        /* Blue Button - Imposter Game */
         .btn-blue {
             background: linear-gradient(135deg, #0066cc, #0099ff);
             color: white;
@@ -226,7 +209,6 @@
             box-shadow: 0 6px 0 #003366;
         }
         
-        /* Red Button - Different Word Game */
         .btn-red {
             background: linear-gradient(135deg, #ff4444, #cc0000);
             color: white;
@@ -238,7 +220,6 @@
             box-shadow: 0 6px 0 #990000;
         }
         
-        /* Yellow Button - Main Page */
         .btn-yellow {
             background: linear-gradient(135deg, #ffcc00, #ffaa00);
             color: #1a2a3a;
@@ -256,7 +237,6 @@
             border: 1px solid #ffcc00;
         }
         
-        /* Player Counter */
         .counter-container {
             display: flex;
             justify-content: center;
@@ -299,7 +279,6 @@
             text-align: center;
         }
         
-        /* Player Inputs */
         .player-input {
             width: 100%;
             padding: 14px 18px;
@@ -326,7 +305,6 @@
             font-size: 0.95rem;
         }
         
-        /* Cards - BEFORE REVEAL (all white) */
         .card {
             background: white;
             border-radius: 32px;
@@ -383,7 +361,6 @@
             50% { transform: scale(1.1); }
         }
         
-        /* AFTER REVEAL - Colored cards for imposter game */
         .card-spy-revealed {
             background: linear-gradient(145deg, #ff4444, #cc0000);
             color: white;
@@ -432,7 +409,6 @@
             color: white;
         }
         
-        /* White card after reveal (for different word game) */
         .card-white-revealed {
             background: white;
             color: #333;
@@ -450,7 +426,6 @@
             border: 2px solid #ffcc00;
         }
         
-        /* Progress Bar */
         .progress {
             background: white;
             padding: 12px;
@@ -464,7 +439,6 @@
             box-shadow: 0 2px 5px rgba(0, 102, 204, 0.05);
         }
         
-        /* Starter Display - UPDATED */
         .starter-box {
             background: linear-gradient(135deg, #0066cc, #0099ff);
             color: white;
@@ -494,7 +468,6 @@
             margin-bottom: 10px;
         }
         
-        /* Reveal Button - for both games */
         .reveal-btn {
             background: linear-gradient(135deg, #ffcc00, #ffaa00);
             color: #1a2a3a;
@@ -516,7 +489,6 @@
             box-shadow: 0 6px 0 #996600;
         }
         
-        /* Reveal Page Cards */
         .reveal-card {
             background: linear-gradient(145deg, #1a1a1a, #333333);
             border: 3px solid #ffcc00;
@@ -544,7 +516,6 @@
             color: #ffcc00;
         }
         
-        /* Results Container */
         .results-container {
             background: #f8fbff;
             border-radius: 32px;
@@ -597,12 +568,10 @@
             font-size: 1rem;
         }
         
-        /* Hidden Class */
         .hidden {
             display: none !important;
         }
         
-        /* Welcome Text */
         .welcome-text {
             color: #4a5a6a;
             text-align: center;
@@ -611,7 +580,6 @@
             line-height: 1.5;
         }
         
-        /* Word box at results */
         .word-box {
             background: white;
             border: 2px solid #ffcc00;
@@ -639,7 +607,6 @@
             font-weight: bold;
         }
         
-        /* Game Description Modal */
         .game-modal {
             position: fixed;
             top: 0;
@@ -752,7 +719,6 @@
             box-shadow: 0 6px 0 #999;
         }
         
-        /* How to Play Modal - NEW */
         .how-to-play-modal {
             position: fixed;
             top: 0;
@@ -823,7 +789,6 @@
             font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
         }
         
-        /* ===== WELCOME NOTIFICATION ===== */
         .welcome-notification {
             position: fixed;
             top: 20px;
@@ -843,7 +808,8 @@
             white-space: nowrap;
             border: 2px solid white;
             animation: slideDown 0.5s ease, fadeOut 0.5s ease 4.5s forwards;
-            pointer-events: none;
+            pointer-events: auto;
+    cursor: pointer;
         }
         
         @keyframes slideDown {
@@ -867,19 +833,18 @@
     </style>
 </head>
 <body>
-    <!-- WELCOME NOTIFICATION (auto-removed after 5s) -->
+    <a href="https://kurdor.is-a.dev" target="_blank" rel="noopener noreferrer" 
+   style="text-decoration: none; color: inherit;">
     <div id="welcomeToast" class="welcome-notification">
-        هاتییە دروستکرن ژ لایێ رەشید فەرهاد 
+        هاتییە دروستکرن ژ لایێ رەشید فەرهاد
     </div>
+</a>
 
     <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
         <div class="game-container">
             <div class="content" id="app">
-                <!-- Page 1: Home Page - WITH 2 BUTTONS! -->
                 <div id="home-page">
                     
-                    
-                    <!-- YOUR ANIMATED ICON - ADDED HERE -->
                     <div class="animated-icon">
                         <img src="assets/image/sikhur.jpg" alt="سیخوڕ" class="game-icon" onclick="alert('Developed By Rashid Farhad')">
                     </div>
@@ -888,17 +853,14 @@
                         یارییەک بو بوراندنا دەمێن خوش دگەل هەڤاڵان.
                     </p>
                     
-                    <!-- Simple How to Play Link -->
                     <div class="how-to-play-link" onclick="showHowToPlayOptions()">
                         چەوا دێ یاریی کەی؟ 📖
                     </div>
                     
-                    <!-- TWO BUTTONS ONLY with popup messages -->
                     <button class="btn btn-blue" onclick="showGameDescription(1)">یارییا سیخوڕی 🎮</button>
                     <button class="btn btn-red" onclick="showGameDescription(2)">یارییا وشەیێن جیاواز 🎭</button>
                 </div>
                 
-                <!-- Page 2: Setup Page -->
                 <div id="setup-page" class="hidden">
                     <h2 id="setup-title">⚙️ ڕێکخستن</h2>
                     
@@ -908,60 +870,43 @@
                         <button class="counter-btn" onclick="changePlayerCount(1)">+</button>
                     </div>
                     
-                    <div id="player-inputs-container">
-                        <!-- Player inputs will be added here -->
-                    </div>
+                    <div id="player-inputs-container"></div>
                     
                     <button class="btn btn-blue" onclick="startGame()">دەستپێکرن 🎬</button>
                     <button class="btn btn-red" onclick="goBackToHome()">زڤرین 🔙</button>
                 </div>
                 
-                <!-- Page 3: Game Page (Card Reveal) -->
                 <div id="game-page" class="hidden">
                     <h2 id="game-title">🎴 کارتەکان</h2>
                     <div class="progress" id="game-progress"></div>
                     
-                    <div id="card-container">
-                        <!-- Card will be displayed here -->
-                    </div>
+                    <div id="card-container"></div>
                     
                     <button class="btn btn-blue hidden" id="next-player-btn" onclick="nextPlayer()">یارییکەرێ دویفرا ⏭️</button>
-                    <!-- Starter display will appear here after all cards revealed -->
                     <div id="starter-container" class="hidden"></div>
                     <button class="reveal-btn hidden" id="reveal-btn" onclick="goToRevealPage()">🔍 پیشاندانی کەسە جیاوازەکە</button>
                 </div>
                 
-                <!-- Page 4: Reveal Page (for both games) -->
                 <div id="reveal-page" class="hidden">
                     <h2 id="reveal-title">🕵️ ئاشکراکردن</h2>
                     
-                    <div id="reveal-container">
-                        <!-- Reveal content will be shown here -->
-                    </div>
+                    <div id="reveal-container"></div>
                     
                     <button class="btn btn-blue" onclick="showFinalResults()">دییتنا ئەنجامی 📜</button>
                 </div>
                 
-                <!-- Page 5: Results Page - with fixed buttons! -->
                 <div id="results-page" class="hidden">
                     <h2>ئەنجام 🏆</h2>
                     
-                    <div id="results-container">
-                        <!-- Results will be displayed here -->
-                    </div>
+                    <div id="results-container"></div>
                     
-                    <!-- Play Again now replays same game mode! -->
                     <button class="btn btn-blue" onclick="playAgain()">دوبارە یارییکرن 🔁</button>
-                    <!-- Main Page button is now YELLOW! -->
                     <button class="btn btn-yellow" onclick="goToHomePage()">زڤرین بو دەستپێک 🏠</button>
                 </div>
             </div>
         </div>
-        
-        <!-- ===== FOOTER REMOVED COMPLETELY ===== -->
     </div>
     
-    <!-- Game Description Modal (hidden by default) -->
     <div id="game-description-modal" class="game-modal hidden">
         <div class="game-modal-content">
             <div id="modal-icon" class="game-modal-icon">🎮</div>
@@ -974,7 +919,6 @@
         </div>
     </div>
     
-    <!-- How to Play Options Modal (hidden by default) -->
     <div id="how-to-play-modal" class="how-to-play-modal hidden">
         <div class="how-to-play-content">
             <div class="game-modal-icon">📖</div>
@@ -992,67 +936,135 @@
         </div>
     </div>
     
-    <!-- How to Play Instructions Modal (hidden by default) -->
     <div id="how-to-play-instructions-modal" class="how-to-play-modal hidden">
         <div class="how-to-play-content">
             <div id="instructions-icon" class="game-modal-icon">🕵️</div>
             <h2 id="instructions-title" style="color: #0066cc; margin-bottom: 20px;">یارییا سیخوڕی</h2>
             
-            <div id="instructions-text" class="game-modal-text" style="text-align: right;">
-                <!-- Instructions will be inserted here -->
-            </div>
+            <div id="instructions-text" class="game-modal-text" style="text-align: right;"></div>
             
             <button class="how-to-play-close" onclick="closeHowToPlayInstructions()">گرتن</button>
         </div>
     </div>
 
     <script>
-        // ==================== WELCOME NOTIFICATION AUTO-REMOVE ====================
         setTimeout(() => {
             const toast = document.getElementById('welcomeToast');
             if (toast) toast.remove();
-        }, 5000); // disappears after 5 seconds
+        }, 5000);
 
-        // ==================== GAME STATE ====================
         const gameState = {
             players: [],
             spies: [],
             secretWord: "",
-            differentWord: "", // For game mode 2
-            gameMode: 1, // 1 = Imposter Game, 2 = Different Word Game
+            differentWord: "",
+            gameMode: 1,
             currentPlayerIndex: 0,
             gameOver: false,
-            playerNames: [], // Store player names for replay
-            starterPlayer: null // Who starts the game
+            playerNames: [],
+            starterPlayer: null
         };
         
-        // Word pairs for Game Mode 2 (Different Word)
         const wordPairs = [
             { normal: "پیتزا", different: "بەرگر" },
             { normal: "کۆکا کۆلا", different: "پێپسی" },
-            { normal: "ئایفون", different: "ئەندرۆید" },
+            { normal: "ئایفون", different: "گاڵاکسی" },
             { normal: "نایک", different: "ئەدیداس" },
-            { normal: "تایۆتا", different: "‌نیسان" },
+            { normal: "تویوتا", different: "نیسان" },
             { normal: "فەیسبووک", different: "ئیستاگرام" },
             { normal: "مێسی", different: "مەرەدونا" },
-            { normal: "رونالدو نازاریو", different: "رونالدیمهو" },
-            { normal: "قەهور", different: "چا" },
+            { normal: "رونالدو نازاریو", different: "رونالدینهو" },
+            { normal: "قەهوە", different: "چا" },
             { normal: "شەتەڕەنج", different: "دومینە" },
-            { normal: "پاس", different: "قیتار" }
+            { normal: "پاس", different: "قیتار" },
+            { normal: "کیلیان ئێمباپێ", different: "هێنری" },
+            { normal: "ڤینیسیوس", different: "رودریگو" },
+            { normal: "کەتچەپ", different: "مایونیز" },
+            { normal: "خیار شو", different: "خیار" },
+            { normal: "سابوین 🧼", different: "شامپوو 🧴" },
+            { normal: "دەولەمەند", different: "سەرکەفتی" },
+            { normal: "مرەبا", different: "هنگڤین" },
+            { normal: "خێ", different: "شەکر" },
+            { normal: "ساڤار", different: "برنج" },
+            { normal: "قوتابخانە", different: "زانکۆ" },
+            { normal: "جزدانک", different: "بەرینک" }
         ];
         
-        // Regular words for game mode 1
-        const kurdishWords = {
-            خواردن: ["کەباب", "برنج", "کافی", "نارگیل", "شاورمە", "بەرخ"],
-            گیانلەبەران: ["ریڤی", "چێل", "بەراز", "فەرماندە خورشید", "بزن", "سەگ"],
-            پیشە: ["مامۆستا", "دختور", "مەهندس", "بازرگان", "فەلاح"],
-            وڵات: ["کوردستان", "هیتلەر", "گیڤارا", "خوخ", "سێڤ"],
-            ڕەنگ: ["هناروک", "ساحە", "سەیارە", "طەیارە", "مێسی", "حەمدی"]
-        };
+        const kurdishWords = [
+            "فەرماندە خورشید",
+            "گیڤارا",
+            "هیتلەر",
+            "حەمدی",
+            "دلو بێداری",
+            "ساح 🏟️",
+            "خوخ",
+            "هناروک",
+            "بلوک",
+            "کورولا",
+            "کامری",
+            "سێنترا",
+            "مارسیدس",
+            "ئەحمەد یوسف",
+            "ریڤی",
+            "مریشک",
+            "کەر",
+            "قەلات",
+            "کورنیشێ زاخو",
+            "سەدا دهوکێ",
+            "K.R.O - Duhok",
+            "کێڤجالە",
+            "مانویێل نویەر 🐐",
+            "لیونێل مێسی",
+            "کریستیانو رونالدو",
+            "نەیمار",
+            "پاس",
+            "لاپچین",
+            "لاپتوپ",
+            "جێفری ئێپستن",
+            "دونالد ترامپ",
+            "ڤلادمیر پوتین",
+            "یەکەتییا سوڤیەت",
+            "یانا شێلادزێ",
+            "حەلاق",
+            "پروگرامەر",
+            "ئەبو چیچو",
+            "ئەبو رەیان",
+            "لیوا دابان",
+            "سەگ",
+            "گورگ",
+            "شێر",
+            "فیل",
+            "پلنگ",
+            "سێڤ",
+            "لیموک",
+            "ChatGPT",
+            "مجەفە (فیر)",
+            "شە 🪮",
+            "چەقماق (ماکینە)",
+            "جگارە",
+            "نەرگیل",
+            "فەحم",
+            "ئاڤ",
+            "چیا",
+            "طەیر",
+            "چیچک",
+            "بلە خەمبار",
+            "کابینە",
+            "کامیرە",
+            "قودیک",
+            "مەشروب",
+            "هێلک",
+            "شێلادزێ",
+            "دوبەی",
+            "کافی",
+            "کەباب",
+            "برنج",
+            "بەرخ",
+            "بەراز",
+            "بازرگام",
+            "فەلاح"
+        ];
         
-        const categories = Object.keys(kurdishWords);
-        
-        // ==================== HOW TO PLAY FUNCTIONS ====================
         function showHowToPlayOptions() {
             document.getElementById('how-to-play-modal').classList.remove('hidden');
         }
@@ -1070,9 +1082,8 @@
             const text = document.getElementById('instructions-text');
             
             if (mode === 1) {
-                // Imposter Game Instructions
-                icon.textContent = '🕵️';
-                title.textContent = 'یارییا سیخوڕی';
+                icon.textContent = '';
+                title.textContent = ' یارییا سیخوڕی 🕵️';
                 title.style.color = '#0066cc';
                 text.innerHTML = `
                     <strong>🎯 ئارمانج:</strong>  سیخوڕی بگرن!<br>
@@ -1080,17 +1091,16 @@
                     - سیخوڕ وشێ نزانیت، لێ دێ هەولدەت ل تشتێن مەدەنیا وشێ بزانیت. <br>
                     - نابیت وشە بخو بهێتە گوتن لێ تشتێن ب وشێ ڤە گرێدایی و نزیک درستن.<br>
                     - ب گشتی راوند (فەرە) بدلێ هنگو نە، و هەر فەرێ تە ئێک کەلیمە یاهەی نە زێدەتر!!<br>
-                    - نابیت مناقشە بهێتە کرن!<br>
+                    - نابیت مناقشە بهێتە کرن، دناڤ راوندا (فەر)ا دا.!<br>
                     `;
             } else {
-                // Different Word Game Instructions
-                icon.textContent = '🎭';
-                title.textContent = 'یارییا وشەیێن جیاواز';
+                icon.textContent = '';
+                title.textContent = '  یارییا وشەیێن جیاواز 🎭';
                 title.style.color = '#cc0000';
                 text.innerHTML = `
                     <strong>🎯 ئارمانج:</strong> کەسێ  جیاواز بگرن!<br>
                     <strong>📋 چەوا دێ یاریێ کەی؟:</strong>
-                    - بتنێ ئێک نەفەر وشەییا جیاواز یا هەی کو ئەوژی نزانیت ئەو یێ جیاوازە، لێ تشت هند نێزیکی ئێکن دێ یاپ زەحمەت بیتن هەتا دبینن, مناقشە نابیت بهێتە کرن.<br>
+                    - بتنێ ئێک نەفەر وشەییا جیاواز یا هەی کو ئەوژی نزانیت ئەو یێ جیاوازە، لێ تشت هند نێزیکی ئێکن دێ یاپ زەحمەت بیتن هەتا دبینن, - نابیت مناقشە بهێتە کرن، دناڤ راوندا (فەر)ا دا.!<br>
 نموونە وەک [تەیارە، عەلیکوپتەر] گەلەک 
 تشتا ڤە وەکی ئێکن!<br>
 - ب گشتی راوند (فەرە) بدلێ هنگو نە، و هەر فەرێ تە ئێک کەلیمە یاهەی نە زێدەتر!!
@@ -1105,7 +1115,6 @@
             document.getElementById('how-to-play-instructions-modal').classList.add('hidden');
         }
         
-        // ==================== GAME DESCRIPTION MODAL ====================
         function showGameDescription(mode) {
             gameState.gameMode = mode;
             
@@ -1115,13 +1124,11 @@
             const text = document.getElementById('modal-text');
             
             if (mode === 1) {
-                // Imposter Game description
                 icon.textContent = '🕵️';
                 title.textContent = 'یارییا سیخوڕی';
                 title.className = 'game-modal-title blue';
                 text.textContent = 'ڤێ یاریێ سیخوڕ یێ تێدا! سیخور دزانیت کو ئەو سیخورە. دڤێت سیخور بهێتە کەشف کرن!';
             } else {
-                // Different Word Game description
                 icon.textContent = '🎭';
                 title.textContent = 'وشەیێن جیاواز';
                 title.className = 'game-modal-title red';
@@ -1147,24 +1154,19 @@
             showPage('setup-page');
         }
         
-        // ==================== UI FUNCTIONS ====================
         function showPage(pageId) {
-            // Hide all pages
             document.getElementById('home-page').classList.add('hidden');
             document.getElementById('setup-page').classList.add('hidden');
             document.getElementById('game-page').classList.add('hidden');
             document.getElementById('reveal-page').classList.add('hidden');
             document.getElementById('results-page').classList.add('hidden');
             
-            // Show requested page
             document.getElementById(pageId).classList.remove('hidden');
             
-            // Initialize page if needed
             if (pageId === 'setup-page') {
                 initializeSetupPage();
             }
             
-            // Update reveal title based on game mode
             if (pageId === 'reveal-page') {
                 if (gameState.gameMode === 1) {
                     document.getElementById('reveal-title').textContent = '🕵️ سیخوڕەکە';
@@ -1174,17 +1176,14 @@
             }
         }
         
-        // New function to go back to home page from setup
         function goBackToHome() {
             showPage('home-page');
         }
         
-        // New function to go to home page from results (yellow button)
         function goToHomePage() {
             showPage('home-page');
         }
         
-        // ==================== SETUP FUNCTIONS ====================
         let currentPlayerCount = 5;
         
         function changePlayerCount(delta) {
@@ -1214,9 +1213,7 @@
             updatePlayerInputs();
         }
         
-        // ==================== GAME FUNCTIONS ====================
         function startGame() {
-            // Get player names and store them for replay
             const players = [];
             for (let i = 1; i <= currentPlayerCount; i++) {
                 const nameInput = document.getElementById(`player-name-${i}`);
@@ -1224,24 +1221,19 @@
                 players.push(name);
             }
             
-            // Store player names for replay
             gameState.playerNames = [...players];
             
-            // Start a new game with current settings
             startNewGameWithNames(players);
         }
         
         function startNewGameWithNames(players) {
-            // Select words based on game mode
             let secretWord, differentWord, spyIndices = [];
             
             if (gameState.gameMode === 1) {
-                // IMPOSTER GAME
                 let spyCount = 1;
                 if (currentPlayerCount >= 6 && currentPlayerCount <= 8) spyCount = 2;
                 if (currentPlayerCount >= 9) spyCount = 3;
                 
-                // Randomly select spies
                 while (spyIndices.length < spyCount) {
                     const randomIndex = Math.floor(Math.random() * currentPlayerCount);
                     if (!spyIndices.includes(randomIndex)) {
@@ -1249,24 +1241,18 @@
                     }
                 }
                 
-                const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-                const categoryWords = kurdishWords[randomCategory];
-                secretWord = categoryWords[Math.floor(Math.random() * categoryWords.length)];
+                secretWord = kurdishWords[Math.floor(Math.random() * kurdishWords.length)];
                 differentWord = "";
                 
             } else {
-                // DIFFERENT WORD GAME
-                // Randomly select ONE person to get different word
                 const differentIndex = Math.floor(Math.random() * currentPlayerCount);
                 spyIndices = [differentIndex];
                 
-                // Select random word pair
                 const randomPair = wordPairs[Math.floor(Math.random() * wordPairs.length)];
-                secretWord = randomPair.normal;      // Most players get this
-                differentWord = randomPair.different; // One player gets this
+                secretWord = randomPair.normal;
+                differentWord = randomPair.different;
             }
             
-            // Initialize game state
             gameState.players = players.map((name, index) => ({
                 id: index + 1,
                 name: name,
@@ -1279,24 +1265,19 @@
             gameState.differentWord = differentWord;
             gameState.currentPlayerIndex = 0;
             gameState.gameOver = false;
-            gameState.starterPlayer = null; // Reset starter
+            gameState.starterPlayer = null;
             
-            // Go to game page
             showPage('game-page');
             showNextCard();
         }
         
-        // UPDATED FUNCTION: Select a starter from ALL players (imposters can start too!)
         function selectStarterPlayer() {
-            // Get ALL players - no filtering!
             const allPlayers = gameState.players;
             
-            // Randomly select one starter from all players
             if (allPlayers.length > 0) {
                 const randomIndex = Math.floor(Math.random() * allPlayers.length);
                 gameState.starterPlayer = allPlayers[randomIndex];
             } else {
-                // Fallback
                 gameState.starterPlayer = { name: "یاریکەر" };
             }
             
@@ -1313,14 +1294,13 @@
             const currentPlayer = gameState.players[gameState.currentPlayerIndex];
             
             if (!currentPlayer) {
-                // All players have seen their cards - select a starter from ALL players
                 const starter = selectStarterPlayer();
                 
                 starterContainer.innerHTML = `
                     <div class="starter-box">
                         <div class="starter-message">🎤 دەستپێ بکە!</div>
                         <div class="starter-name">${starter.name}</div>
-                        <div class="starter-note">چێدبیت سیخوڕ یان کەسێ جیاواز دەستپێک بیت !</div>
+                        <div class="starter-note">چێدبیت سیخوڕ یان کەسێ جیاواز دەستپێ بکەت !</div>
                     </div>
                 `;
                 starterContainer.classList.remove('hidden');
@@ -1335,7 +1315,6 @@
                 nextBtn.classList.add('hidden');
                 revealBtn.classList.remove('hidden');
                 
-                // Update reveal button text based on game mode
                 if (gameState.gameMode === 1) {
                     revealBtn.textContent = 'کەشف کرنا سیخوڕی 🔎';
                 } else {
@@ -1346,12 +1325,10 @@
                 return;
             }
             
-            // Hide starter container when showing next card
             starterContainer.classList.add('hidden');
             
             progress.textContent = `یارییکەرێ ${gameState.currentPlayerIndex + 1} ل ${gameState.players.length}`;
             
-            // All cards start white before reveal
             container.innerHTML = `
                 <div class="card" id="role-card" onclick="revealRole(${currentPlayer.id})">
                     <div class="player-name">${currentPlayer.name}</div>
@@ -1372,9 +1349,7 @@
             if (!player) return;
             
             if (gameState.gameMode === 1) {
-                // IMPOSTER GAME - colors after reveal
                 if (player.isSpy) {
-                    // SPY - RED CARD
                     container.innerHTML = `
                         <div class="card-spy-revealed">
                             <div class="role-icon">🕵️</div>
@@ -1384,7 +1359,6 @@
                         </div>
                     `;
                 } else {
-                    // CIVILIAN - GREEN CARD
                     container.innerHTML = `
                         <div class="card-civilian-revealed">
                             <div class="role-icon">👨‍🌾</div>
@@ -1395,7 +1369,6 @@
                     `;
                 }
             } else {
-                // DIFFERENT WORD GAME - all white cards after reveal
                 const wordToShow = player.hasDifferentWord ? gameState.differentWord : gameState.secretWord;
                 
                 container.innerHTML = `
@@ -1424,7 +1397,6 @@
             const container = document.getElementById('reveal-container');
             
             if (gameState.gameMode === 1) {
-                // IMPOSTER GAME - show spies
                 const spies = gameState.players.filter(p => p.isSpy);
                 
                 if (spies.length === 1) {
@@ -1460,7 +1432,6 @@
                     `;
                 }
             } else {
-                // DIFFERENT WORD GAME - show the person with different word
                 const differentPerson = gameState.players.find(p => p.hasDifferentWord);
                 
                 container.innerHTML = `
@@ -1487,7 +1458,6 @@
             let playersHtml = '<div class="results-container">';
             
             if (gameState.gameMode === 1) {
-                // Imposter game results
                 gameState.players.forEach(player => {
                     const roleText = player.isSpy ? '<span class="spy-badge">سیخوڕ</span>' : '<span class="civilian-badge">مەدەنی</span>';
                     playersHtml += `
@@ -1500,7 +1470,6 @@
                 
                 playersHtml += '</div>';
                 
-                // Just show the word
                 container.innerHTML = `
                     ${playersHtml}
                     <div class="word-box">
@@ -1509,7 +1478,6 @@
                 `;
                 
             } else {
-                // Different word game results
                 gameState.players.forEach(player => {
                     const badge = player.hasDifferentWord ? 
                         '<span class="different-badge">جیاواز</span>' : 
@@ -1525,7 +1493,6 @@
                 
                 playersHtml += '</div>';
                 
-                // Show both words
                 container.innerHTML = `
                     ${playersHtml}
                     <div class="word-box">
@@ -1538,17 +1505,13 @@
             }
         }
         
-        // Play Again now starts a new game with the SAME mode and SAME player names!
         function playAgain() {
-            // Start a new game with the stored player names
             startNewGameWithNames(gameState.playerNames);
         }
         
-        // ==================== INITIALIZATION ====================
         document.addEventListener('DOMContentLoaded', function() {
             showPage('home-page');
             
-            // Close modals if clicking outside
             document.getElementById('game-description-modal').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeGameDescription();
