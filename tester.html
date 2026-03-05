@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+
+<html lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>سیخوڕ | Sikhur</title>
+    <link rel="icon" type="image/png" href="assets/image/sikhur.jpg">
+    <style>
+        @font-face {
+            font-family: 'Rabar';
+            src: url('assets/fonts/Rabar.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Rabar';
+            src: url('assets/fonts/Rabar-bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+            font-display: swap;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; }
+        input, textarea { -webkit-user-select:text; -moz-user-select:text; -ms-user-select:text; user-select:text; }
+    body {
+        font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
+        background: linear-gradient(145deg, #e6f0ff 0%, #f0f7ff 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        direction: rtl;
+        padding: 12px;
+        position: relative;
+    }
+
+    .game-container {
+        width: 100%;
+        max-width: 420px;
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 36px;
+        padding: 24px 20px 20px 20px;
+        box-shadow: 0 15px 30px rgba(0,100,255,0.1), 0 5px 15px rgba(255,200,0,0.1);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255,215,0,0.2);
+        margin-bottom: 10px;
+    }
+    .game-container::before {
+        content:""; position:absolute; top:-50px; right:-50px;
+        width:200px; height:200px;
+        background:radial-gradient(circle,rgba(0,150,255,0.1),transparent 70%);
+        border-radius:50%; z-index:0;
+    }
+    .game-container::after {
+        content:""; position:absolute; bottom:-50px; left:-50px;
+        width:200px; height:200px;
+        background:radial-gradient(circle,rgba(255,215,0,0.1),transparent 70%);
+        border-radius:50%; z-index:0;
+    }
+    .content { position:relative; z-index:2; }
+
+    h1 {
+        font-size:2.2rem; font-weight:bold; text-align:center; margin-bottom:8px;
+        background:linear-gradient(135deg,#0066cc,#0099ff);
+        -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    }
+    h2 {
+        font-size:1.6rem; text-align:center; margin-bottom:18px;
+        color:#0066cc; position:relative; padding-bottom:8px; font-weight:500;
+    }
+    h2::after {
+        content:""; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+        width:50px; height:2px;
+        background:linear-gradient(90deg,#0066cc,#ffcc00); border-radius:2px;
+    }
+
+    .animated-icon { text-align:center; margin:10px 0 20px 0; }
+    .animated-icon img { width:300px; height:auto; display:inline-block; }
+
+    .game-icon {
+        width:130px; height:auto;
+        animation:gentlePulse 2.5s infinite ease-in-out;
+        filter:drop-shadow(0 8px 15px rgba(0,102,204,0.4));
+        border-radius:30px; transition:all 0.3s ease; cursor:pointer;
+    }
+    .game-icon:hover { animation:none; transform:scale(1.05); filter:drop-shadow(0 0 20px #ffcc00); }
+
+    @keyframes gentlePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+
+    .how-to-play-link {
+        text-align:center; margin:5px 0 15px 0; font-size:1rem;
+        color:#666; cursor:pointer; text-decoration:underline; transition:color 0.2s;
+    }
+    .how-to-play-link:hover { color:#0066cc; }
+
+    .btn {
+        width:100%; padding:16px 20px; border:none; border-radius:40px;
+        font-size:1.2rem; font-weight:500; cursor:pointer; transition:all 0.2s;
+        margin:10px 0; font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
+        box-shadow:0 4px 10px rgba(0,102,204,0.1);
+    }
+    .btn-blue  { background:linear-gradient(135deg,#0066cc,#0099ff); color:white; box-shadow:0 4px 0 #003366; }
+    .btn-blue:hover  { transform:translateY(-2px); box-shadow:0 6px 0 #003366; }
+    .btn-red   { background:linear-gradient(135deg,#ff4444,#cc0000); color:white; box-shadow:0 4px 0 #990000; }
+    .btn-red:hover   { transform:translateY(-2px); box-shadow:0 6px 0 #990000; }
+    .btn-yellow{ background:linear-gradient(135deg,#ffcc00,#ffaa00); color:#1a2a3a; box-shadow:0 4px 0 #996600; }
+    .btn-yellow:hover{ transform:translateY(-2px); box-shadow:0 6px 0 #996600; }
+    .btn-secondary { background:white; color:#0066cc; border:1px solid #ffcc00; }
+
+    .counter-container {
+        display:flex; justify-content:center; align-items:center; gap:15px;
+        margin:20px 0; background:white; padding:12px; border-radius:50px;
+        box-shadow:0 4px 10px rgba(0,102,204,0.05); border:1px solid rgba(255,204,0,0.2);
+    }
+    .counter-btn {
+        width:45px; height:45px; border-radius:25px;
+        background:linear-gradient(135deg,#0066cc,#0099ff);
+        border:none; font-size:1.8rem; font-weight:500; color:white; cursor:pointer;
+        box-shadow:0 4px 8px rgba(0,102,204,0.2); transition:all 0.2s;
+        display:flex; justify-content:center; align-items:center;
+    }
+    .counter-btn:active { transform:scale(0.95); }
+    .counter-value { font-size:2.5rem; font-weight:500; color:#0066cc; min-width:60px; text-align:center; }
+
+    .player-input {
+        width:100%; padding:14px 18px; margin:8px 0;
+        border:1px solid rgba(0,102,204,0.2); border-radius:40px;
+        background:white; font-size:1rem; text-align:right; direction:rtl;
+        font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
+        transition:all 0.2s; box-shadow:0 2px 5px rgba(0,0,0,0.02);
+    }
+    .player-input:focus { outline:none; border-color:#ffcc00; box-shadow:0 0 0 3px rgba(255,204,0,0.1); }
+    .player-input::placeholder { color:#99b8d9; font-size:0.95rem; }
+
+    .card {
+        background:white; border-radius:32px; padding:40px 20px; margin:18px 0;
+        text-align:center; cursor:pointer; transition:all 0.3s;
+        animation:gentleFade 0.4s ease; border:2px solid #0066cc;
+        box-shadow:0 15px 30px rgba(0,102,204,0.1);
+    }
+    .card:hover { transform:translateY(-3px); box-shadow:0 20px 40px rgba(0,102,204,0.2); }
+    .card:active { transform:scale(0.98); }
+    @keyframes gentleFade { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+    .player-name { font-size:2rem; color:#0066cc; margin-bottom:20px; font-weight:500; }
+    .tap-message {
+        font-size:1.1rem; color:#666; margin:25px 0; background:#f5f9ff;
+        padding:12px 20px; border-radius:40px; display:inline-block;
+        border:1px solid rgba(255,204,0,0.2);
+    }
+    .role-icon { font-size:4rem; margin-bottom:15px; animation:gentleBounce 0.4s ease; }
+    @keyframes gentleBounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+    .card-spy-revealed {
+        background:linear-gradient(145deg,rgba(255,68,68,0.25),rgba(204,0,0,0.25));
+        color:white; border:2px solid #ffcc00;
+        box-shadow:0 15px 30px rgba(255,0,0,0.15); cursor:default;
+        padding:40px 20px; border-radius:32px; text-align:center; backdrop-filter:blur(2px);
+    }
+    .card-civilian-revealed {
+        background:linear-gradient(145deg,rgba(0,204,102,0.25),rgba(0,153,77,0.25));
+        color:white; border:2px solid #ffcc00;
+        box-shadow:0 15px 30px rgba(0,204,0,0.15); cursor:default;
+        padding:40px 20px; border-radius:32px; text-align:center; backdrop-filter:blur(2px);
+    }
+    .card-spy-revealed .player-name, .card-civilian-revealed .player-name { color:white; }
+    .card-spy-revealed .tap-message, .card-civilian-revealed .tap-message { background:rgba(255,255,255,0.2); color:white; }
+
+    .word-display {
+        font-size:3rem; font-weight:bold; padding:20px 30px;
+        border-radius:40px; display:inline-block; margin:15px 0;
+    }
+    .card-spy-revealed .word-display, .card-civilian-revealed .word-display { background:rgba(0,0,0,0.2); color:#2E6F40; }
+    .card-white-revealed {
+        background:white; color:#333; border:2px solid #0066cc;
+        box-shadow:0 15px 30px rgba(0,102,204,0.1); cursor:default;
+        padding:40px 20px; border-radius:32px; text-align:center;
+    }
+    .card-white-revealed .word-display { background:#f0f7ff; color:#00AA00; border:2px solid #ffcc00; }
+
+    .progress {
+        background:white; padding:12px; border-radius:40px; text-align:center;
+        margin:18px 0; font-size:1rem; color:#0066cc; font-weight:500;
+        border:1px solid rgba(255,204,0,0.2); box-shadow:0 2px 5px rgba(0,102,204,0.05);
+    }
+    .starter-box {
+        background:linear-gradient(135deg,#0066cc,#0099ff); color:white;
+        padding:25px; border-radius:40px; margin:20px 0; text-align:center;
+        border:3px solid #ffcc00; box-shadow:0 10px 20px rgba(0,102,204,0.3);
+    }
+    .starter-name { font-size:2.5rem; font-weight:bold; margin:10px 0; color:#ffcc00; }
+    .starter-message { font-size:1.3rem; margin-bottom:10px; }
+
+    .reveal-btn {
+        background:linear-gradient(135deg,#ffcc00,#ffaa00); color:#1a2a3a;
+        font-size:1.3rem; padding:18px; border-radius:40px; border:none;
+        width:100%; margin:20px 0; cursor:pointer; box-shadow:0 4px 0 #996600;
+        transition:all 0.3s; font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif; font-weight:bold;
+    }
+    .reveal-btn:hover { transform:translateY(-2px); box-shadow:0 6px 0 #996600; }
+
+    .reveal-card {
+        background:linear-gradient(145deg,#1a1a1a,#333333); border:3px solid #ffcc00;
+        border-radius:32px; padding:30px 20px; text-align:center;
+        animation:gentleReveal 0.5s ease; box-shadow:0 20px 40px rgba(0,0,0,0.3); margin:20px 0;
+    }
+    @keyframes gentleReveal { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+    .reveal-card .role-icon { font-size:5rem; }
+    .person-name { font-size:2.2rem; margin:15px 0; font-weight:500; color:#ffcc00; }
+
+    .results-container { background:#f8fbff; border-radius:32px; padding:20px; margin:20px 0; border:1px solid rgba(255,204,0,0.2); }
+    .player-result {
+        display:flex; justify-content:space-between; align-items:center;
+        padding:14px 18px; margin:6px 0; background:white; border-radius:30px;
+        font-size:1.1rem; border:1px solid rgba(0,102,204,0.1);
+    }
+    .spy-badge      { background:linear-gradient(135deg,#ff4444,#cc0000); color:white; padding:6px 18px; border-radius:30px; font-size:1rem; }
+    .civilian-badge { background:linear-gradient(135deg,#00cc66,#00994d); color:white; padding:6px 18px; border-radius:30px; font-size:1rem; }
+    .different-badge{ background:linear-gradient(135deg,#ff4444,#cc0000); color:white; padding:6px 18px; border-radius:30px; font-size:1rem; }
+    .normal-badge   { background:linear-gradient(135deg,#0066cc,#0099ff); color:white; padding:6px 18px; border-radius:30px; font-size:1rem; }
+
+    .hidden { display:none !important; }
+
+    .welcome-text { color:#4a5a6a; text-align:center; margin:15px 0 25px 0; font-size:1.1rem; line-height:1.5; }
+    .word-box { background:white; border:2px solid #ffcc00; border-radius:32px; padding:20px; margin:15px 0; text-align:center; }
+    .word-value         { color:#333;   font-size:2.5rem; font-weight:bold; }
+    .word-value-different{ color:#cc0000; font-size:2.5rem; font-weight:bold; }
+
+    /* ── Modals (your originals) ── */
+    .game-modal {
+        position:fixed; top:0; left:0; right:0; bottom:0;
+        width:100vw; height:100vh; background:rgba(0,0,0,0.8);
+        backdrop-filter:blur(8px); z-index:10000;
+        display:flex; justify-content:center; align-items:center; padding:20px;
+    }
+    .game-modal-content {
+        background:white; border-radius:48px; padding:35px 25px;
+        max-width:380px; width:100%; text-align:center;
+        box-shadow:0 30px 60px rgba(0,0,0,0.5); border:3px solid #ffcc00;
+        animation:modalPop 0.3s ease;
+    }
+    @keyframes modalPop { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+    .game-modal-icon { font-size:5rem; margin-bottom:15px; }
+    .game-modal-title { font-size:2rem; font-weight:bold; margin-bottom:20px; }
+    .game-modal-title.blue { color:#0066cc; }
+    .game-modal-title.red  { color:#cc0000; }
+    .game-modal-text {
+        font-size:1.3rem; line-height:1.6; color:#333; margin:20px 0; padding:15px;
+        background:#f5f9ff; border-radius:30px; border:1px solid #ffcc00; text-align:right;
+    }
+    .game-modal-buttons { display:flex; gap:10px; margin-top:20px; }
+    .game-modal-btn {
+        flex:1; padding:16px; border:none; border-radius:40px;
+        font-size:1.2rem; font-weight:500; cursor:pointer; transition:all 0.2s;
+        font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
+    }
+    .game-modal-btn.confirm { background:linear-gradient(135deg,#00cc66,#00994d); color:white; box-shadow:0 4px 0 #006633; }
+    .game-modal-btn.confirm:hover { transform:translateY(-2px); box-shadow:0 6px 0 #006633; }
+    .game-modal-btn.cancel  { background:white; color:#666; border:2px solid #ccc; box-shadow:0 4px 0 #999; }
+    .game-modal-btn.cancel:hover { transform:translateY(-2px); box-shadow:0 6px 0 #999; }
+
+    .how-to-play-modal {
+        position:fixed; top:0; left:0; right:0; bottom:0;
+        width:100vw; height:100vh; background:rgba(0,0,0,0.8);
+        backdrop-filter:blur(8px); z-index:10001;
+        display:flex; justify-content:center; align-items:center; padding:20px;
+    }
+    .how-to-play-content {
+        background:white; border-radius:48px; padding:30px 25px;
+        max-width:380px; width:100%; text-align:center;
+        box-shadow:0 30px 60px rgba(0,0,0,0.5); border:3px solid #ffcc00; animation:modalPop 0.3s ease;
+    }
+    .how-to-play-option {
+        width:100%; padding:20px; margin:10px 0; border:none; border-radius:40px;
+        font-size:1.3rem; font-weight:500; cursor:pointer; transition:all 0.2s;
+        font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
+    }
+    .how-to-play-option.blue { background:linear-gradient(135deg,#0066cc,#0099ff); color:white; box-shadow:0 4px 0 #003366; }
+    .how-to-play-option.red  { background:linear-gradient(135deg,#ff4444,#cc0000); color:white; box-shadow:0 4px 0 #990000; }
+    .how-to-play-option:hover { transform:translateY(-2px); }
+    .how-to-play-close {
+        margin-top:15px; padding:12px; background:#f0f0f0; border:none;
+        border-radius:40px; font-size:1.1rem; cursor:pointer; width:100%;
+        font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
+    }
+
+    .welcome-notification {
+        position:fixed; top:20px; left:50%; transform:translateX(-50%);
+        background:linear-gradient(135deg,#0066cc,#0099ff); color:white;
+        padding:16px 24px; border-radius:60px;
+        box-shadow:0 10px 25px rgba(0,102,204,0.4), 0 0 0 3px #ffcc00;
+        z-index:20000; font-size:1.2rem; text-align:center; direction:rtl;
+        max-width:90%; white-space:nowrap; border:2px solid white;
+        animation:slideDown 0.5s ease, fadeOut 0.5s ease 4.5s forwards;
+        pointer-events:auto; cursor:pointer;
+    }
+    @keyframes slideDown { from{top:-100px;opacity:0} to{top:20px;opacity:1} }
+    @keyframes fadeOut   { to{opacity:0;transform:translateX(-50%) translateY(-20px);visibility:hidden} }
+
+    /* ══ NEW: Nickname page ══ */
+    .nickname-big-icon { text-align:center; font-size:5rem; margin:10px 0 5px; }
+
+    /* ══ NEW: Offline mode picker (two big buttons like your game description modal style) ══ */
+    .mode-pick-pair {
+        display:flex; gap:12px; margin:15px 0;
+    }
+    .mode-pick-big {
+        flex:1; padding:22px 10px; border:none; border-radius:40px;
+        font-size:1.2rem; font-weight:500; cursor:pointer; transition:all 0.2s;
+        font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
+        line-height:1.6;
+    }
+    .mode-pick-big.spy  { background:linear-gradient(135deg,#0066cc,#0099ff); color:white; box-shadow:0 4px 0 #003366; }
+    .mode-pick-big.diff { background:linear-gradient(135deg,#ff4444,#cc0000); color:white; box-shadow:0 4px 0 #990000; }
+    .mode-pick-big:hover { transform:translateY(-2px); }
+
+    /* ══ NEW: Online room page ══ */
+    .room-code-box {
+        background:linear-gradient(135deg,#0066cc,#0099ff); color:white;
+        border-radius:32px; padding:20px; text-align:center; margin:12px 0;
+        border:3px solid #ffcc00; box-shadow:0 10px 20px rgba(0,102,204,0.25);
+    }
+    .room-code-label { font-size:0.95rem; opacity:0.85; margin-bottom:6px; }
+    .room-code-value { font-size:3rem; font-weight:bold; color:#ffcc00; letter-spacing:8px; }
+    .copy-hint { font-size:0.82rem; opacity:0.7; margin-top:6px; cursor:pointer; text-decoration:underline; }
+
+    .players-box {
+        background:white; border-radius:28px; padding:14px; margin:10px 0;
+        border:1px solid rgba(255,204,0,0.3);
+    }
+    .players-box-title { color:#0066cc; font-size:0.9rem; text-align:center; margin-bottom:8px; }
+    .waiting-row {
+        display:flex; align-items:center; gap:10px;
+        padding:9px 14px; margin:4px 0; background:#f5f9ff; border-radius:30px;
+        font-size:1rem; color:#333;
+    }
+    .online-dot { width:10px; height:10px; background:#00cc66; border-radius:50%; flex-shrink:0; }
+
+    .online-mode-row { display:flex; gap:10px; margin:10px 0; }
+    .online-mode-btn {
+        flex:1; padding:15px 8px; border:none; border-radius:40px;
+        font-size:1.1rem; font-weight:500; cursor:pointer; transition:all 0.2s;
+        font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
+    }
+    .online-mode-btn.spy  { background:linear-gradient(135deg,#0066cc,#0099ff); color:white; box-shadow:0 4px 0 #003366; }
+    .online-mode-btn.diff { background:linear-gradient(135deg,#ff4444,#cc0000); color:white; box-shadow:0 4px 0 #990000; }
+    .online-mode-btn:hover { transform:translateY(-2px); }
+    .online-mode-btn.selected { outline:4px solid #ffcc00; outline-offset:2px; }
+
+    /* ══ NEW: Voice bar ══ */
+    .voice-bar {
+        display:flex; align-items:center; gap:12px; background:white;
+        border-radius:40px; padding:10px 18px; margin:10px 0;
+        border:1px solid rgba(255,204,0,0.3); box-shadow:0 2px 8px rgba(0,102,204,0.05);
+    }
+    .mic-btn {
+        width:46px; height:46px; border-radius:23px; border:none; font-size:1.4rem;
+        cursor:pointer; display:flex; align-items:center; justify-content:center;
+        transition:all 0.2s; flex-shrink:0;
+    }
+    .mic-btn.on  { background:linear-gradient(135deg,#00cc66,#00994d); box-shadow:0 3px 0 #006633; }
+    .mic-btn.off { background:linear-gradient(135deg,#aaaaaa,#888888); box-shadow:0 3px 0 #555; }
+    .voice-label { font-size:0.9rem; color:#555; flex:1; }
+    .speak-bars { display:flex; gap:3px; align-items:flex-end; height:22px; }
+    .speak-bar {
+        width:4px; background:#00cc66; border-radius:2px;
+        animation:speakAnim 0.5s infinite ease-in-out;
+    }
+    .speak-bar:nth-child(2){ animation-delay:0.15s; }
+    .speak-bar:nth-child(3){ animation-delay:0.3s;  }
+    @keyframes speakAnim { 0%,100%{height:4px} 50%{height:20px} }
+
+    /* ══ NEW: Chat ══ */
+    .chat-box {
+        background:white; border-radius:28px; border:1px solid rgba(0,102,204,0.12);
+        height:185px; overflow-y:auto; padding:10px 12px; margin:8px 0;
+        display:flex; flex-direction:column; gap:6px; scroll-behavior:smooth;
+    }
+    .bubble {
+        padding:8px 14px; border-radius:22px; font-size:0.95rem;
+        max-width:82%; word-break:break-word; direction:rtl;
+    }
+    .bubble.me    { background:linear-gradient(135deg,#0066cc,#0099ff); color:white; align-self:flex-end; border-bottom-right-radius:6px; }
+    .bubble.other { background:#f0f7ff; color:#333; align-self:flex-start; border-bottom-left-radius:6px; border:1px solid rgba(0,102,204,0.1); }
+    .bubble .bname{ font-size:0.75rem; opacity:0.65; margin-bottom:2px; }
+    .bubble.system{ background:transparent; color:#aaa; font-size:0.8rem; align-self:center; text-align:center; max-width:100%; }
+
+    .chat-row { display:flex; gap:8px; margin-top:6px; align-items:center; }
+    .chat-row input { flex:1; margin:0; }
+    .send-btn {
+        width:50px; height:50px; border-radius:25px;
+        background:linear-gradient(135deg,#0066cc,#0099ff);
+        border:none; color:white; font-size:1.3rem; cursor:pointer;
+        display:flex; align-items:center; justify-content:center; flex-shrink:0;
+        box-shadow:0 4px 0 #003366; transition:all 0.2s;
+    }
+    .send-btn:hover { transform:translateY(-2px); }
+</style>
+
+
+</head>
+<body>
+
+<a href="https://kurdor.is-a.dev" target="_blank" rel="noopener noreferrer"
+style="text-decoration:none;color:inherit;">
+<div id="welcomeToast" class="welcome-notification">هاتییە دروستکرن ژ لایێ رەشید فەرهاد</div>
+</a>
+
+<div style="display:flex;flex-direction:column;align-items:center;width:100%;">
+<div class="game-container">
+<div class="content" id="app">
+
+<!-- ═══════════════ HOME PAGE ═══════════════ -->
+
+<div id="home-page">
+    <div class="animated-icon">
+        <img src="assets/image/sikhur.jpg" alt="سیخوڕ" class="game-icon"
+             onclick="alert('Developed By Rashid Farhad')">
+    </div>
+    <p class="welcome-text">یارییەک بو بوراندنا دەمێن خوش دگەل هەڤاڵان.</p>
+
+
+<div style="margin-bottom:20px;">
+    <button class="btn btn-blue" onclick="goToNickname('create')">دروستکرنا ژوورێ (Create Room) 🏠</button>
+    <div style="display:flex;gap:10px;margin-top:10px;">
+        <input type="text" id="join-room-id" class="player-input"
+               placeholder="کۆدێ ژوورێ لێرە بنووسە..." style="margin:0;flex:2;">
+        <button class="btn btn-yellow" onclick="goToNickname('join')"
+                style="margin:0;flex:1;padding:14px;">چوونەژوور (Join)</button>
+    </div>
+</div>
+
+<hr style="border:0;height:1px;background:rgba(0,0,0,0.1);margin:20px 0;">
+<div class="how-to-play-link" onclick="showHowToPlayOptions()">چەوا دێ یاریی کەی؟ 📖</div>
+<button class="btn btn-secondary" onclick="goToNickname('offline')"
+        style="font-size:0.9rem;padding:10px;">یاری کرنا ناڤخۆیی (Offline) 📍</button>
+
+
+</div>
+
+<!-- ═══════════════ NICKNAME PAGE ═══════════════ -->
+
+<div id="nickname-page" class="hidden">
+    <div class="nickname-big-icon">👤</div>
+    <h2>ناڤێ خۆ هەلبژێرە ✍️</h2>
+    <p style="color:#666;text-align:center;font-size:1rem;margin-bottom:18px;">
+        پێشی دەستپێکرنی یاریێ، ناڤەکێ بۆ خۆت دیاری بکە
+    </p>
+    <input type="text" id="nickname-input" class="player-input"
+           placeholder="ناڤێ خۆ لێرە بنووسە..." maxlength="20"
+           onkeydown="if(event.key==='Enter') confirmNickname()">
+    <button class="btn btn-blue" onclick="confirmNickname()">بردن پێشڤە ➡️</button>
+    <button class="btn btn-red"  onclick="showPage('home-page')">زڤرین 🔙</button>
+</div>
+
+<!-- ═══════════════ OFFLINE MODE PICKER PAGE ═══════════════ -->
+
+<div id="offline-mode-page" class="hidden">
+    <div class="animated-icon" style="margin-bottom:5px;">
+        <img src="assets/image/sikhur.jpg" alt="سیخوڕ" class="game-icon" style="width:100px;">
+    </div>
+    <h2>جۆرێ یاریێ هەلبژێرە 🎮</h2>
+    <p style="color:#666;text-align:center;font-size:1rem;margin-bottom:10px;">
+        کام یاریێ دەیێ یابکەی؟
+    </p>
+    <div class="mode-pick-pair">
+        <button class="mode-pick-big spy"  onclick="startOfflineSetup(1)">🕵️<br>سیخوڕ</button>
+        <button class="mode-pick-big diff" onclick="startOfflineSetup(2)">🎭<br>پەیڤێن جیاواز</button>
+    </div>
+    <button class="btn btn-red" onclick="showPage('home-page')" style="margin-top:8px;">زڤرین 🔙</button>
+</div>
+
+<!-- ═══════════════ ONLINE LOBBY PAGE ═══════════════ -->
+
+<div id="online-lobby-page" class="hidden">
+    <h2 id="lobby-title">🏠 ژوورێ یاریێ</h2>
+
+
+<div class="room-code-box">
+    <div class="room-code-label">کۆدێ ژوورێ — شاركەی دگەل هەڤاڵان 📤</div>
+    <div class="room-code-value" id="room-code-display">------</div>
+    <div class="copy-hint" onclick="copyRoomCode()">📋 کۆپیکرن</div>
+</div>
+
+<div class="players-box" id="waiting-players-list">
+    <div class="players-box-title">چاوەڕوان — یارییکەران 👥</div>
+</div>
+
+<!-- Host-only: mode selector + start -->
+<div id="host-controls" class="hidden">
+    <p style="text-align:center;color:#0066cc;font-size:1rem;margin:10px 0 6px;">جۆرێ یاریێ هەلبژێرە</p>
+    <div class="online-mode-row">
+        <button class="online-mode-btn spy selected" id="omBtn1" onclick="setOnlineMode(1)">🕵️ سیخوڕ</button>
+        <button class="online-mode-btn diff"          id="omBtn2" onclick="setOnlineMode(2)">🎭 پەیڤێن جیاواز</button>
+    </div>
+    <button class="btn btn-blue" onclick="startOnlineGame()" style="margin-top:8px;">دەستپێکرنی یاریێ 🎬</button>
+</div>
+
+<!-- Voice -->
+<div class="voice-bar">
+    <button class="mic-btn off" id="micBtn" onclick="toggleVoice()">🎙️</button>
+    <div class="voice-label" id="voiceLabel">دەنگ چالاک نییە — کلیک بکە</div>
+    <div class="speak-bars hidden" id="speakBars">
+        <div class="speak-bar" style="height:5px"></div>
+        <div class="speak-bar" style="height:12px"></div>
+        <div class="speak-bar" style="height:5px"></div>
+    </div>
+</div>
+
+<!-- Chat -->
+<div class="chat-box" id="chatBox"></div>
+<div class="chat-row">
+    <input type="text" id="chatInput" class="player-input"
+           placeholder="پەیامێ بنووسە..."
+           onkeydown="if(event.key==='Enter') sendMsg()">
+    <button class="send-btn" onclick="sendMsg()">➤</button>
+</div>
+
+<button class="btn btn-red" onclick="leaveRoom()" style="margin-top:12px;">چوونەدەرەوە 🚪</button>
+
+
+</div>
+
+<!-- ═══════════════ SETUP PAGE ═══════════════ -->
+
+<div id="setup-page" class="hidden">
+    <h2 id="setup-title">⚙️ ڕێکخستن</h2>
+    <div class="counter-container">
+        <button class="counter-btn" onclick="changePlayerCount(-1)">−</button>
+        <span class="counter-value" id="player-count">5</span>
+        <button class="counter-btn" onclick="changePlayerCount(1)">+</button>
+    </div>
+    <div id="player-inputs-container"></div>
+    <button class="btn btn-blue" onclick="startGame()">دەستپێکرن 🎬</button>
+    <button class="btn btn-red"  onclick="goBackToHome()">زڤرین 🔙</button>
+</div>
+
+<!-- ═══════════════ GAME PAGE ═══════════════ -->
+
+<div id="game-page" class="hidden">
+    <h2 id="game-title">🎴 کارتەکان</h2>
+    <div class="progress" id="game-progress"></div>
+    <div id="card-container"></div>
+    <button class="btn btn-blue hidden" id="next-player-btn" onclick="nextPlayer()">یارییکەرێ دویفرا ⏭️</button>
+    <div id="starter-container" class="hidden"></div>
+    <button class="reveal-btn hidden" id="reveal-btn" onclick="goToRevealPage()">🔍 نییشان دانا کەسێ جیاواز</button>
+</div>
+
+<!-- ═══════════════ REVEAL PAGE ═══════════════ -->
+
+<div id="reveal-page" class="hidden">
+    <h2 id="reveal-title">🕵️ ئاشکراکرن</h2>
+    <div id="reveal-container"></div>
+    <button class="btn btn-blue" onclick="showFinalResults()">دییتنا ئەنجامی 📜</button>
+</div>
+
+<!-- ═══════════════ RESULTS PAGE ═══════════════ -->
+
+<div id="results-page" class="hidden">
+    <h2>ئەنجام 🏆</h2>
+    <div id="results-container"></div>
+    <button class="btn btn-blue"   onclick="playAgain()">دوبارە یارییکرن 🔁</button>
+    <button class="btn btn-yellow" onclick="goToHomePage()">زڤرین بو دەستپێک 🏠</button>
+</div>
+
+</div><!-- /content -->
+</div><!-- /game-container -->
+</div>
+
+<!-- ══ HOW TO PLAY MODALS (100% original) ══ -->
+
+<div id="how-to-play-modal" class="how-to-play-modal hidden">
+    <div class="how-to-play-content">
+        <div class="game-modal-icon">📖</div>
+        <h2 style="color:#0066cc;margin-bottom:20px;">چەوا دێ یاریی کەی؟</h2>
+        <button class="how-to-play-option blue" onclick="showHowToPlayInstructions(1)">یارییا سیخوڕی 🕵️</button>
+        <button class="how-to-play-option red"  onclick="showHowToPlayInstructions(2)">یارییا پەییڤێن جیاواز 🎭</button>
+        <button class="how-to-play-close" onclick="closeHowToPlayOptions()">گرتن</button>
+    </div>
+</div>
+
+<div id="how-to-play-instructions-modal" class="how-to-play-modal hidden">
+    <div class="how-to-play-content">
+        <div id="instructions-icon" class="game-modal-icon">🕵️</div>
+        <h2 id="instructions-title" style="color:#0066cc;margin-bottom:20px;">یارییا سیخوڕی</h2>
+        <div id="instructions-text" class="game-modal-text" style="text-align:right;"></div>
+        <button class="how-to-play-close" onclick="closeHowToPlayInstructions()">گرتن</button>
+    </div>
+</div>
+
+<script type="module">
+/* ══════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════ */
+setTimeout(() => { const t=document.getElementById('welcomeToast'); if(t) t.remove(); }, 5000);
+
+/* ══════════════════════════════════════════
+   WORD DATA
+══════════════════════════════════════════ */
+const wordPairs = [
+    {normal:"پیتزا",different:"بەرگر"},{normal:"کۆکا کۆلا",different:"پێپسی"},
+    {normal:"ئایفون",different:"گاڵاکسی"},{normal:"نایک",different:"ئەدیداس"},
+    {normal:"تویوتا",different:"نیسان"},{normal:"فەیسبووک",different:"ئیستاگرام"},
+    {normal:"مێسی",different:"مەرەدونا"},{normal:"رونالدو نازاریو",different:"رونالدینهو"},
+    {normal:"قەهوە",different:"چا"},{normal:"شەتەڕەنج",different:"دومینە"},
+    {normal:"پاس",different:"قیتار"},{normal:"کیلیان ئێمباپێ",different:"هێنری"},
+    {normal:"ڤینیسیوس",different:"رودریگو"},{normal:"کەتچەپ",different:"مایونیز"},
+    {normal:"خیار شو",different:"خیار"},{normal:"سابوین 🧼",different:"شامپوو 🧴"},
+    {normal:"دەولەمەند",different:"سەرکەفتی"},{normal:"مرەبا",different:"هنگڤین"},
+    {normal:"خێ",different:"شەکر"},{normal:"ساڤار",different:"برنج"},
+    {normal:"قوتابخانە",different:"زانکۆ"},{normal:"جزدانک",different:"بەرینک"}
+];
+
+const kurdishWords = [
+    "فەرماندە خورشید","گیڤارا","هیتلەر","حەمدی","دلو بێداری","ساح 🏟️","خوخ",
+    "هناروک","بلوک","کورولا","کامری","سێنترا","مارسیدس","ئەحمەد یوسف","ریڤی",
+    "مریشک","کەر","قەلات","کورنیشێ زاخو","سەدا دهوکێ","K.R.O - Duhok","کێڤجالە",
+    "مانویێل نویەر 🐐","لیونێل مێسی","کریستیانو رونالدو","نەیمار","پاس","لاپچین",
+    "لاپتوپ","جێفری ئێپستن","دونالد ترامپ","ڤلادمیر پوتین","یەکەتییا سوڤیەت",
+    "یانا شێلادزێ","حەلاق","پروگرامەر","ئەبو چیچو","ئەبو رەیان","لیوا دابان",
+    "سەگ","گورگ","شێر","فیل","پلنگ","سێڤ","لیموک","ChatGPT","مجەفە (فیر)",
+    "شە 🪮","چەقماق (ماکینە)","جگارە","نارگیل","فەحم","ئاڤ","چیا","طەیر","چیچک",
+    "بلە خەمبار","کابینە","کامیرە","قودیک","مەشروب","هێلک","شێلادزێ","دوبەی",
+    "کافی","کەباب","برنج","بەرخ","بەراز","بازرگان","فەلاح"
+];
+
+/* ══════════════════════════════════════════
+   GAME STATE
+══════════════════════════════════════════ */
+const gs = {
+    players:[], spies:[], secretWord:"", differentWord:"",
+    gameMode:1, currentPlayerIndex:0, gameOver:false,
+    playerNames:[], starterPlayer:null,
+    // new
+    myNickname:"", pendingFlow:"",
+    isHost:false, roomCode:"", onlineMode:1, onlinePlayers:[],
+};
+let currentPlayerCount = 5;
+
+/* ══════════════════════════════════════════
+   PAGE ROUTER
+══════════════════════════════════════════ */
+const PAGES = ['home-page','nickname-page','offline-mode-page','online-lobby-page',
+               'setup-page','game-page','reveal-page','results-page'];
+
+function showPage(id) {
+    PAGES.forEach(p => document.getElementById(p).classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    if (id==='setup-page')  initSetupPage();
+    if (id==='reveal-page') {
+        document.getElementById('reveal-title').textContent =
+            gs.gameMode===1 ? '🕵️ سیخوڕ' : '🎭 کەسێ جیاواز';
+    }
+}
+function goBackToHome(){ showPage('home-page'); }
+function goToHomePage(){ showPage('home-page'); }
+
+/* ══════════════════════════════════════════
+   NICKNAME
+══════════════════════════════════════════ */
+function goToNickname(flow) {
+    gs.pendingFlow = flow;
+    const inp = document.getElementById('nickname-input');
+    inp.value = gs.myNickname || '';
+    inp.style.borderColor = '';
+    inp.placeholder = 'ناڤێ خۆ لێرە بنووسە...';
+    showPage('nickname-page');
+    setTimeout(()=>inp.focus(), 250);
+}
+
+function confirmNickname() {
+    const inp = document.getElementById('nickname-input');
+    const val = inp.value.trim();
+    if (!val) {
+        inp.style.borderColor = '#ff4444';
+        inp.placeholder = '⚠️ تکایە ناڤێ خۆ بنووسە!';
+        inp.focus();
+        return;
+    }
+    inp.style.borderColor = '';
+    gs.myNickname = val;
+
+    if (gs.pendingFlow === 'create') {
+        openLobby(true, null);
+    } else if (gs.pendingFlow === 'join') {
+        const code = document.getElementById('join-room-id').value.trim().toUpperCase();
+        if (!code) {
+            showPage('home-page');
+            return;
+        }
+        openLobby(false, code);
+    } else {
+        // offline → show mode picker
+        showPage('offline-mode-page');
+    }
+}
+
+/* ══════════════════════════════════════════
+   OFFLINE: mode pick → setup
+══════════════════════════════════════════ */
+function startOfflineSetup(mode) {
+    gs.gameMode = mode;
+    document.getElementById('setup-title').textContent =
+        mode===1 ? '⚙️ ڕێکخستنا سیخوڕی 🕵️' : '⚙️ ڕێکخستنا پەیڤێن جیاواز 🎭';
+    showPage('setup-page');
+}
+
+/* ══════════════════════════════════════════
+   SETUP PAGE
+══════════════════════════════════════════ */
+function changePlayerCount(delta) {
+    currentPlayerCount = Math.min(10, Math.max(3, currentPlayerCount + delta));
+    document.getElementById('player-count').textContent = currentPlayerCount;
+    updatePlayerInputs();
+}
+
+function updatePlayerInputs() {
+    let html = '';
+    for (let i=1; i<=currentPlayerCount; i++) {
+        html += `<div style="margin:8px 0;">
+            <input type="text" class="player-input" id="pname-${i}" placeholder="یارییکەرێ ${i}">
+        </div>`;
+    }
+    document.getElementById('player-inputs-container').innerHTML = html;
+    // Pre-fill slot 1 with my nickname
+    if (gs.myNickname) {
+        const f = document.getElementById('pname-1');
+        if (f && !f.value) f.value = gs.myNickname;
+    }
+}
+
+function initSetupPage() {
+    document.getElementById('player-count').textContent = currentPlayerCount;
+    updatePlayerInputs();
+}
+
+function startGame() {
+    const players = [];
+    for (let i=1; i<=currentPlayerCount; i++) {
+        const el = document.getElementById(`pname-${i}`);
+        players.push(el && el.value.trim() ? el.value.trim() : `یارییکەرێ ${i}`);
+    }
+    gs.playerNames = [...players];
+    startNewGame(players);
+}
+
+/* ══════════════════════════════════════════
+   CORE GAME LOGIC  (original, untouched)
+══════════════════════════════════════════ */
+function startNewGame(players) {
+    let secretWord, differentWord='', spyIndices=[];
+
+    if (gs.gameMode === 1) {
+        let spyCount = 1;
+        if (currentPlayerCount>=6 && currentPlayerCount<=8) spyCount=2;
+        if (currentPlayerCount>=9) spyCount=3;
+        while (spyIndices.length < spyCount) {
+            const r = Math.floor(Math.random()*currentPlayerCount);
+            if (!spyIndices.includes(r)) spyIndices.push(r);
+        }
+        secretWord = kurdishWords[Math.floor(Math.random()*kurdishWords.length)];
+    } else {
+        spyIndices = [Math.floor(Math.random()*currentPlayerCount)];
+        const pair = wordPairs[Math.floor(Math.random()*wordPairs.length)];
+        secretWord    = pair.normal;
+        differentWord = pair.different;
+    }
+
+    gs.players = players.map((name,i) => ({
+        id: i+1, name,
+        isSpy:           gs.gameMode===1 ? spyIndices.includes(i) : false,
+        hasDifferentWord: gs.gameMode===2 ? spyIndices.includes(i) : false
+    }));
+    gs.spies         = spyIndices.map(i=>i+1);
+    gs.secretWord    = secretWord;
+    gs.differentWord = differentWord;
+    gs.currentPlayerIndex = 0;
+    gs.gameOver      = false;
+    gs.starterPlayer = null;
+
+    showPage('game-page');
+    showNextCard();
+}
+
+function selectStarterPlayer() {
+    const r = Math.floor(Math.random()*gs.players.length);
+    gs.starterPlayer = gs.players[r] || {name:"یاریکەر"};
+    return gs.starterPlayer;
+}
+
+function showNextCard() {
+    const container   = document.getElementById('card-container');
+    const progress    = document.getElementById('game-progress');
+    const nextBtn     = document.getElementById('next-player-btn');
+    const revealBtn   = document.getElementById('reveal-btn');
+    const starterCont = document.getElementById('starter-container');
+    const current     = gs.players[gs.currentPlayerIndex];
+
+    if (!current) {
+        const starter = selectStarterPlayer();
+        starterCont.innerHTML = `
+            <div class="starter-box">
+                <div class="starter-message">🎤 دەستپێ بکە!</div>
+                <div class="starter-name">${starter.name}</div>
+                <div class="starter-note">🧠 مێشکێ خۆ بکاربیینە، هزر بکە پاشی باخڤە!</div>
+            </div>`;
+        starterCont.classList.remove('hidden');
+        container.innerHTML = `
+            <div class="card" style="cursor:default;background:#f0f7ff;">
+                <div class="role-icon">🎯</div>
+                <div style="color:#0066cc;">هەمی کارت هاتتنە دیتن</div>
+                <div style="color:#666;margin-top:15px;">پشتی فەرێت هەوە خلاس دبن، هین دشێن مناقشێ بکەن! 🗣️</div>
+            </div>`;
+        nextBtn.classList.add('hidden');
+        revealBtn.classList.remove('hidden');
+        revealBtn.textContent = gs.gameMode===1
+            ? 'کەشف کرنا سیخوڕی 🔎' : 'کەشف کرنا کەسێ جیاواز 🔎';
+        progress.textContent = `${gs.players.length}/${gs.players.length} - تەمام`;
+        return;
+    }
+
+    starterCont.classList.add('hidden');
+    progress.textContent = `یارییکەرێ ${gs.currentPlayerIndex+1} / ${gs.players.length}`;
+    container.innerHTML = `
+        <div class="card" id="role-card" onclick="revealRole(${current.id})">
+            <div class="player-name">${current.name}</div>
+            <div class="tap-message">دەستێ خۆ ڵی بدە بو بینینا رولێ خو</div>
+            <div style="color:#999;font-size:0.9rem;margin-top:15px;">(بتنێ تو دێ بینی)</div>
+        </div>`;
+    nextBtn.classList.add('hidden');
+    revealBtn.classList.add('hidden');
+}
+
+function revealRole(playerId) {
+    const player    = gs.players.find(p=>p.id===playerId);
+    const container = document.getElementById('card-container');
+    const nextBtn   = document.getElementById('next-player-btn');
+    if (!player) return;
+
+    if (gs.gameMode === 1) {
+        if (player.isSpy) {
+            container.innerHTML = `
+                <div class="card-spy-revealed">
+                    <div class="role-icon">🕵️</div>
+                    <div style="color:#FF0000;font-size:2rem;margin-bottom:15px;">تۆ سیخوڕی!</div>
+                    <div style="margin-top:15px;font-size:1.1rem;color:#000000;">تۆ پەیڤێ نزانی، هەوڵبدە پەییڤێ بزانی</div>
+                    <div style="margin-top:20px;color:#000000;font-size:1.1rem;">خۆ دگەل مەدەنییا بگونجینە!</div>
+                </div>`;
+        } else {
+            container.innerHTML = `
+                <div class="card-civilian-revealed">
+                    <div class="role-icon">👨‍🌾</div>
+                    <div style="color:#000000;font-size:2rem;margin-bottom:15px;">تۆ مەدەنی</div>
+                    <div style="margin-top:15px;font-size:1.1rem;color:#000000;">هەوڵبدە سیخوڕی بگری!</div>
+                    <div class="word-display">${gs.secretWord}</div>
+                </div>`;
+        }
+    } else {
+        const word = player.hasDifferentWord ? gs.differentWord : gs.secretWord;
+        container.innerHTML = `
+            <div class="card-white-revealed">
+                <div class="word-display">${word}</div>
+            </div>`;
+    }
+    nextBtn.classList.remove('hidden');
+}
+
+function nextPlayer() {
+    gs.currentPlayerIndex++;
+    showNextCard();
+}
+
+function goToRevealPage() {
+    showPage('reveal-page');
+    const container = document.getElementById('reveal-container');
+
+    if (gs.gameMode === 1) {
+        const spies = gs.players.filter(p=>p.isSpy);
+        if (spies.length === 1) {
+            container.innerHTML = `
+                <div class="reveal-card">
+                    <div class="role-icon">🕵️</div>
+                    <div style="color:#ffcc00;">سیخوڕ =</div>
+                    <div class="person-name">${spies[0].name}</div>
+                    <div style="background:#333;padding:15px;border-radius:30px;margin-top:20px;border:1px solid #ffcc00;">
+                        <div style="font-size:1.1rem;color:#ffcc00;">پەییڤا مەدەنییا =</div>
+                        <div style="font-size:2rem;font-weight:500;margin-top:5px;color:white;">${gs.secretWord}</div>
+                    </div>
+                </div>`;
+        } else {
+            let sh='<div style="margin:15px 0;">';
+            spies.forEach(s=>{ sh+=`<div style="font-size:1.8rem;margin:10px 0;background:#333;padding:12px;border-radius:30px;border:1px solid #ffcc00;color:#ffcc00;">${s.name}</div>`; });
+            sh+='</div>';
+            container.innerHTML = `
+                <div class="reveal-card">
+                    <div class="role-icon">🕵️🕵️</div>
+                    <div style="color:#ffcc00;">سیخوڕ ئەڤەنە!</div>
+                    ${sh}
+                    <div style="background:#333;padding:15px;border-radius:30px;margin-top:20px;border:1px solid #ffcc00;">
+                        <div style="font-size:1.1rem;color:#ffcc00;">پەیڤاتە:</div>
+                        <div style="font-size:2rem;font-weight:500;margin-top:5px;color:white;">${gs.secretWord}</div>
+                    </div>
+                </div>`;
+        }
+    } else {
+        const diff = gs.players.find(p=>p.hasDifferentWord);
+        container.innerHTML = `
+            <div class="reveal-card">
+                <div class="role-icon">🎭</div>
+                <div style="color:#ffcc00;">کەسێ جیاواز ئەڤەیە!</div>
+                <div class="person-name">${diff.name}</div>
+                <div style="background:#333;padding:15px;border-radius:30px;margin-top:20px;border:1px solid #ffcc00;">
+                    <div style="font-size:1.1rem;color:#ffcc00;">پەییڤا ئاسایی:</div>
+                    <div style="font-size:1.8rem;font-weight:500;color:white;">${gs.secretWord}</div>
+                    <div style="font-size:1.1rem;color:#ffcc00;margin-top:15px;">پەییڤا جیاواز:</div>
+                    <div style="font-size:1.8rem;font-weight:500;color:#ff6b6b;">${gs.differentWord}</div>
+                </div>
+            </div>`;
+    }
+}
+
+function showFinalResults() {
+    showPage('results-page');
+    const container = document.getElementById('results-container');
+    let html = '<div class="results-container">';
+
+    if (gs.gameMode === 1) {
+        gs.players.forEach(p => {
+            html += `<div class="player-result"><span>${p.name}</span>
+                ${p.isSpy?'<span class="spy-badge">سیخوڕ</span>':'<span class="civilian-badge">مەدەنی</span>'}
+            </div>`;
+        });
+        html += '</div>';
+        container.innerHTML = html+`<div class="word-box"><div class="word-value">${gs.secretWord}</div></div>`;
+    } else {
+        gs.players.forEach(p => {
+            html += `<div class="player-result"><span>${p.name}</span>
+                ${p.hasDifferentWord?'<span class="different-badge">جیاواز</span>':'<span class="normal-badge">ئاسایی</span>'}
+            </div>`;
+        });
+        html += '</div>';
+        container.innerHTML = html
+            +`<div class="word-box"><div class="word-value">${gs.secretWord}</div></div>`
+            +`<div class="word-box"><div class="word-value-different">${gs.differentWord}</div></div>`;
+    }
+}
+
+function playAgain() {
+    startNewGame(gs.playerNames);
+}
+
+/* ══════════════════════════════════════════
+   FIREBASE — REAL MULTIPLAYER
+══════════════════════════════════════════ */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, get, push, onValue, onChildAdded, remove, update, off }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyA-ZxdE8YKOBH45EqfylIdRmYF47wmwWI0",
+    authDomain: "sikhur-game.firebaseapp.com",
+    databaseURL: "https://sikhur-game-default-rtdb.firebaseio.com",
+    projectId: "sikhur-game",
+    storageBucket: "sikhur-game.firebasestorage.app",
+    messagingSenderId: "501101971993",
+    appId: "1:501101971993:web:1feea3e49ab43a74187888"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db    = getDatabase(fbApp);
+
+// my unique player id for this session
+const myPlayerId = 'p_' + Math.random().toString(36).substr(2,9);
+
+// firebase listeners to detach on leave
+let fbListeners = [];
+
+function fbOff(path) {
+    fbListeners = fbListeners.filter(l => {
+        if (l.path === path) { off(ref(db, l.path)); return false; }
+        return true;
+    });
+}
+function fbListen(path, cb) {
+    fbListeners.push({path});
+    onValue(ref(db, path), cb);
+}
+function fbListenChild(path, cb) {
+    fbListeners.push({path});
+    onChildAdded(ref(db, path), cb);
+}
+function detachAll() {
+    fbListeners.forEach(l => off(ref(db, l.path)));
+    fbListeners = [];
+}
+
+function genCode() { return Math.random().toString(36).substr(2,6).toUpperCase(); }
+
+/* ── Create Room ── */
+async function openLobby(isHost, code) {
+    gs.isHost = isHost;
+    gs.roomCode = isHost ? genCode() : code.toUpperCase();
+
+    document.getElementById('room-code-display').textContent = gs.roomCode;
+    document.getElementById('lobby-title').textContent = isHost ? '🏠 ژوورێ یاریێ' : '🏠 چوویتە ژوور';
+    document.getElementById('host-controls').classList.toggle('hidden', !isHost);
+    document.getElementById('chatBox').innerHTML = '';
+    showPage('online-lobby-page');
+
+    const roomRef = `rooms/${gs.roomCode}`;
+
+    if (isHost) {
+        // create room in Firebase
+        await set(ref(db, roomRef), {
+            host: myPlayerId,
+            mode: 1,
+            status: 'waiting',
+            createdAt: Date.now()
+        });
+        sysMsg('✅ ژوور دروست بوو — کۆدی شاركە دگەل هەڤاڵان 📤');
+    } else {
+        // check room exists
+        const snap = await get(ref(db, roomRef));
+        if (!snap.exists()) {
+            alert('❌ ژوور نەدۆزرایەوە! کۆدەکە بپشکنە.');
+            showPage('home-page');
+            return;
+        }
+        sysMsg(`✅ چوویتە ناو ژوورا ${gs.roomCode}`);
+    }
+
+    // join as player
+    await set(ref(db, `${roomRef}/players/${myPlayerId}`), {
+        name: gs.myNickname,
+        joinedAt: Date.now()
+    });
+
+    // remove myself on disconnect
+    const presenceRef = ref(db, `${roomRef}/players/${myPlayerId}`);
+    // onDisconnect(presenceRef).remove(); // uncomment if you add onDisconnect import
+
+    // listen: players list
+    fbListen(`${roomRef}/players`, snap => {
+        gs.onlinePlayers = [];
+        snap.forEach(child => {
+            gs.onlinePlayers.push({ id: child.key, name: child.val().name });
+        });
+        renderPlayers();
+    });
+
+    // listen: game mode (host changes it, guests see it)
+    fbListen(`${roomRef}/mode`, snap => {
+        if (snap.val()) {
+            gs.onlineMode = snap.val();
+            document.getElementById('omBtn1').classList.toggle('selected', gs.onlineMode===1);
+            document.getElementById('omBtn2').classList.toggle('selected', gs.onlineMode===2);
+        }
+    });
+
+    // listen: game start signal
+    fbListen(`${roomRef}/status`, snap => {
+        if (snap.val() === 'started') {
+            get(ref(db, `${roomRef}/gameData`)).then(gSnap => {
+                if (!gSnap.exists()) return;
+                const gd = gSnap.val();
+                gs.gameMode      = gd.mode;
+                gs.secretWord    = gd.secretWord;
+                gs.differentWord = gd.differentWord || '';
+                const names = gd.playerNames;
+                currentPlayerCount = names.length;
+                gs.playerNames = [...names];
+                // assign roles based on server data
+                gs.players = names.map((name, i) => ({
+                    id: i+1, name,
+                    isSpy:           gd.mode===1 ? gd.spyIndices.includes(i) : false,
+                    hasDifferentWord: gd.mode===2 ? gd.spyIndices.includes(i) : false
+                }));
+                gs.spies = gd.spyIndices.map(i=>i+1);
+                gs.currentPlayerIndex = 0;
+                gs.gameOver = false;
+                gs.starterPlayer = null;
+                showPage('game-page');
+                showNextCard();
+            });
+        }
+    });
+
+    // listen: chat messages
+    fbListenChild(`${roomRef}/chat`, snap => {
+        const msg = snap.val();
+        const box = document.getElementById('chatBox');
+        if (msg.type === 'system') {
+            const d = document.createElement('div');
+            d.className = 'bubble system';
+            d.textContent = msg.text;
+            box.appendChild(d);
+        } else {
+            const d = document.createElement('div');
+            d.className = msg.senderId === myPlayerId ? 'bubble me' : 'bubble other';
+            d.innerHTML = `<div class="bname">${msg.name}</div>${msg.text}`;
+            box.appendChild(d);
+        }
+        box.scrollTop = box.scrollHeight;
+    });
+}
+
+function renderPlayers() {
+    const box = document.getElementById('waiting-players-list');
+    box.innerHTML = `<div class="players-box-title">یارییکەران (${gs.onlinePlayers.length}) 👥</div>`;
+    gs.onlinePlayers.forEach(p => {
+        box.innerHTML += `<div class="waiting-row">
+            <div class="online-dot"></div>
+            <span>${p.name}${p.id===myPlayerId?' (تۆ)':''}</span>
+        </div>`;
+    });
+}
+
+function copyRoomCode() {
+    navigator.clipboard.writeText(gs.roomCode).then(()=>{
+        const el = document.querySelector('.copy-hint');
+        el.textContent = '✅ کۆپیکرا!';
+        setTimeout(()=>{ el.textContent='📋 کۆپیکرن'; }, 2000);
+    }).catch(()=> alert('کۆد: ' + gs.roomCode));
+}
+
+function setOnlineMode(mode) {
+    gs.onlineMode = mode;
+    // push to firebase so guests see it too
+    update(ref(db, `rooms/${gs.roomCode}`), { mode });
+}
+
+async function startOnlineGame() {
+    const names = gs.onlinePlayers.map(p => p.name);
+    if (names.length < 2) { alert('پێویستە کەمێ 2 یارییکەر بن!'); return; }
+
+    const mode = gs.onlineMode;
+    let secretWord, differentWord = '', spyIndices = [];
+
+    if (mode === 1) {
+        let spyCount = 1;
+        if (names.length >= 6 && names.length <= 8) spyCount = 2;
+        if (names.length >= 9) spyCount = 3;
+        while (spyIndices.length < spyCount) {
+            const r = Math.floor(Math.random() * names.length);
+            if (!spyIndices.includes(r)) spyIndices.push(r);
+        }
+        secretWord = kurdishWords[Math.floor(Math.random() * kurdishWords.length)];
+    } else {
+        spyIndices = [Math.floor(Math.random() * names.length)];
+        const pair = wordPairs[Math.floor(Math.random() * wordPairs.length)];
+        secretWord    = pair.normal;
+        differentWord = pair.different;
+    }
+
+    // push game data + signal start
+    await update(ref(db, `rooms/${gs.roomCode}`), {
+        status: 'started',
+        gameData: { mode, secretWord, differentWord, spyIndices, playerNames: names }
+    });
+}
+
+async function leaveRoom() {
+    stopVoice();
+    detachAll();
+    if (gs.roomCode) {
+        await remove(ref(db, `rooms/${gs.roomCode}/players/${myPlayerId}`));
+        if (gs.isHost) await remove(ref(db, `rooms/${gs.roomCode}`));
+    }
+    gs.roomCode = '';
+    showPage('home-page');
+}
+
+/* ══════════════════════════════════════════
+   TEXT CHAT  (real Firebase)
+══════════════════════════════════════════ */
+function sysMsg(text) {
+    // only add locally for system messages triggered by me
+    const box = document.getElementById('chatBox');
+    const d = document.createElement('div');
+    d.className = 'bubble system';
+    d.textContent = text;
+    box.appendChild(d);
+    box.scrollTop = box.scrollHeight;
+}
+
+function sendMsg() {
+    const inp = document.getElementById('chatInput');
+    const txt = inp.value.trim();
+    if (!txt || !gs.roomCode) return;
+    inp.value = '';
+    push(ref(db, `rooms/${gs.roomCode}/chat`), {
+        senderId: myPlayerId,
+        name: gs.myNickname,
+        text: txt,
+        type: 'chat',
+        ts: Date.now()
+    });
+}
+
+/* ══════════════════════════════════════════
+   VOICE CHAT
+══════════════════════════════════════════ */
+let voiceOn=false, micStream=null, audioCtx=null, analyser=null, animId=null;
+
+function toggleVoice() {
+    voiceOn ? stopVoice() : startVoice();
+}
+
+async function startVoice() {
+    try {
+        micStream = await navigator.mediaDevices.getUserMedia({audio:true});
+        voiceOn   = true;
+        audioCtx  = new (window.AudioContext||window.webkitAudioContext)();
+        analyser  = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        audioCtx.createMediaStreamSource(micStream).connect(analyser);
+
+        document.getElementById('micBtn').className   = 'mic-btn on';
+        document.getElementById('voiceLabel').textContent = 'دەنگ چالاکە — قسەبکە! 🎙️';
+        sysMsg('🎙️ '+gs.myNickname+' — مایکرۆفۆن چالاک بوو');
+        watchVolume();
+    } catch(e) {
+        alert('مایکرۆفۆن نەدۆزرایەوە:\n'+e.message);
+    }
+}
+
+function stopVoice() {
+    if (micStream) { micStream.getTracks().forEach(t=>t.stop()); micStream=null; }
+    if (audioCtx)  { audioCtx.close(); audioCtx=null; }
+    if (animId)    { cancelAnimationFrame(animId); animId=null; }
+    voiceOn = false;
+    const btn  = document.getElementById('micBtn');
+    const lbl  = document.getElementById('voiceLabel');
+    const bars = document.getElementById('speakBars');
+    if (btn)  { btn.className='mic-btn off'; }
+    if (lbl)  lbl.textContent='دەنگ چالاک نییە — کلیک بکە';
+    if (bars) bars.classList.add('hidden');
+}
+
+function watchVolume() {
+    if (!analyser) return;
+    const data = new Uint8Array(analyser.frequencyBinCount);
+    const bars = document.getElementById('speakBars');
+    (function loop(){
+        if (!voiceOn) return;
+        analyser.getByteFrequencyData(data);
+        const avg = data.reduce((a,b)=>a+b,0)/data.length;
+        avg>12 ? bars.classList.remove('hidden') : bars.classList.add('hidden');
+        animId = requestAnimationFrame(loop);
+    })();
+}
+
+/* ══════════════════════════════════════════
+   HOW TO PLAY  (your original)
+══════════════════════════════════════════ */
+function showHowToPlayOptions() {
+    document.getElementById('how-to-play-modal').classList.remove('hidden');
+}
+function closeHowToPlayOptions() {
+    document.getElementById('how-to-play-modal').classList.add('hidden');
+}
+function showHowToPlayInstructions(mode) {
+    closeHowToPlayOptions();
+    const icon  = document.getElementById('instructions-icon');
+    const title = document.getElementById('instructions-title');
+    const text  = document.getElementById('instructions-text');
+    if (mode===1) {
+        icon.textContent=''; title.textContent='یارییا سیخوڕی 🕵️'; title.style.color='#0066cc';
+        text.innerHTML=`<strong>🎯 ئارمانج:</strong> سیخوڕی بگرن!<br>
+            <strong>📋 چەوا دێ یاریێ کەی؟:</strong><br>
+            - سیخوڕ پەیڤێ نزانیت، لێ دێ هەولدەت ل تشتێن مەدەنیا پەیڤێ بزانیت.<br>
+            - نابیت پەیڤ بخو بهێتە گوتن لێ تشتێن ب پەیڤێ ڤە گرێدایی و نزیک درستن.<br>
+            - ب گشتی راوند (فەرە) بدلێ هنگو نە، و هەر فەرێ تە ئێک کەلیمە یاهەی نە زێدەتر!!<br>
+            - نابیت مناقشە بهێتە کرن، دناڤ راوندا (فەر)ا دا.!`;
+    } else {
+        icon.textContent=''; title.textContent='یارییا پەییڤێن جیاواز 🎭'; title.style.color='#cc0000';
+        text.innerHTML=`<strong>🎯 ئارمانج:</strong> کەسێ جیاواز بگرن!<br>
+            <strong>📋 چەوا دێ یاریێ کەی؟:</strong><br>
+            - بتنێ ئێک نەفەر پەیڤا جیاواز یا هەی کو ئەوژی نزانیت ئەو یێ جیاوازە.<br>
+            - نموونە وەک [تەیارە، عەلیکوپتەر] گەلەک تشتا ڤە وەکی ئێکن!<br>
+            - ب گشتی راوند (فەرە) بدلێ هنگو نە، و هەر فەرێ تە ئێک کەلیمە یاهەی نە زێدەتر!!<br>
+            - نابیت مناقشە بهێتە کرن، دناڤ راوندا (فەر)ا دا.!`;
+    }
+    document.getElementById('how-to-play-instructions-modal').classList.remove('hidden');
+}
+function closeHowToPlayInstructions() {
+    document.getElementById('how-to-play-instructions-modal').classList.add('hidden');
+}
+
+/* ══════════════════════════════════════════
+   BOOT
+══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+    showPage('home-page');
+    document.getElementById('how-to-play-modal').addEventListener('click', e=>{
+        if(e.target===e.currentTarget) closeHowToPlayOptions();
+    });
+    document.getElementById('how-to-play-instructions-modal').addEventListener('click', e=>{
+        if(e.target===e.currentTarget) closeHowToPlayInstructions();
+    });
+});
+
+// Expose to window so onclick="" attributes work inside a module
+Object.assign(window, {
+    goToNickname, confirmNickname, showPage,
+    goBackToHome, goToHomePage,
+    startOfflineSetup, changePlayerCount, startGame,
+    showHowToPlayOptions, closeHowToPlayOptions,
+    showHowToPlayInstructions, closeHowToPlayInstructions,
+    copyRoomCode, setOnlineMode, startOnlineGame, leaveRoom,
+    sendMsg, toggleVoice,
+    nextPlayer, revealRole, goToRevealPage, showFinalResults, playAgain,
+    pickOfflineMode: startOfflineSetup,
+});
+</script>
+
+</body>
+</html>
