@@ -10,65 +10,43 @@
         @font-face {
             font-family: 'Rabar';
             src: url('assets/fonts/Rabar.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
+            font-weight: normal; font-style: normal; font-display: swap;
         }
         @font-face {
             font-family: 'Rabar';
             src: url('assets/fonts/Rabar-bold.ttf') format('truetype');
-            font-weight: bold;
-            font-style: normal;
-            font-display: swap;
+            font-weight: bold; font-style: normal; font-display: swap;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin:0; padding:0; box-sizing:border-box; }
         * { -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; }
         input, textarea { -webkit-user-select:text; -moz-user-select:text; -ms-user-select:text; user-select:text; }
     body {
-        font-family: 'Rabar', 'Arial Unicode MS', 'Segoe UI', sans-serif;
-        background: linear-gradient(145deg, #e6f0ff 0%, #f0f7ff 100%);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        direction: rtl;
-        padding: 12px;
-        position: relative;
+        font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
+        background:linear-gradient(145deg,#e6f0ff 0%,#f0f7ff 100%);
+        min-height:100vh; display:flex; justify-content:center; align-items:center;
+        direction:rtl; padding:12px; position:relative;
     }
-
     .game-container {
-        width: 100%;
-        max-width: 420px;
-        background: rgba(255,255,255,0.85);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border-radius: 36px;
-        padding: 24px 20px 20px 20px;
-        box-shadow: 0 15px 30px rgba(0,100,255,0.1), 0 5px 15px rgba(255,200,0,0.1);
-        position: relative;
-        overflow: hidden;
-        border: 1px solid rgba(255,215,0,0.2);
-        margin-bottom: 10px;
+        width:100%; max-width:420px;
+        background:rgba(255,255,255,0.85);
+        backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+        border-radius:36px; padding:24px 20px 20px 20px;
+        box-shadow:0 15px 30px rgba(0,100,255,0.1),0 5px 15px rgba(255,200,0,0.1);
+        position:relative; overflow:hidden;
+        border:1px solid rgba(255,215,0,0.2); margin-bottom:10px;
     }
     .game-container::before {
-        content:""; position:absolute; top:-50px; right:-50px;
-        width:200px; height:200px;
+        content:""; position:absolute; top:-50px; right:-50px; width:200px; height:200px;
         background:radial-gradient(circle,rgba(0,150,255,0.1),transparent 70%);
         border-radius:50%; z-index:0;
     }
     .game-container::after {
-        content:""; position:absolute; bottom:-50px; left:-50px;
-        width:200px; height:200px;
+        content:""; position:absolute; bottom:-50px; left:-50px; width:200px; height:200px;
         background:radial-gradient(circle,rgba(255,215,0,0.1),transparent 70%);
         border-radius:50%; z-index:0;
     }
     .content { position:relative; z-index:2; }
 
-    h1 {
-        font-size:2.2rem; font-weight:bold; text-align:center; margin-bottom:8px;
-        background:linear-gradient(135deg,#0066cc,#0099ff);
-        -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-    }
     h2 {
         font-size:1.6rem; text-align:center; margin-bottom:18px;
         color:#0066cc; position:relative; padding-bottom:8px; font-weight:500;
@@ -80,8 +58,6 @@
     }
 
     .animated-icon { text-align:center; margin:10px 0 20px 0; }
-    .animated-icon img { width:300px; height:auto; display:inline-block; }
-
     .game-icon {
         width:130px; height:auto;
         animation:gentlePulse 2.5s infinite ease-in-out;
@@ -89,7 +65,6 @@
         border-radius:30px; transition:all 0.3s ease; cursor:pointer;
     }
     .game-icon:hover { animation:none; transform:scale(1.05); filter:drop-shadow(0 0 20px #ffcc00); }
-
     @keyframes gentlePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
 
     .how-to-play-link {
@@ -105,7 +80,8 @@
         box-shadow:0 4px 10px rgba(0,102,204,0.1);
     }
     .btn-blue  { background:linear-gradient(135deg,#0066cc,#0099ff); color:white; box-shadow:0 4px 0 #003366; }
-    .btn-blue:hover  { transform:translateY(-2px); box-shadow:0 6px 0 #003366; }
+    .btn-blue:hover:not(:disabled)  { transform:translateY(-2px); box-shadow:0 6px 0 #003366; }
+    .btn-blue:disabled { background:linear-gradient(135deg,#aaa,#ccc); box-shadow:0 4px 0 #888; cursor:not-allowed; opacity:0.7; }
     .btn-red   { background:linear-gradient(135deg,#ff4444,#cc0000); color:white; box-shadow:0 4px 0 #990000; }
     .btn-red:hover   { transform:translateY(-2px); box-shadow:0 6px 0 #990000; }
     .btn-yellow{ background:linear-gradient(135deg,#ffcc00,#ffaa00); color:#1a2a3a; box-shadow:0 4px 0 #996600; }
@@ -137,14 +113,14 @@
     .player-input:focus { outline:none; border-color:#ffcc00; box-shadow:0 0 0 3px rgba(255,204,0,0.1); }
     .player-input::placeholder { color:#99b8d9; font-size:0.95rem; }
 
+    /* ── Cards ── */
     .card {
         background:white; border-radius:32px; padding:40px 20px; margin:18px 0;
-        text-align:center; cursor:pointer; transition:all 0.3s;
+        text-align:center; transition:all 0.3s;
         animation:gentleFade 0.4s ease; border:2px solid #0066cc;
         box-shadow:0 15px 30px rgba(0,102,204,0.1);
+        touch-action:pan-x; /* allow vertical swipe */
     }
-    .card:hover { transform:translateY(-3px); box-shadow:0 20px 40px rgba(0,102,204,0.2); }
-    .card:active { transform:scale(0.98); }
     @keyframes gentleFade { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
     .player-name { font-size:2rem; color:#0066cc; margin-bottom:20px; font-weight:500; }
@@ -155,6 +131,19 @@
     }
     .role-icon { font-size:4rem; margin-bottom:15px; animation:gentleBounce 0.4s ease; }
     @keyframes gentleBounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+    /* swipe indicator */
+    .swipe-hint {
+        display:flex; flex-direction:column; align-items:center;
+        margin-top:20px; color:#0066cc; font-size:1rem; gap:4px;
+    }
+    .swipe-arrow {
+        font-size:2rem;
+        animation:bounceUp 1s infinite ease-in-out;
+    }
+    @keyframes bounceUp {
+        0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)}
+    }
 
     .card-spy-revealed {
         background:linear-gradient(145deg,rgba(255,68,68,0.25),rgba(204,0,0,0.25));
@@ -182,6 +171,17 @@
         padding:40px 20px; border-radius:32px; text-align:center;
     }
     .card-white-revealed .word-display { background:#f0f7ff; color:#00AA00; border:2px solid #ffcc00; }
+
+    /* waiting screen for online turns */
+    .waiting-turn-box {
+        background:linear-gradient(145deg,#f0f7ff,#e6f0ff);
+        border:2px solid #0066cc; border-radius:32px;
+        padding:40px 20px; text-align:center; margin:18px 0;
+        animation:gentleFade 0.4s ease;
+    }
+    .waiting-turn-box .wt-icon { font-size:4rem; margin-bottom:15px; }
+    .waiting-turn-box .wt-name { font-size:1.8rem; color:#0066cc; font-weight:500; margin:10px 0; }
+    .waiting-turn-box .wt-msg  { font-size:1rem; color:#666; }
 
     .progress {
         background:white; padding:12px; border-radius:40px; text-align:center;
@@ -225,24 +225,21 @@
     .normal-badge   { background:linear-gradient(135deg,#0066cc,#0099ff); color:white; padding:6px 18px; border-radius:30px; font-size:1rem; }
 
     .hidden { display:none !important; }
-
     .welcome-text { color:#4a5a6a; text-align:center; margin:15px 0 25px 0; font-size:1.1rem; line-height:1.5; }
     .word-box { background:white; border:2px solid #ffcc00; border-radius:32px; padding:20px; margin:15px 0; text-align:center; }
-    .word-value         { color:#333;   font-size:2.5rem; font-weight:bold; }
+    .word-value          { color:#333;   font-size:2.5rem; font-weight:bold; }
     .word-value-different{ color:#cc0000; font-size:2.5rem; font-weight:bold; }
 
-    /* ── Modals (your originals) ── */
+    /* ── Modals ── */
     .game-modal {
-        position:fixed; top:0; left:0; right:0; bottom:0;
-        width:100vw; height:100vh; background:rgba(0,0,0,0.8);
-        backdrop-filter:blur(8px); z-index:10000;
+        position:fixed; top:0; left:0; right:0; bottom:0; width:100vw; height:100vh;
+        background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); z-index:10000;
         display:flex; justify-content:center; align-items:center; padding:20px;
     }
     .game-modal-content {
         background:white; border-radius:48px; padding:35px 25px;
         max-width:380px; width:100%; text-align:center;
-        box-shadow:0 30px 60px rgba(0,0,0,0.5); border:3px solid #ffcc00;
-        animation:modalPop 0.3s ease;
+        box-shadow:0 30px 60px rgba(0,0,0,0.5); border:3px solid #ffcc00; animation:modalPop 0.3s ease;
     }
     @keyframes modalPop { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
     .game-modal-icon { font-size:5rem; margin-bottom:15px; }
@@ -265,9 +262,8 @@
     .game-modal-btn.cancel:hover { transform:translateY(-2px); box-shadow:0 6px 0 #999; }
 
     .how-to-play-modal {
-        position:fixed; top:0; left:0; right:0; bottom:0;
-        width:100vw; height:100vh; background:rgba(0,0,0,0.8);
-        backdrop-filter:blur(8px); z-index:10001;
+        position:fixed; top:0; left:0; right:0; bottom:0; width:100vw; height:100vh;
+        background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); z-index:10001;
         display:flex; justify-content:center; align-items:center; padding:20px;
     }
     .how-to-play-content {
@@ -289,37 +285,39 @@
         font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
     }
 
+    /* ── Toast / notification ── */
     .welcome-notification {
         position:fixed; top:20px; left:50%; transform:translateX(-50%);
         background:linear-gradient(135deg,#0066cc,#0099ff); color:white;
         padding:16px 24px; border-radius:60px;
-        box-shadow:0 10px 25px rgba(0,102,204,0.4), 0 0 0 3px #ffcc00;
+        box-shadow:0 10px 25px rgba(0,102,204,0.4),0 0 0 3px #ffcc00;
         z-index:20000; font-size:1.2rem; text-align:center; direction:rtl;
         max-width:90%; white-space:nowrap; border:2px solid white;
         animation:slideDown 0.5s ease, fadeOut 0.5s ease 4.5s forwards;
         pointer-events:auto; cursor:pointer;
     }
+    .toast-error {
+        background:linear-gradient(135deg,#ff4444,#cc0000) !important;
+        box-shadow:0 10px 25px rgba(200,0,0,0.4),0 0 0 3px #ffcc00 !important;
+    }
     @keyframes slideDown { from{top:-100px;opacity:0} to{top:20px;opacity:1} }
     @keyframes fadeOut   { to{opacity:0;transform:translateX(-50%) translateY(-20px);visibility:hidden} }
 
-    /* ══ NEW: Nickname page ══ */
+    /* ── Nickname page ── */
     .nickname-big-icon { text-align:center; font-size:5rem; margin:10px 0 5px; }
 
-    /* ══ NEW: Offline mode picker (two big buttons like your game description modal style) ══ */
-    .mode-pick-pair {
-        display:flex; gap:12px; margin:15px 0;
-    }
+    /* ── Offline mode picker ── */
+    .mode-pick-pair { display:flex; gap:12px; margin:15px 0; }
     .mode-pick-big {
         flex:1; padding:22px 10px; border:none; border-radius:40px;
         font-size:1.2rem; font-weight:500; cursor:pointer; transition:all 0.2s;
-        font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
-        line-height:1.6;
+        font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif; line-height:1.6;
     }
     .mode-pick-big.spy  { background:linear-gradient(135deg,#0066cc,#0099ff); color:white; box-shadow:0 4px 0 #003366; }
     .mode-pick-big.diff { background:linear-gradient(135deg,#ff4444,#cc0000); color:white; box-shadow:0 4px 0 #990000; }
     .mode-pick-big:hover { transform:translateY(-2px); }
 
-    /* ══ NEW: Online room page ══ */
+    /* ── Online room page ── */
     .room-code-box {
         background:linear-gradient(135deg,#0066cc,#0099ff); color:white;
         border-radius:32px; padding:20px; text-align:center; margin:12px 0;
@@ -339,7 +337,31 @@
         padding:9px 14px; margin:4px 0; background:#f5f9ff; border-radius:30px;
         font-size:1rem; color:#333;
     }
+    .waiting-row .wr-name { flex:1; }
     .online-dot { width:10px; height:10px; background:#00cc66; border-radius:50%; flex-shrink:0; }
+
+    /* Ready button */
+    .ready-btn {
+        padding:6px 14px; border:none; border-radius:30px; font-size:0.85rem;
+        cursor:pointer; transition:all 0.2s; flex-shrink:0;
+        font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
+        background:linear-gradient(135deg,#0066cc,#0099ff); color:white;
+        box-shadow:0 3px 0 #003366;
+    }
+    .ready-btn:hover { transform:translateY(-1px); }
+    .ready-btn.is-ready {
+        background:linear-gradient(135deg,#00cc66,#00994d);
+        box-shadow:0 3px 0 #006633; cursor:default;
+    }
+    .ready-check { color:#00cc66; font-size:1.2rem; flex-shrink:0; }
+
+    /* Ready count */
+    .ready-count-msg {
+        text-align:center; font-size:0.9rem; color:#666;
+        margin:-4px 0 8px 0; padding:8px 16px;
+        background:#f5f9ff; border-radius:30px;
+        border:1px solid rgba(255,204,0,0.2);
+    }
 
     .online-mode-row { display:flex; gap:10px; margin:10px 0; }
     .online-mode-btn {
@@ -352,7 +374,7 @@
     .online-mode-btn:hover { transform:translateY(-2px); }
     .online-mode-btn.selected { outline:4px solid #ffcc00; outline-offset:2px; }
 
-    /* ══ NEW: Voice bar ══ */
+    /* ── Voice bar ── */
     .voice-bar {
         display:flex; align-items:center; gap:12px; background:white;
         border-radius:40px; padding:10px 18px; margin:10px 0;
@@ -367,15 +389,12 @@
     .mic-btn.off { background:linear-gradient(135deg,#aaaaaa,#888888); box-shadow:0 3px 0 #555; }
     .voice-label { font-size:0.9rem; color:#555; flex:1; }
     .speak-bars { display:flex; gap:3px; align-items:flex-end; height:22px; }
-    .speak-bar {
-        width:4px; background:#00cc66; border-radius:2px;
-        animation:speakAnim 0.5s infinite ease-in-out;
-    }
+    .speak-bar { width:4px; background:#00cc66; border-radius:2px; animation:speakAnim 0.5s infinite ease-in-out; }
     .speak-bar:nth-child(2){ animation-delay:0.15s; }
-    .speak-bar:nth-child(3){ animation-delay:0.3s;  }
+    .speak-bar:nth-child(3){ animation-delay:0.3s; }
     @keyframes speakAnim { 0%,100%{height:4px} 50%{height:20px} }
 
-    /* ══ NEW: Chat ══ */
+    /* ── Chat ── */
     .chat-box {
         background:white; border-radius:28px; border:1px solid rgba(0,102,204,0.12);
         height:185px; overflow-y:auto; padding:10px 12px; margin:8px 0;
@@ -400,22 +419,73 @@
         box-shadow:0 4px 0 #003366; transition:all 0.2s;
     }
     .send-btn:hover { transform:translateY(-2px); }
+
+    /* Leave button small */
+    .leave-btn-small {
+        background:linear-gradient(135deg,#ff4444,#cc0000); color:white;
+        border:none; border-radius:30px; padding:7px 14px; font-size:0.82rem;
+        cursor:pointer; font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
+        box-shadow:0 3px 0 #990000; transition:all 0.2s;
+    }
+    .leave-btn-small:hover { transform:translateY(-1px); }
+    .lobby-top-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
+
+    /* Voting */
+    .vote-timer-box {
+        background:linear-gradient(135deg,#0066cc,#0099ff); color:white;
+        border-radius:32px; padding:16px; text-align:center; margin:10px 0; border:3px solid #ffcc00;
+    }
+    .vote-timer-label { font-size:0.9rem; opacity:0.85; }
+    .vote-timer-value { font-size:3rem; font-weight:bold; color:#ffcc00; }
+    .vote-timer-value.urgent { color:#ff4444; animation:urgentPulse 0.5s infinite; }
+    @keyframes urgentPulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    .vote-row {
+        display:flex; align-items:center; gap:10px;
+        padding:12px 16px; margin:6px 0; background:white; border-radius:30px;
+        border:2px solid rgba(0,102,204,0.15); transition:all 0.2s; cursor:pointer;
+    }
+    .vote-row:hover:not(.voted):not(.cant-vote) { border-color:#0066cc; background:#f0f7ff; }
+    .vote-row.selected { border-color:#ffcc00 !important; background:linear-gradient(135deg,rgba(255,204,0,0.15),rgba(255,170,0,0.1)) !important; }
+    .vote-name { flex:1; font-size:1.1rem; color:#333; }
+    .vote-count-badge { background:linear-gradient(135deg,#0066cc,#0099ff); color:white; border-radius:20px; padding:4px 14px; font-size:0.9rem; min-width:32px; text-align:center; }
+    .vote-confirm-btn {
+        width:100%; padding:16px; border:none; border-radius:40px; margin-top:8px;
+        background:linear-gradient(135deg,#ffcc00,#ffaa00); color:#1a2a3a;
+        font-size:1.2rem; font-weight:500; cursor:pointer; box-shadow:0 4px 0 #996600;
+        transition:all 0.2s; font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
+    }
+    .vote-confirm-btn:hover:not(:disabled) { transform:translateY(-2px); }
+    .vote-confirm-btn:disabled { opacity:0.5; cursor:not-allowed; }
+    .vote-status-msg { text-align:center; font-size:0.9rem; color:#666; margin:8px 0; padding:8px 16px; background:#f5f9ff; border-radius:30px; border:1px solid rgba(255,204,0,0.2); }
+    .see-results-btn {
+        width:100%; padding:16px; border:none; border-radius:40px; margin-top:8px;
+        background:linear-gradient(135deg,#00cc66,#00994d); color:white;
+        font-size:1.2rem; font-weight:500; cursor:pointer; box-shadow:0 4px 0 #006633;
+        transition:all 0.2s; font-family:'Rabar','Arial Unicode MS','Segoe UI',sans-serif;
+    }
+    .see-results-btn:hover:not(:disabled) { transform:translateY(-2px); }
+    .see-results-btn:disabled { background:linear-gradient(135deg,#aaa,#ccc); box-shadow:0 4px 0 #888; cursor:not-allowed; }
+    .result-win-card { background:linear-gradient(145deg,rgba(0,204,102,0.2),rgba(0,153,77,0.2)); border:3px solid #00cc66; border-radius:32px; padding:30px 20px; text-align:center; animation:gentleReveal 0.5s ease; margin:15px 0; }
+    .result-lose-card { background:linear-gradient(145deg,rgba(255,68,68,0.2),rgba(204,0,0,0.2)); border:3px solid #ff4444; border-radius:32px; padding:30px 20px; text-align:center; animation:gentleReveal 0.5s ease; margin:15px 0; }
+    .result-big-icon { font-size:5rem; margin-bottom:10px; }
+    .result-big-title { font-size:2rem; font-weight:bold; margin:10px 0; }
+    .result-win-card .result-big-title { color:#00994d; }
+    .result-lose-card .result-big-title { color:#cc0000; }
 </style>
 
 
 </head>
 <body>
 
-<a href="https://kurdor.is-a.dev" target="_blank" rel="noopener noreferrer"
-style="text-decoration:none;color:inherit;">
-<div id="welcomeToast" class="welcome-notification">هاتییە دروستکرن ژ لایێ رەشید فەرهاد</div>
+<a href="https://kurdor.is-a.dev" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;">
+    <div id="welcomeToast" class="welcome-notification">هاتییە دروستکرن ژ لایێ رەشید فەرهاد</div>
 </a>
 
 <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
 <div class="game-container">
 <div class="content" id="app">
 
-<!-- ═══════════════ HOME PAGE ═══════════════ -->
+<!-- ══════════ HOME PAGE ══════════ -->
 
 <div id="home-page">
     <div class="animated-icon">
@@ -429,21 +499,23 @@ style="text-decoration:none;color:inherit;">
     <button class="btn btn-blue" onclick="goToNickname('create')">دروستکرنا ژوورێ (Create Room) 🏠</button>
     <div style="display:flex;gap:10px;margin-top:10px;">
         <input type="text" id="join-room-id" class="player-input"
-               placeholder="کۆدێ ژوورێ لێرە بنووسە..." style="margin:0;flex:2;">
-        <button class="btn btn-yellow" onclick="goToNickname('join')"
+               placeholder="کۆدێ ژوورێ لێرە بنووسە..." style="margin:0;flex:2;"
+               onkeydown="if(event.key==='Enter') joinRoomClick()">
+        <button class="btn btn-yellow" onclick="joinRoomClick()"
                 style="margin:0;flex:1;padding:14px;">چوونەژوور (Join)</button>
     </div>
 </div>
 
 <hr style="border:0;height:1px;background:rgba(0,0,0,0.1);margin:20px 0;">
 <div class="how-to-play-link" onclick="showHowToPlayOptions()">چەوا دێ یاریی کەی؟ 📖</div>
-<button class="btn btn-secondary" onclick="goToNickname('offline')"
+<!-- FIX #6: offline goes directly to mode picker, no nickname -->
+<button class="btn btn-secondary" onclick="showPage('offline-mode-page')"
         style="font-size:0.9rem;padding:10px;">یاری کرنا ناڤخۆیی (Offline) 📍</button>
 
 
 </div>
 
-<!-- ═══════════════ NICKNAME PAGE ═══════════════ -->
+<!-- ══════════ NICKNAME PAGE (online only) ══════════ -->
 
 <div id="nickname-page" class="hidden">
     <div class="nickname-big-icon">👤</div>
@@ -458,16 +530,14 @@ style="text-decoration:none;color:inherit;">
     <button class="btn btn-red"  onclick="showPage('home-page')">زڤرین 🔙</button>
 </div>
 
-<!-- ═══════════════ OFFLINE MODE PICKER PAGE ═══════════════ -->
+<!-- ══════════ OFFLINE MODE PICKER ══════════ -->
 
 <div id="offline-mode-page" class="hidden">
     <div class="animated-icon" style="margin-bottom:5px;">
         <img src="assets/image/sikhur.jpg" alt="سیخوڕ" class="game-icon" style="width:100px;">
     </div>
     <h2>جۆرێ یاریێ هەلبژێرە 🎮</h2>
-    <p style="color:#666;text-align:center;font-size:1rem;margin-bottom:10px;">
-        کام یاریێ دەیێ یابکەی؟
-    </p>
+    <p style="color:#666;text-align:center;font-size:1rem;margin-bottom:10px;">کام یاریێ دەیێ یابکەی؟</p>
     <div class="mode-pick-pair">
         <button class="mode-pick-big spy"  onclick="startOfflineSetup(1)">🕵️<br>سیخوڕ</button>
         <button class="mode-pick-big diff" onclick="startOfflineSetup(2)">🎭<br>پەیڤێن جیاواز</button>
@@ -475,10 +545,13 @@ style="text-decoration:none;color:inherit;">
     <button class="btn btn-red" onclick="showPage('home-page')" style="margin-top:8px;">زڤرین 🔙</button>
 </div>
 
-<!-- ═══════════════ ONLINE LOBBY PAGE ═══════════════ -->
+<!-- ══════════ ONLINE LOBBY ══════════ -->
 
 <div id="online-lobby-page" class="hidden">
-    <h2 id="lobby-title">🏠 ژوورێ یاریێ</h2>
+    <div class="lobby-top-bar">
+        <h2 id="lobby-title" style="margin-bottom:0;">🏠 ژوورێ یاریێ</h2>
+        <button class="leave-btn-small" onclick="leaveRoom()">چوونەدەرەوە 🚪</button>
+    </div>
 
 
 <div class="room-code-box">
@@ -491,14 +564,17 @@ style="text-decoration:none;color:inherit;">
     <div class="players-box-title">چاوەڕوان — یارییکەران 👥</div>
 </div>
 
-<!-- Host-only: mode selector + start -->
+<!-- Host-only controls -->
 <div id="host-controls" class="hidden">
     <p style="text-align:center;color:#0066cc;font-size:1rem;margin:10px 0 6px;">جۆرێ یاریێ هەلبژێرە</p>
     <div class="online-mode-row">
         <button class="online-mode-btn spy selected" id="omBtn1" onclick="setOnlineMode(1)">🕵️ سیخوڕ</button>
         <button class="online-mode-btn diff"          id="omBtn2" onclick="setOnlineMode(2)">🎭 پەیڤێن جیاواز</button>
     </div>
-    <button class="btn btn-blue" onclick="startOnlineGame()" style="margin-top:8px;">دەستپێکرنی یاریێ 🎬</button>
+    <button class="btn btn-blue" id="startGameBtn" onclick="startOnlineGame()" style="margin-top:8px;" disabled>
+        دەستپێکرنی یاریێ 🎬
+    </button>
+    <div class="ready-count-msg" id="readyCountMsg">چاوەڕوانی هەموو یاریکەران... (0/0 ئامادەن)</div>
 </div>
 
 <!-- Voice -->
@@ -521,12 +597,10 @@ style="text-decoration:none;color:inherit;">
     <button class="send-btn" onclick="sendMsg()">➤</button>
 </div>
 
-<button class="btn btn-red" onclick="leaveRoom()" style="margin-top:12px;">چوونەدەرەوە 🚪</button>
-
 
 </div>
 
-<!-- ═══════════════ SETUP PAGE ═══════════════ -->
+<!-- ══════════ SETUP PAGE (offline) ══════════ -->
 
 <div id="setup-page" class="hidden">
     <h2 id="setup-title">⚙️ ڕێکخستن</h2>
@@ -540,18 +614,18 @@ style="text-decoration:none;color:inherit;">
     <button class="btn btn-red"  onclick="goBackToHome()">زڤرین 🔙</button>
 </div>
 
-<!-- ═══════════════ GAME PAGE ═══════════════ -->
+<!-- ══════════ GAME PAGE ══════════ -->
 
 <div id="game-page" class="hidden">
     <h2 id="game-title">🎴 کارتەکان</h2>
     <div class="progress" id="game-progress"></div>
     <div id="card-container"></div>
-    <button class="btn btn-blue hidden" id="next-player-btn" onclick="nextPlayer()">یارییکەرێ دویفرا ⏭️</button>
+    <button class="btn btn-blue hidden" id="next-player-btn" onclick="nextPlayerAction()">یارییکەرێ دویفرا ⏭️</button>
     <div id="starter-container" class="hidden"></div>
     <button class="reveal-btn hidden" id="reveal-btn" onclick="goToRevealPage()">🔍 نییشان دانا کەسێ جیاواز</button>
 </div>
 
-<!-- ═══════════════ REVEAL PAGE ═══════════════ -->
+<!-- ══════════ REVEAL PAGE ══════════ -->
 
 <div id="reveal-page" class="hidden">
     <h2 id="reveal-title">🕵️ ئاشکراکرن</h2>
@@ -559,7 +633,7 @@ style="text-decoration:none;color:inherit;">
     <button class="btn btn-blue" onclick="showFinalResults()">دییتنا ئەنجامی 📜</button>
 </div>
 
-<!-- ═══════════════ RESULTS PAGE ═══════════════ -->
+<!-- ══════════ RESULTS PAGE ══════════ -->
 
 <div id="results-page" class="hidden">
     <h2>ئەنجام 🏆</h2>
@@ -568,11 +642,35 @@ style="text-decoration:none;color:inherit;">
     <button class="btn btn-yellow" onclick="goToHomePage()">زڤرین بو دەستپێک 🏠</button>
 </div>
 
+<!-- ══════════ VOTING PAGE (online) ══════════ -->
+
+<div id="voting-page" class="hidden">
+    <h2>🗳️ دەنگدان</h2>
+    <div class="vote-timer-box">
+        <div class="vote-timer-label">کاتی مایەوە</div>
+        <div class="vote-timer-value" id="voteTimerDisplay">60</div>
+    </div>
+    <p style="text-align:center;color:#666;font-size:1rem;margin:8px 0;">کێ دەسەڵاتداری گومانی لێهاتووە؟ دەنگ بدە!</p>
+    <div class="vote-list" id="voteList"></div>
+    <div class="vote-status-msg" id="voteStatusMsg">دەنگێ خۆ هەلبژێرە</div>
+    <button class="vote-confirm-btn" id="voteConfirmBtn" onclick="submitVote()" disabled>دەنگدانێ خۆ پشتراستبکەرەوە ✓</button>
+    <button class="see-results-btn" id="seeResultsBtn" onclick="openOnlineResults()" disabled>دییتنا ئەنجامی 🏆</button>
+</div>
+
+<!-- ══════════ ONLINE RESULTS PAGE ══════════ -->
+
+<div id="online-results-page" class="hidden">
+    <h2>ئەنجام 🏆</h2>
+    <div id="online-results-container"></div>
+    <button class="btn btn-blue" onclick="playAgainOnline()">دوبارە یارییکرن 🔁</button>
+    <button class="btn btn-yellow" onclick="goToHomePage()">زڤرین بو دەستپێک 🏠</button>
+</div>
+
 </div><!-- /content -->
 </div><!-- /game-container -->
 </div>
 
-<!-- ══ HOW TO PLAY MODALS (100% original) ══ -->
+<!-- ══ HOW TO PLAY MODALS ══ -->
 
 <div id="how-to-play-modal" class="how-to-play-modal hidden">
     <div class="how-to-play-content">
@@ -583,7 +681,6 @@ style="text-decoration:none;color:inherit;">
         <button class="how-to-play-close" onclick="closeHowToPlayOptions()">گرتن</button>
     </div>
 </div>
-
 <div id="how-to-play-instructions-modal" class="how-to-play-modal hidden">
     <div class="how-to-play-content">
         <div id="instructions-icon" class="game-modal-icon">🕵️</div>
@@ -595,9 +692,40 @@ style="text-decoration:none;color:inherit;">
 
 <script type="module">
 /* ══════════════════════════════════════════
+   FIREBASE IMPORTS
+══════════════════════════════════════════ */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, get, push, onValue, onChildAdded, remove, update, off }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyA-ZxdE8YKOBH45EqfylIdRmYF47wmwWI0",
+    authDomain: "sikhur-game.firebaseapp.com",
+    databaseURL: "https://sikhur-game-default-rtdb.firebaseio.com",
+    projectId: "sikhur-game",
+    storageBucket: "sikhur-game.firebasestorage.app",
+    messagingSenderId: "501101971993",
+    appId: "1:501101971993:web:1feea3e49ab43a74187888"
+};
+const fbApp = initializeApp(firebaseConfig);
+const db    = getDatabase(fbApp);
+const myPlayerId = 'p_' + Math.random().toString(36).substr(2,9);
+
+/* ══════════════════════════════════════════
    TOAST
 ══════════════════════════════════════════ */
 setTimeout(() => { const t=document.getElementById('welcomeToast'); if(t) t.remove(); }, 5000);
+
+function showToast(msg, isError=false) {
+    // remove any existing toast
+    document.querySelectorAll('.welcome-notification').forEach(e=>e.remove());
+    const d = document.createElement('div');
+    d.className = 'welcome-notification' + (isError ? ' toast-error' : '');
+    d.textContent = msg;
+    d.onclick = () => d.remove();
+    document.body.appendChild(d);
+    setTimeout(() => d.remove(), 5000);
+}
 
 /* ══════════════════════════════════════════
    WORD DATA
@@ -615,7 +743,6 @@ const wordPairs = [
     {normal:"خێ",different:"شەکر"},{normal:"ساڤار",different:"برنج"},
     {normal:"قوتابخانە",different:"زانکۆ"},{normal:"جزدانک",different:"بەرینک"}
 ];
-
 const kurdishWords = [
     "فەرماندە خورشید","گیڤارا","هیتلەر","حەمدی","دلو بێداری","ساح 🏟️","خوخ",
     "هناروک","بلوک","کورولا","کامری","سێنترا","مارسیدس","ئەحمەد یوسف","ریڤی",
@@ -636,17 +763,36 @@ const gs = {
     players:[], spies:[], secretWord:"", differentWord:"",
     gameMode:1, currentPlayerIndex:0, gameOver:false,
     playerNames:[], starterPlayer:null,
-    // new
     myNickname:"", pendingFlow:"",
     isHost:false, roomCode:"", onlineMode:1, onlinePlayers:[],
+    isOnlineGame: false,
+    myPlayerIndex: -1,   // this player's index in the online player list
 };
 let currentPlayerCount = 5;
+
+/* ══════════════════════════════════════════
+   FIREBASE HELPERS
+══════════════════════════════════════════ */
+let fbListeners = [];
+function fbListen(path, cb) {
+    fbListeners.push(path);
+    onValue(ref(db, path), cb);
+}
+function fbListenChild(path, cb) {
+    fbListeners.push(path);
+    onChildAdded(ref(db, path), cb);
+}
+function detachAll() {
+    fbListeners.forEach(p => off(ref(db, p)));
+    fbListeners = [];
+}
+function genCode() { return Math.random().toString(36).substr(2,6).toUpperCase(); }
 
 /* ══════════════════════════════════════════
    PAGE ROUTER
 ══════════════════════════════════════════ */
 const PAGES = ['home-page','nickname-page','offline-mode-page','online-lobby-page',
-               'setup-page','game-page','reveal-page','results-page'];
+               'setup-page','game-page','reveal-page','results-page','voting-page','online-results-page'];
 
 function showPage(id) {
     PAGES.forEach(p => document.getElementById(p).classList.add('hidden'));
@@ -661,6 +807,44 @@ function goBackToHome(){ showPage('home-page'); }
 function goToHomePage(){ showPage('home-page'); }
 
 /* ══════════════════════════════════════════
+   FIX #1 — JOIN ROOM VALIDATION
+══════════════════════════════════════════ */
+async function joinRoomClick() {
+    const input = document.getElementById('join-room-id');
+    const code = input.value.trim().toUpperCase();
+
+    // Empty check
+    if (!code) {
+        showToast('تکایە کۆدێ ژوورێ بنووسە! ❌', true);
+        input.style.borderColor = '#ff4444';
+        setTimeout(() => { input.style.borderColor = ''; }, 2000);
+        return;
+    }
+
+    // Check Firebase if room exists
+    try {
+        const snap = await get(ref(db, `rooms/${code}`));
+        if (!snap.exists()) {
+            showToast('کۆدەکە هەڵەیە! ❌', true);
+            input.style.borderColor = '#ff4444';
+            setTimeout(() => { input.style.borderColor = ''; }, 2000);
+            return;
+        }
+        // Valid room → go to nickname
+        input.style.borderColor = '';
+        gs.pendingFlow = 'join';
+        const inp = document.getElementById('nickname-input');
+        inp.value = gs.myNickname || '';
+        inp.style.borderColor = '';
+        inp.placeholder = 'ناڤێ خۆ لێرە بنووسە...';
+        showPage('nickname-page');
+        setTimeout(() => inp.focus(), 250);
+    } catch(e) {
+        showToast('هەڵە! پەیوەندی پشکنە.', true);
+    }
+}
+
+/* ══════════════════════════════════════════
    NICKNAME
 ══════════════════════════════════════════ */
 function goToNickname(flow) {
@@ -670,7 +854,7 @@ function goToNickname(flow) {
     inp.style.borderColor = '';
     inp.placeholder = 'ناڤێ خۆ لێرە بنووسە...';
     showPage('nickname-page');
-    setTimeout(()=>inp.focus(), 250);
+    setTimeout(() => inp.focus(), 250);
 }
 
 function confirmNickname() {
@@ -689,22 +873,16 @@ function confirmNickname() {
         openLobby(true, null);
     } else if (gs.pendingFlow === 'join') {
         const code = document.getElementById('join-room-id').value.trim().toUpperCase();
-        if (!code) {
-            showPage('home-page');
-            return;
-        }
         openLobby(false, code);
-    } else {
-        // offline → show mode picker
-        showPage('offline-mode-page');
     }
 }
 
 /* ══════════════════════════════════════════
-   OFFLINE: mode pick → setup
+   FIX #6 — OFFLINE: skip nickname
 ══════════════════════════════════════════ */
 function startOfflineSetup(mode) {
     gs.gameMode = mode;
+    gs.isOnlineGame = false;
     document.getElementById('setup-title').textContent =
         mode===1 ? '⚙️ ڕێکخستنا سیخوڕی 🕵️' : '⚙️ ڕێکخستنا پەیڤێن جیاواز 🎭';
     showPage('setup-page');
@@ -718,7 +896,6 @@ function changePlayerCount(delta) {
     document.getElementById('player-count').textContent = currentPlayerCount;
     updatePlayerInputs();
 }
-
 function updatePlayerInputs() {
     let html = '';
     for (let i=1; i<=currentPlayerCount; i++) {
@@ -727,18 +904,11 @@ function updatePlayerInputs() {
         </div>`;
     }
     document.getElementById('player-inputs-container').innerHTML = html;
-    // Pre-fill slot 1 with my nickname
-    if (gs.myNickname) {
-        const f = document.getElementById('pname-1');
-        if (f && !f.value) f.value = gs.myNickname;
-    }
 }
-
 function initSetupPage() {
     document.getElementById('player-count').textContent = currentPlayerCount;
     updatePlayerInputs();
 }
-
 function startGame() {
     const players = [];
     for (let i=1; i<=currentPlayerCount; i++) {
@@ -750,11 +920,10 @@ function startGame() {
 }
 
 /* ══════════════════════════════════════════
-   CORE GAME LOGIC  (original, untouched)
+   CORE GAME LOGIC (offline)
 ══════════════════════════════════════════ */
 function startNewGame(players) {
     let secretWord, differentWord='', spyIndices=[];
-
     if (gs.gameMode === 1) {
         let spyCount = 1;
         if (currentPlayerCount>=6 && currentPlayerCount<=8) spyCount=2;
@@ -770,10 +939,9 @@ function startNewGame(players) {
         secretWord    = pair.normal;
         differentWord = pair.different;
     }
-
     gs.players = players.map((name,i) => ({
-        id: i+1, name,
-        isSpy:           gs.gameMode===1 ? spyIndices.includes(i) : false,
+        id:i+1, name,
+        isSpy:            gs.gameMode===1 ? spyIndices.includes(i) : false,
         hasDifferentWord: gs.gameMode===2 ? spyIndices.includes(i) : false
     }));
     gs.spies         = spyIndices.map(i=>i+1);
@@ -782,7 +950,6 @@ function startNewGame(players) {
     gs.currentPlayerIndex = 0;
     gs.gameOver      = false;
     gs.starterPlayer = null;
-
     showPage('game-page');
     showNextCard();
 }
@@ -793,6 +960,39 @@ function selectStarterPlayer() {
     return gs.starterPlayer;
 }
 
+/* ══════════════════════════════════════════
+   FIX #4 — SWIPE UP CARD INTERACTION
+══════════════════════════════════════════ */
+let swipeStartY = 0;
+let swipeCardId = null;
+
+function attachSwipeToCard(playerId) {
+    // slight delay to ensure DOM is ready
+    setTimeout(() => {
+        const card = document.getElementById('role-card');
+        if (!card) return;
+        swipeCardId = playerId;
+
+        card.addEventListener('touchstart', e => {
+            swipeStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        card.addEventListener('touchend', e => {
+            const endY = e.changedTouches[0].clientY;
+            if (swipeStartY - endY >= 50) {
+                // swiped up ≥ 50px
+                revealRole(swipeCardId);
+            }
+        }, { passive: true });
+
+        // also keep click for desktop
+        card.addEventListener('click', () => revealRole(swipeCardId));
+    }, 50);
+}
+
+/* ══════════════════════════════════════════
+   SHOW NEXT CARD
+══════════════════════════════════════════ */
 function showNextCard() {
     const container   = document.getElementById('card-container');
     const progress    = document.getElementById('game-progress');
@@ -802,12 +1002,13 @@ function showNextCard() {
     const current     = gs.players[gs.currentPlayerIndex];
 
     if (!current) {
+        // All cards shown
         const starter = selectStarterPlayer();
         starterCont.innerHTML = `
             <div class="starter-box">
                 <div class="starter-message">🎤 دەستپێ بکە!</div>
                 <div class="starter-name">${starter.name}</div>
-                <div class="starter-note">🧠 مێشکێ خۆ بکاربیینە، هزر بکە پاشی باخڤە!</div>
+                <div>🧠 مێشکێ خۆ بکاربیینە، هزر بکە پاشی باخڤە!</div>
             </div>`;
         starterCont.classList.remove('hidden');
         container.innerHTML = `
@@ -818,8 +1019,7 @@ function showNextCard() {
             </div>`;
         nextBtn.classList.add('hidden');
         revealBtn.classList.remove('hidden');
-        revealBtn.textContent = gs.gameMode===1
-            ? 'کەشف کرنا سیخوڕی 🔎' : 'کەشف کرنا کەسێ جیاواز 🔎';
+        revealBtn.textContent = gs.gameMode===1 ? 'کەشف کرنا سیخوڕی 🔎' : 'کەشف کرنا کەسێ جیاواز 🔎';
         progress.textContent = `${gs.players.length}/${gs.players.length} - تەمام`;
         return;
     }
@@ -827,13 +1027,18 @@ function showNextCard() {
     starterCont.classList.add('hidden');
     progress.textContent = `یارییکەرێ ${gs.currentPlayerIndex+1} / ${gs.players.length}`;
     container.innerHTML = `
-        <div class="card" id="role-card" onclick="revealRole(${current.id})">
+        <div class="card" id="role-card">
             <div class="player-name">${current.name}</div>
-            <div class="tap-message">دەستێ خۆ ڵی بدە بو بینینا رولێ خو</div>
-            <div style="color:#999;font-size:0.9rem;margin-top:15px;">(بتنێ تو دێ بینی)</div>
+            <div class="tap-message">کارتێ خۆ ببینە</div>
+            <div class="swipe-hint">
+                <div class="swipe-arrow">⬆️</div>
+                <div>سەرهەڵبدە بۆ بینین</div>
+                <div style="font-size:0.8rem;color:#999;">(swipe up)</div>
+            </div>
         </div>`;
     nextBtn.classList.add('hidden');
     revealBtn.classList.add('hidden');
+    attachSwipeToCard(current.id);
 }
 
 function revealRole(playerId) {
@@ -870,15 +1075,156 @@ function revealRole(playerId) {
     nextBtn.classList.remove('hidden');
 }
 
-function nextPlayer() {
+// Offline next player — simple
+function nextPlayerOffline() {
     gs.currentPlayerIndex++;
     showNextCard();
+}
+
+/* ══════════════════════════════════════════
+   FIX #5 — ONLINE TURN-BASED REVEAL
+══════════════════════════════════════════ */
+function showOnlineTurnScreen(gameData, turnIndex, revealedArr) {
+    const container   = document.getElementById('card-container');
+    const progress    = document.getElementById('game-progress');
+    const nextBtn     = document.getElementById('next-player-btn');
+    const revealBtn   = document.getElementById('reveal-btn');
+    const starterCont = document.getElementById('starter-container');
+
+    starterCont.classList.add('hidden');
+    nextBtn.classList.add('hidden');
+    revealBtn.classList.add('hidden');
+
+    const players     = gameData.playerNames;
+    const spyIndices  = gameData.spyIndices;
+    const totalPlayers = players.length;
+    const myIdx       = gs.myPlayerIndex;
+
+    progress.textContent = `یارییکەرێ ${turnIndex+1} / ${totalPlayers}`;
+
+    if (turnIndex >= totalPlayers) {
+        // All revealed → discussion phase
+        const starter = players[Math.floor(Math.random()*players.length)];
+        starterCont.innerHTML = `
+            <div class="starter-box">
+                <div class="starter-message">🎤 دەستپێ بکە!</div>
+                <div class="starter-name">${starter}</div>
+                <div>🧠 مێشکێ خۆ بکاربیینە، هزر بکە پاشی باخڤە!</div>
+            </div>`;
+        starterCont.classList.remove('hidden');
+        container.innerHTML = `
+            <div class="card" style="cursor:default;background:#f0f7ff;">
+                <div class="role-icon">🎯</div>
+                <div style="color:#0066cc;">هەمی کارت هاتتنە دیتن</div>
+                <div style="color:#666;margin-top:15px;">پشتی فەرێت هەوە خلاس دبن، هین دشێن مناقشێ بکەن! 🗣️</div>
+            </div>`;
+        progress.textContent = `${totalPlayers}/${totalPlayers} - تەمام`;
+        // All players see a vote button (not just host)
+        revealBtn.classList.remove('hidden');
+        revealBtn.textContent = '🗳️ دەستپێکرنا دەنگدانی';
+        revealBtn.onclick = () => startVotingPhase(gameData);
+        return;
+    }
+
+    const activePlayerName = players[turnIndex];
+
+    if (myIdx === turnIndex) {
+        // ── MY TURN: show my card face down with swipe ──
+        container.innerHTML = `
+            <div class="card" id="role-card">
+                <div class="player-name">${activePlayerName}</div>
+                <div class="tap-message">کارتێ خۆ ببینە</div>
+                <div class="swipe-hint">
+                    <div class="swipe-arrow">⬆️</div>
+                    <div>سەرهەڵبدە بۆ بینین</div>
+                    <div style="font-size:0.8rem;color:#999;">(swipe up)</div>
+                </div>
+            </div>`;
+
+        // Attach swipe + click to reveal
+        setTimeout(() => {
+            const card = document.getElementById('role-card');
+            if (!card) return;
+            let sy = 0;
+            card.addEventListener('touchstart', e => { sy = e.touches[0].clientY; }, { passive:true });
+            card.addEventListener('touchend', e => {
+                if (sy - e.changedTouches[0].clientY >= 50) onlineRevealMyCard(gameData, turnIndex);
+            }, { passive:true });
+            card.addEventListener('click', () => onlineRevealMyCard(gameData, turnIndex));
+        }, 50);
+
+    } else {
+        // ── NOT MY TURN: show waiting screen ──
+        container.innerHTML = `
+            <div class="waiting-turn-box">
+                <div class="wt-icon">⏳</div>
+                <div class="wt-msg">چاوەڕوانی بۆ</div>
+                <div class="wt-name">${activePlayerName}</div>
+                <div class="wt-msg">کارتێ خۆ ببینێت...</div>
+            </div>`;
+    }
+}
+
+function onlineRevealMyCard(gameData, myIdx) {
+    // Show my actual role
+    const container = document.getElementById('card-container');
+    const nextBtn   = document.getElementById('next-player-btn');
+    const isSpy           = gameData.mode===1 && gameData.spyIndices.includes(myIdx);
+    const hasDiffWord     = gameData.mode===2 && gameData.spyIndices.includes(myIdx);
+
+    if (gameData.mode === 1) {
+        if (isSpy) {
+            container.innerHTML = `
+                <div class="card-spy-revealed">
+                    <div class="role-icon">🕵️</div>
+                    <div style="color:#FF0000;font-size:2rem;margin-bottom:15px;">تۆ سیخوڕی!</div>
+                    <div style="font-size:1.1rem;color:#000;">تۆ پەیڤێ نزانی، هەوڵبدە پەییڤێ بزانی</div>
+                    <div style="margin-top:20px;color:#000;font-size:1.1rem;">خۆ دگەل مەدەنییا بگونجینە!</div>
+                </div>`;
+        } else {
+            container.innerHTML = `
+                <div class="card-civilian-revealed">
+                    <div class="role-icon">👨‍🌾</div>
+                    <div style="color:#000;font-size:2rem;margin-bottom:15px;">تۆ مەدەنی</div>
+                    <div style="font-size:1.1rem;color:#000;">هەوڵبدە سیخوڕی بگری!</div>
+                    <div class="word-display">${gameData.secretWord}</div>
+                </div>`;
+        }
+    } else {
+        const word = hasDiffWord ? gameData.differentWord : gameData.secretWord;
+        container.innerHTML = `
+            <div class="card-white-revealed">
+                <div class="word-display">${word}</div>
+            </div>`;
+    }
+
+    // Update Firebase: mark revealed, show Next button
+    update(ref(db, `rooms/${gs.roomCode}/gameState`), {
+        [`revealed/${myIdx}`]: true
+    });
+    nextBtn.textContent = 'یارییکەرێ دویفرا ⏭️';
+    nextBtn.classList.remove('hidden');
+    nextBtn.onclick = () => onlineNextTurn(gameData);
+}
+
+function onlineNextTurn(gameData) {
+    // host or active player increments turnIndex in Firebase
+    const nextIdx = (gameData._currentTurn||0) + 1;
+    update(ref(db, `rooms/${gs.roomCode}/gameState`), { turnIndex: nextIdx });
+}
+
+/* nextPlayerAction: dispatcher for online vs offline */
+function nextPlayerAction() {
+    if (gs.isOnlineGame) {
+        // handled by nextBtn.onclick set dynamically
+    } else {
+        nextPlayerOffline();
+    }
 }
 
 function goToRevealPage() {
     showPage('reveal-page');
     const container = document.getElementById('reveal-container');
-
     if (gs.gameMode === 1) {
         const spies = gs.players.filter(p=>p.isSpy);
         if (spies.length === 1) {
@@ -893,9 +1239,9 @@ function goToRevealPage() {
                     </div>
                 </div>`;
         } else {
-            let sh='<div style="margin:15px 0;">';
-            spies.forEach(s=>{ sh+=`<div style="font-size:1.8rem;margin:10px 0;background:#333;padding:12px;border-radius:30px;border:1px solid #ffcc00;color:#ffcc00;">${s.name}</div>`; });
-            sh+='</div>';
+            let sh = '<div style="margin:15px 0;">';
+            spies.forEach(s => { sh += `<div style="font-size:1.8rem;margin:10px 0;background:#333;padding:12px;border-radius:30px;border:1px solid #ffcc00;color:#ffcc00;">${s.name}</div>`; });
+            sh += '</div>';
             container.innerHTML = `
                 <div class="reveal-card">
                     <div class="role-icon">🕵️🕵️</div>
@@ -928,7 +1274,6 @@ function showFinalResults() {
     showPage('results-page');
     const container = document.getElementById('results-container');
     let html = '<div class="results-container">';
-
     if (gs.gameMode === 1) {
         gs.players.forEach(p => {
             html += `<div class="player-result"><span>${p.name}</span>
@@ -936,7 +1281,7 @@ function showFinalResults() {
             </div>`;
         });
         html += '</div>';
-        container.innerHTML = html+`<div class="word-box"><div class="word-value">${gs.secretWord}</div></div>`;
+        container.innerHTML = html + `<div class="word-box"><div class="word-value">${gs.secretWord}</div></div>`;
     } else {
         gs.players.forEach(p => {
             html += `<div class="player-result"><span>${p.name}</span>
@@ -945,66 +1290,247 @@ function showFinalResults() {
         });
         html += '</div>';
         container.innerHTML = html
-            +`<div class="word-box"><div class="word-value">${gs.secretWord}</div></div>`
-            +`<div class="word-box"><div class="word-value-different">${gs.differentWord}</div></div>`;
+            + `<div class="word-box"><div class="word-value">${gs.secretWord}</div></div>`
+            + `<div class="word-box"><div class="word-value-different">${gs.differentWord}</div></div>`;
+    }
+}
+function playAgain() { startNewGame(gs.playerNames); }
+
+/* ══════════════════════════════════════════
+   VOTING SYSTEM (online only)
+══════════════════════════════════════════ */
+let voteTimerInterval = null;
+let myVoteChoice = null;
+let voteSubmitted = false;
+let voteGameData = null;  // store current gameData for results
+
+function startVotingPhase(gameData) {
+    voteGameData = gameData;
+    myVoteChoice = null;
+    voteSubmitted = false;
+    showPage('voting-page');
+
+    // Reset UI
+    document.getElementById('voteConfirmBtn').disabled = true;
+    document.getElementById('seeResultsBtn').disabled = true;
+    document.getElementById('voteTimerDisplay').textContent = '60';
+    document.getElementById('voteTimerDisplay').className = 'vote-timer-value';
+
+    // Clear any old votes in Firebase for this round
+    if (gs.isHost) {
+        set(ref(db, `rooms/${gs.roomCode}/votes`), null);
+    }
+
+    // Build player list (everyone except me)
+    renderVoteList(gameData, {});
+
+    // Listen for live vote counts
+    fbListen(`rooms/${gs.roomCode}/votes`, snap => {
+        const votes = snap.val() || {};
+        renderVoteList(gameData, votes);
+        checkVotingComplete(gameData, votes);
+    });
+
+    // 60-second countdown
+    let timeLeft = 60;
+    clearInterval(voteTimerInterval);
+    voteTimerInterval = setInterval(() => {
+        timeLeft--;
+        const el = document.getElementById('voteTimerDisplay');
+        if (el) {
+            el.textContent = timeLeft;
+            if (timeLeft <= 10) el.className = 'vote-timer-value urgent';
+        }
+        if (timeLeft <= 0) {
+            clearInterval(voteTimerInterval);
+            // Time is up — unlock results button
+            const rb = document.getElementById('seeResultsBtn');
+            if (rb) rb.disabled = false;
+        }
+    }, 1000);
+}
+
+function renderVoteList(gameData, votes) {
+    const list = document.getElementById('voteList');
+    if (!list) return;
+    const names = gameData.playerNames;
+
+    // Count votes per player index
+    const tally = {};
+    Object.values(votes).forEach(v => {
+        tally[v] = (tally[v] || 0) + 1;
+    });
+
+    list.innerHTML = '';
+    names.forEach((name, idx) => {
+        const count = tally[idx] || 0;
+        const isSelected = myVoteChoice === idx;
+        const cantVote = voteSubmitted;
+        const div = document.createElement('div');
+        div.className = 'vote-row' + (isSelected ? ' selected' : '') + (cantVote ? ' cant-vote' : '');
+        div.innerHTML = `
+            <span class="vote-name">${name}</span>
+            <span class="vote-count-badge">${count}</span>
+        `;
+        if (!cantVote) {
+            div.onclick = () => selectVoteCandidate(idx, gameData, votes);
+        }
+        list.appendChild(div);
+    });
+}
+
+function selectVoteCandidate(idx, gameData, votes) {
+    if (voteSubmitted) return;
+    myVoteChoice = idx;
+    document.getElementById('voteConfirmBtn').disabled = false;
+    renderVoteList(gameData, votes);
+    document.getElementById('voteStatusMsg').textContent =
+        `✅ ${gameData.playerNames[idx]} — هەلبژێردیت`;
+}
+
+function submitVote() {
+    if (myVoteChoice === null || voteSubmitted) return;
+    voteSubmitted = true;
+    document.getElementById('voteConfirmBtn').disabled = true;
+    document.getElementById('voteStatusMsg').textContent = '✅ دەنگێ تو تۆمارکرا!';
+    // Store my vote as playerId → chosen index
+    update(ref(db, `rooms/${gs.roomCode}/votes`), { [myPlayerId]: myVoteChoice });
+}
+
+function checkVotingComplete(gameData, votes) {
+    const totalPlayers = gameData.playerNames.length;
+    const totalVotes   = Object.keys(votes).length;
+    const voteStatus   = document.getElementById('voteStatusMsg');
+    const seeBtn       = document.getElementById('seeResultsBtn');
+
+    if (voteStatus && voteSubmitted) {
+        voteStatus.textContent = `✅ دەنگێ تو تۆمارکرا! (${totalVotes}/${totalPlayers} دەنگدان)`;
+    } else if (voteStatus && !voteSubmitted) {
+        voteStatus.textContent = `${totalVotes}/${totalPlayers} دەنگیان دا`;
+    }
+
+    // Unlock results when all have voted
+    if (totalVotes >= totalPlayers && seeBtn) {
+        seeBtn.disabled = false;
+        clearInterval(voteTimerInterval);
+        // Set timer to 0 visually
+        const te = document.getElementById('voteTimerDisplay');
+        if (te) { te.textContent = '✓'; te.className = 'vote-timer-value'; }
     }
 }
 
-function playAgain() {
-    startNewGame(gs.playerNames);
+function openOnlineResults() {
+    clearInterval(voteTimerInterval);
+    // Tally final votes from Firebase then show results
+    get(ref(db, `rooms/${gs.roomCode}/votes`)).then(snap => {
+        const votes = snap.val() || {};
+        showOnlineVoteResults(voteGameData, votes);
+    });
+}
+
+function showOnlineVoteResults(gameData, votes) {
+    showPage('online-results-page');
+    const container = document.getElementById('online-results-container');
+
+    // Tally
+    const tally = {};
+    Object.values(votes).forEach(v => { tally[v] = (tally[v] || 0) + 1; });
+
+    // Find player with most votes
+    let maxVotes = 0, chosenIdx = -1;
+    Object.entries(tally).forEach(([idx, cnt]) => {
+        if (cnt > maxVotes) { maxVotes = cnt; chosenIdx = parseInt(idx); }
+    });
+
+    const names      = gameData.playerNames;
+    const spyIndices = gameData.spyIndices;
+    const chosenName = chosenIdx >= 0 ? names[chosenIdx] : '—';
+    const chosenIsSpy = spyIndices.includes(chosenIdx);
+
+    // Spy name(s)
+    const spyNames = spyIndices.map(i => names[i]).join(', ');
+
+    let html = '';
+    if (chosenIsSpy) {
+        html = `
+        <div class="result-win-card">
+            <div class="result-big-icon">🎉</div>
+            <div class="result-big-title">سیخوڕ دۆزرایەوە!</div>
+            <div style="margin:10px 0;font-size:1.1rem;color:#333;">مەدەنی بردن! 🏆</div>
+            <div style="background:rgba(0,0,0,0.08);border-radius:20px;padding:12px;margin-top:12px;">
+                <div style="font-size:0.9rem;color:#555;">هەلبژێراو</div>
+                <div style="font-size:1.8rem;font-weight:bold;color:#00994d;">${chosenName}</div>
+                <div style="font-size:0.85rem;color:#555;margin-top:6px;">دەنگی وەرگرتووە: ${maxVotes}</div>
+            </div>
+        </div>`;
+    } else {
+        html = `
+        <div class="result-lose-card">
+            <div class="result-big-icon">💀</div>
+            <div class="result-big-title">مەدەنی بێزار بوون!</div>
+            <div style="margin:10px 0;font-size:1.1rem;color:#333;">سیخوڕ بردی! 🕵️</div>
+            <div style="background:rgba(0,0,0,0.08);border-radius:20px;padding:12px;margin-top:10px;">
+                <div style="font-size:0.9rem;color:#555;">هەلبژێراو (مەدەنی بوو)</div>
+                <div style="font-size:1.8rem;font-weight:bold;color:#cc0000;">${chosenName}</div>
+            </div>
+            <div style="background:rgba(0,0,0,0.08);border-radius:20px;padding:12px;margin-top:10px;">
+                <div style="font-size:0.9rem;color:#555;">سیخوڕ بوو</div>
+                <div style="font-size:1.8rem;font-weight:bold;color:#cc0000;">${spyNames}</div>
+            </div>
+        </div>`;
+    }
+
+    // Vote breakdown
+    html += '<div class="results-container">';
+    names.forEach((name, idx) => {
+        const cnt = tally[idx] || 0;
+        const isSpy = spyIndices.includes(idx);
+        html += `<div class="player-result">
+            <span>${name}</span>
+            <span style="display:flex;align-items:center;gap:8px;">
+                <span style="color:#666;font-size:0.9rem;">${cnt} دەنگ</span>
+                ${isSpy ? '<span class="spy-badge">سیخوڕ</span>' : '<span class="civilian-badge">مەدەنی</span>'}
+            </span>
+        </div>`;
+    });
+    html += `</div><div class="word-box"><div class="word-value">${gameData.secretWord}</div></div>`;
+
+    container.innerHTML = html;
+}
+
+/* Play Again online → reset ready flags → go back to lobby */
+async function playAgainOnline() {
+    clearInterval(voteTimerInterval);
+    // Reset all players ready:false
+    if (gs.isHost && gs.roomCode) {
+        try {
+            // Reset votes and status
+            await update(ref(db, `rooms/${gs.roomCode}`), { status: 'waiting', gameData: null, gameState: null, votes: null });
+            // Reset ready for all current players
+            const snapPlayers = await get(ref(db, `rooms/${gs.roomCode}/players`));
+            if (snapPlayers.exists()) {
+                const updates = {};
+                snapPlayers.forEach(child => { updates[`${child.key}/ready`] = false; });
+                await update(ref(db, `rooms/${gs.roomCode}/players`), updates);
+            }
+        } catch(e) {}
+    }
+    // Go back to lobby
+    document.getElementById('lobby-title').textContent = '🏠 ژوورێ یاریێ';
+    document.getElementById('room-code-display').textContent = gs.roomCode;
+    document.getElementById('host-controls').classList.toggle('hidden', !gs.isHost);
+    document.getElementById('chatBox').innerHTML = '';
+    showPage('online-lobby-page');
+    sysMsg('🔁 یاری دووبارە دەستپێدکات — هەموو ئامادە ببن!');
 }
 
 /* ══════════════════════════════════════════
-   FIREBASE — REAL MULTIPLAYER
+   ONLINE LOBBY
 ══════════════════════════════════════════ */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, get, push, onValue, onChildAdded, remove, update, off }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyA-ZxdE8YKOBH45EqfylIdRmYF47wmwWI0",
-    authDomain: "sikhur-game.firebaseapp.com",
-    databaseURL: "https://sikhur-game-default-rtdb.firebaseio.com",
-    projectId: "sikhur-game",
-    storageBucket: "sikhur-game.firebasestorage.app",
-    messagingSenderId: "501101971993",
-    appId: "1:501101971993:web:1feea3e49ab43a74187888"
-};
-
-const fbApp = initializeApp(firebaseConfig);
-const db    = getDatabase(fbApp);
-
-// my unique player id for this session
-const myPlayerId = 'p_' + Math.random().toString(36).substr(2,9);
-
-// firebase listeners to detach on leave
-let fbListeners = [];
-
-function fbOff(path) {
-    fbListeners = fbListeners.filter(l => {
-        if (l.path === path) { off(ref(db, l.path)); return false; }
-        return true;
-    });
-}
-function fbListen(path, cb) {
-    fbListeners.push({path});
-    onValue(ref(db, path), cb);
-}
-function fbListenChild(path, cb) {
-    fbListeners.push({path});
-    onChildAdded(ref(db, path), cb);
-}
-function detachAll() {
-    fbListeners.forEach(l => off(ref(db, l.path)));
-    fbListeners = [];
-}
-
-function genCode() { return Math.random().toString(36).substr(2,6).toUpperCase(); }
-
-/* ── Create Room ── */
 async function openLobby(isHost, code) {
-    gs.isHost = isHost;
-    gs.roomCode = isHost ? genCode() : code.toUpperCase();
+    gs.isHost   = isHost;
+    gs.roomCode = isHost ? genCode() : code;
+    gs.isOnlineGame = true;
 
     document.getElementById('room-code-display').textContent = gs.roomCode;
     document.getElementById('lobby-title').textContent = isHost ? '🏠 ژوورێ یاریێ' : '🏠 چوویتە ژوور';
@@ -1015,45 +1541,34 @@ async function openLobby(isHost, code) {
     const roomRef = `rooms/${gs.roomCode}`;
 
     if (isHost) {
-        // create room in Firebase
         await set(ref(db, roomRef), {
-            host: myPlayerId,
-            mode: 1,
-            status: 'waiting',
-            createdAt: Date.now()
+            host: myPlayerId, mode:1, status:'waiting', createdAt:Date.now()
         });
         sysMsg('✅ ژوور دروست بوو — کۆدی شاركە دگەل هەڤاڵان 📤');
     } else {
-        // check room exists
-        const snap = await get(ref(db, roomRef));
-        if (!snap.exists()) {
-            alert('❌ ژوور نەدۆزرایەوە! کۆدەکە بپشکنە.');
-            showPage('home-page');
-            return;
-        }
         sysMsg(`✅ چوویتە ناو ژوورا ${gs.roomCode}`);
     }
 
-    // join as player
+    // join as player with ready:false
     await set(ref(db, `${roomRef}/players/${myPlayerId}`), {
-        name: gs.myNickname,
-        joinedAt: Date.now()
+        name: gs.myNickname, joinedAt: Date.now(), ready: false
     });
 
-    // remove myself on disconnect
-    const presenceRef = ref(db, `${roomRef}/players/${myPlayerId}`);
-    // onDisconnect(presenceRef).remove(); // uncomment if you add onDisconnect import
-
-    // listen: players list
+    // ── FIX #2/#3: listen players + ready state ──
     fbListen(`${roomRef}/players`, snap => {
         gs.onlinePlayers = [];
         snap.forEach(child => {
-            gs.onlinePlayers.push({ id: child.key, name: child.val().name });
+            gs.onlinePlayers.push({
+                id:   child.key,
+                name: child.val().name,
+                ready: child.val().ready || false
+            });
         });
         renderPlayers();
+        updateReadyStatus();
     });
 
-    // listen: game mode (host changes it, guests see it)
+    // listen: game mode
     fbListen(`${roomRef}/mode`, snap => {
         if (snap.val()) {
             gs.onlineMode = snap.val();
@@ -1062,8 +1577,20 @@ async function openLobby(isHost, code) {
         }
     });
 
-    // listen: game start signal
+    // listen: status → game started or reset to waiting
     fbListen(`${roomRef}/status`, snap => {
+        if (snap.val() === 'waiting' && !gs.isHost) {
+            // Host reset game — go back to lobby
+            clearInterval(voteTimerInterval);
+            myVoteChoice = null; voteSubmitted = false;
+            gs.onlinePlayers.forEach(p => { p.ready = false; });
+            renderPlayers();
+            updateReadyStatus();
+            document.getElementById('lobby-title').textContent = '🏠 ژوورێ یاریێ';
+            document.getElementById('chatBox').innerHTML = '';
+            showPage('online-lobby-page');
+            sysMsg('🔁 یاری دووبارە دەستپێدکات — ئامادە ببە!');
+        }
         if (snap.val() === 'started') {
             get(ref(db, `${roomRef}/gameData`)).then(gSnap => {
                 if (!gSnap.exists()) return;
@@ -1074,112 +1601,176 @@ async function openLobby(isHost, code) {
                 const names = gd.playerNames;
                 currentPlayerCount = names.length;
                 gs.playerNames = [...names];
-                // assign roles based on server data
-                gs.players = names.map((name, i) => ({
-                    id: i+1, name,
-                    isSpy:           gd.mode===1 ? gd.spyIndices.includes(i) : false,
+                gs.players = names.map((name,i) => ({
+                    id:i+1, name,
+                    isSpy:            gd.mode===1 ? gd.spyIndices.includes(i) : false,
                     hasDifferentWord: gd.mode===2 ? gd.spyIndices.includes(i) : false
                 }));
                 gs.spies = gd.spyIndices.map(i=>i+1);
                 gs.currentPlayerIndex = 0;
-                gs.gameOver = false;
+                gs.gameOver   = false;
                 gs.starterPlayer = null;
+
+                // find MY index in player order
+                gs.myPlayerIndex = names.indexOf(
+                    gs.onlinePlayers.find(p=>p.id===myPlayerId)?.name
+                );
+
                 showPage('game-page');
-                showNextCard();
+                // ── FIX #5: listen to gameState for turn sync ──
+                listenGameState(gd);
             });
         }
     });
 
-    // listen: chat messages
+    // listen: chat
     fbListenChild(`${roomRef}/chat`, snap => {
         const msg = snap.val();
         const box = document.getElementById('chatBox');
-        if (msg.type === 'system') {
-            const d = document.createElement('div');
-            d.className = 'bubble system';
+        const d = document.createElement('div');
+        d.className = msg.type==='system' ? 'bubble system'
+                    : (msg.senderId===myPlayerId ? 'bubble me' : 'bubble other');
+        if (msg.type==='system') {
             d.textContent = msg.text;
-            box.appendChild(d);
         } else {
-            const d = document.createElement('div');
-            d.className = msg.senderId === myPlayerId ? 'bubble me' : 'bubble other';
             d.innerHTML = `<div class="bname">${msg.name}</div>${msg.text}`;
-            box.appendChild(d);
         }
+        box.appendChild(d);
         box.scrollTop = box.scrollHeight;
     });
 }
 
+/* ══════════════════════════════════════════
+   FIX #2 — RENDER PLAYERS WITH READY BUTTON
+══════════════════════════════════════════ */
 function renderPlayers() {
     const box = document.getElementById('waiting-players-list');
     box.innerHTML = `<div class="players-box-title">یارییکەران (${gs.onlinePlayers.length}) 👥</div>`;
     gs.onlinePlayers.forEach(p => {
-        box.innerHTML += `<div class="waiting-row">
-            <div class="online-dot"></div>
-            <span>${p.name}${p.id===myPlayerId?' (تۆ)':''}</span>
-        </div>`;
+        const isMe = p.id === myPlayerId;
+        let rightSide = '';
+        if (p.ready) {
+            rightSide = `<span class="ready-check">✅</span>`;
+        } else if (isMe) {
+            rightSide = `<button class="ready-btn" id="readyBtn_${p.id}" onclick="markReady()">ئامادەم ✅</button>`;
+        }
+        box.innerHTML += `
+            <div class="waiting-row">
+                <div class="online-dot"></div>
+                <span class="wr-name">${p.name}${isMe?' (تۆ)':''}</span>
+                ${rightSide}
+            </div>`;
+    });
+}
+
+/* ══════════════════════════════════════════
+   FIX #2 — MARK MYSELF READY
+══════════════════════════════════════════ */
+function markReady() {
+    update(ref(db, `rooms/${gs.roomCode}/players/${myPlayerId}`), { ready: true });
+}
+
+/* ══════════════════════════════════════════
+   FIX #3 — READY COUNT + ENABLE START BUTTON
+══════════════════════════════════════════ */
+function updateReadyStatus() {
+    const total   = gs.onlinePlayers.length;
+    const readyN  = gs.onlinePlayers.filter(p=>p.ready).length;
+    const allReady = total > 0 && readyN === total;
+
+    const msg = document.getElementById('readyCountMsg');
+    const btn = document.getElementById('startGameBtn');
+    if (msg) msg.textContent = `چاوەڕوانی هەموو یاریکەران... (${readyN}/${total} ئامادەن)`;
+    if (btn) {
+        btn.disabled = !allReady;
+    }
+}
+
+/* ══════════════════════════════════════════
+   FIX #5 — LISTEN TO GAME STATE (turn sync)
+══════════════════════════════════════════ */
+function listenGameState(gameData) {
+    fbListen(`rooms/${gs.roomCode}/gameState`, snap => {
+        if (!snap.exists()) return;
+        const state = snap.val();
+        const turnIndex  = state.turnIndex  ?? 0;
+        const revealedArr = state.revealed  ?? [];
+        const phase      = state.currentPhase ?? 'revealing';
+        gameData._currentTurn = turnIndex;
+
+        if (phase === 'discussion' || turnIndex >= gameData.playerNames.length) {
+            // move to discussion — show screen
+            showOnlineTurnScreen(gameData, gameData.playerNames.length, revealedArr);
+        } else {
+            showOnlineTurnScreen(gameData, turnIndex, revealedArr);
+        }
     });
 }
 
 function copyRoomCode() {
-    navigator.clipboard.writeText(gs.roomCode).then(()=>{
+    navigator.clipboard.writeText(gs.roomCode).then(() => {
         const el = document.querySelector('.copy-hint');
         el.textContent = '✅ کۆپیکرا!';
-        setTimeout(()=>{ el.textContent='📋 کۆپیکرن'; }, 2000);
-    }).catch(()=> alert('کۆد: ' + gs.roomCode));
+        setTimeout(() => { el.textContent = '📋 کۆپیکرن'; }, 2000);
+    }).catch(() => alert('کۆد: ' + gs.roomCode));
 }
 
 function setOnlineMode(mode) {
     gs.onlineMode = mode;
-    // push to firebase so guests see it too
     update(ref(db, `rooms/${gs.roomCode}`), { mode });
 }
 
 async function startOnlineGame() {
-    const names = gs.onlinePlayers.map(p => p.name);
-    if (names.length < 2) { alert('پێویستە کەمێ 2 یارییکەر بن!'); return; }
+    const names = gs.onlinePlayers.map(p=>p.name);
+    if (names.length < 2) { showToast('پێویستە کەمێ 2 یارییکەر بن! ❌', true); return; }
 
     const mode = gs.onlineMode;
-    let secretWord, differentWord = '', spyIndices = [];
+    let secretWord, differentWord='', spyIndices=[];
 
     if (mode === 1) {
         let spyCount = 1;
-        if (names.length >= 6 && names.length <= 8) spyCount = 2;
-        if (names.length >= 9) spyCount = 3;
+        if (names.length>=6 && names.length<=8) spyCount=2;
+        if (names.length>=9) spyCount=3;
         while (spyIndices.length < spyCount) {
-            const r = Math.floor(Math.random() * names.length);
+            const r = Math.floor(Math.random()*names.length);
             if (!spyIndices.includes(r)) spyIndices.push(r);
         }
-        secretWord = kurdishWords[Math.floor(Math.random() * kurdishWords.length)];
+        secretWord = kurdishWords[Math.floor(Math.random()*kurdishWords.length)];
     } else {
-        spyIndices = [Math.floor(Math.random() * names.length)];
-        const pair = wordPairs[Math.floor(Math.random() * wordPairs.length)];
+        spyIndices = [Math.floor(Math.random()*names.length)];
+        const pair = wordPairs[Math.floor(Math.random()*wordPairs.length)];
         secretWord    = pair.normal;
         differentWord = pair.different;
     }
 
-    // push game data + signal start
+    // Write game data + initial gameState + set status to started
     await update(ref(db, `rooms/${gs.roomCode}`), {
-        status: 'started',
-        gameData: { mode, secretWord, differentWord, spyIndices, playerNames: names }
+        status:   'started',
+        gameData: { mode, secretWord, differentWord, spyIndices, playerNames: names },
+        gameState: {
+            turnIndex:    0,
+            revealed:     names.map(() => false),
+            currentPhase: 'revealing'
+        }
     });
 }
 
 async function leaveRoom() {
     stopVoice();
     detachAll();
-    if (gs.roomCode) {
+    try {
         await remove(ref(db, `rooms/${gs.roomCode}/players/${myPlayerId}`));
         if (gs.isHost) await remove(ref(db, `rooms/${gs.roomCode}`));
-    }
+    } catch(e) {}
     gs.roomCode = '';
+    gs.isOnlineGame = false;
     showPage('home-page');
 }
 
 /* ══════════════════════════════════════════
-   TEXT CHAT  (real Firebase)
+   TEXT CHAT
 ══════════════════════════════════════════ */
 function sysMsg(text) {
-    // only add locally for system messages triggered by me
     const box = document.getElementById('chatBox');
     const d = document.createElement('div');
     d.className = 'bubble system';
@@ -1187,18 +1778,14 @@ function sysMsg(text) {
     box.appendChild(d);
     box.scrollTop = box.scrollHeight;
 }
-
 function sendMsg() {
     const inp = document.getElementById('chatInput');
     const txt = inp.value.trim();
     if (!txt || !gs.roomCode) return;
     inp.value = '';
     push(ref(db, `rooms/${gs.roomCode}/chat`), {
-        senderId: myPlayerId,
-        name: gs.myNickname,
-        text: txt,
-        type: 'chat',
-        ts: Date.now()
+        senderId: myPlayerId, name: gs.myNickname,
+        text: txt, type:'chat', ts: Date.now()
     });
 }
 
@@ -1206,29 +1793,21 @@ function sendMsg() {
    VOICE CHAT
 ══════════════════════════════════════════ */
 let voiceOn=false, micStream=null, audioCtx=null, analyser=null, animId=null;
-
-function toggleVoice() {
-    voiceOn ? stopVoice() : startVoice();
-}
-
+function toggleVoice() { voiceOn ? stopVoice() : startVoice(); }
 async function startVoice() {
     try {
         micStream = await navigator.mediaDevices.getUserMedia({audio:true});
-        voiceOn   = true;
-        audioCtx  = new (window.AudioContext||window.webkitAudioContext)();
-        analyser  = audioCtx.createAnalyser();
+        voiceOn = true;
+        audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
         analyser.fftSize = 256;
         audioCtx.createMediaStreamSource(micStream).connect(analyser);
-
-        document.getElementById('micBtn').className   = 'mic-btn on';
+        document.getElementById('micBtn').className = 'mic-btn on';
         document.getElementById('voiceLabel').textContent = 'دەنگ چالاکە — قسەبکە! 🎙️';
         sysMsg('🎙️ '+gs.myNickname+' — مایکرۆفۆن چالاک بوو');
         watchVolume();
-    } catch(e) {
-        alert('مایکرۆفۆن نەدۆزرایەوە:\n'+e.message);
-    }
+    } catch(e) { alert('مایکرۆفۆن نەدۆزرایەوە:\n'+e.message); }
 }
-
 function stopVoice() {
     if (micStream) { micStream.getTracks().forEach(t=>t.stop()); micStream=null; }
     if (audioCtx)  { audioCtx.close(); audioCtx=null; }
@@ -1237,11 +1816,10 @@ function stopVoice() {
     const btn  = document.getElementById('micBtn');
     const lbl  = document.getElementById('voiceLabel');
     const bars = document.getElementById('speakBars');
-    if (btn)  { btn.className='mic-btn off'; }
-    if (lbl)  lbl.textContent='دەنگ چالاک نییە — کلیک بکە';
+    if (btn)  btn.className = 'mic-btn off';
+    if (lbl)  lbl.textContent = 'دەنگ چالاک نییە — کلیک بکە';
     if (bars) bars.classList.add('hidden');
 }
-
 function watchVolume() {
     if (!analyser) return;
     const data = new Uint8Array(analyser.frequencyBinCount);
@@ -1256,14 +1834,10 @@ function watchVolume() {
 }
 
 /* ══════════════════════════════════════════
-   HOW TO PLAY  (your original)
+   HOW TO PLAY
 ══════════════════════════════════════════ */
-function showHowToPlayOptions() {
-    document.getElementById('how-to-play-modal').classList.remove('hidden');
-}
-function closeHowToPlayOptions() {
-    document.getElementById('how-to-play-modal').classList.add('hidden');
-}
+function showHowToPlayOptions() { document.getElementById('how-to-play-modal').classList.remove('hidden'); }
+function closeHowToPlayOptions() { document.getElementById('how-to-play-modal').classList.add('hidden'); }
 function showHowToPlayInstructions(mode) {
     closeHowToPlayOptions();
     const icon  = document.getElementById('instructions-icon');
@@ -1293,29 +1867,37 @@ function closeHowToPlayInstructions() {
 }
 
 /* ══════════════════════════════════════════
-   BOOT
+   BOOT + EXPOSE TO WINDOW
 ══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
     showPage('home-page');
-    document.getElementById('how-to-play-modal').addEventListener('click', e=>{
-        if(e.target===e.currentTarget) closeHowToPlayOptions();
+    document.getElementById('how-to-play-modal').addEventListener('click', e => {
+        if (e.target===e.currentTarget) closeHowToPlayOptions();
     });
-    document.getElementById('how-to-play-instructions-modal').addEventListener('click', e=>{
-        if(e.target===e.currentTarget) closeHowToPlayInstructions();
+    document.getElementById('how-to-play-instructions-modal').addEventListener('click', e => {
+        if (e.target===e.currentTarget) closeHowToPlayInstructions();
     });
 });
 
-// Expose to window so onclick="" attributes work inside a module
 Object.assign(window, {
-    goToNickname, confirmNickname, showPage,
-    goBackToHome, goToHomePage,
+    // home
+    joinRoomClick, goToNickname, confirmNickname,
+    showPage, goBackToHome, goToHomePage,
+    // offline flow
     startOfflineSetup, changePlayerCount, startGame,
+    // online lobby
+    copyRoomCode, setOnlineMode, startOnlineGame, leaveRoom, markReady,
+    // game
+    nextPlayerAction, revealRole, goToRevealPage, showFinalResults, playAgain,
+    // voting + online results
+    submitVote, openOnlineResults, playAgainOnline,
+    // how to play
     showHowToPlayOptions, closeHowToPlayOptions,
     showHowToPlayInstructions, closeHowToPlayInstructions,
-    copyRoomCode, setOnlineMode, startOnlineGame, leaveRoom,
-    sendMsg, toggleVoice,
-    nextPlayer, revealRole, goToRevealPage, showFinalResults, playAgain,
-    pickOfflineMode: startOfflineSetup,
+    // voice
+    toggleVoice,
+    // chat
+    sendMsg,
 });
 </script>
 
