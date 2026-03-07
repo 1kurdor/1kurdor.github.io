@@ -133,11 +133,8 @@
         
         <h1>یاری یا هاتییە ڤەگوهاستن </h1>
         
-        <div class="message">
-‎بو یاری کرنێ کلیک لخوارێ بکە
-        </div>
         
-        <a href="https://sikhur.netlify.app/" class="redirect-link" id="redirectLink">
+        <a href="https://sikhur.vercel.app/" class="redirect-link" id="redirectLink">
 ‎            کلیک بکە بۆ یاریکرنێ ⬅️
         </a>
         
@@ -149,17 +146,17 @@
     </div>
 
     <script>
-        // Replace with your new website URL
-        const NEW_WEBSITE_URL = 'https://sikhur.netlify.app/';
+
+        const NEW_WEBSITE_URL = 'https://sikhur.vercel.app/';
         
         let secondsLeft = 10;
         const countdownElement = document.getElementById('countdown');
         const redirectLink = document.getElementById('redirectLink');
         
-        // Update redirect link
+        
         redirectLink.href = NEW_WEBSITE_URL;
         
-        // Countdown function
+       
         function updateCountdown() {
             const persianNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
             const persianSecond = persianNumbers[secondsLeft] || secondsLeft;
@@ -173,20 +170,16 @@
             }
         }
         
-        // Start countdown after page loads
+   
         window.addEventListener('load', function() {
             setTimeout(updateCountdown, 1000);
         });
         
-        // Stop countdown if user hovers over link
+      
         redirectLink.addEventListener('mouseenter', function() {
-            // Optional: Pause countdown on hover
-            // You can implement this if needed
         });
         
         redirectLink.addEventListener('mouseleave', function() {
-            // Optional: Resume countdown
-            // You can implement this if needed
         });
     </script>
 </body>
