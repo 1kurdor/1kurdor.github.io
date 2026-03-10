@@ -1,3 +1,20 @@
+// weather.js
+
+// DOM Elements
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+const locationBtn = document.getElementById('locationBtn');
+const emptyLocationBtn = document.getElementById('emptyLocationBtn');
+const locationStatus = document.getElementById('locationStatus');
+const loadingOverlay = document.getElementById('loadingOverlay');
+const errorToast = document.getElementById('errorToast');
+const emptyState = document.getElementById('emptyState');
+const weatherContent = document.getElementById('weatherContent');
+const languageToggle = document.getElementById('languageToggle');
+
+// Current selected location (initially null)
+let currentCity = null;
+
 const translations = {
     en: {
         appTitle: "Global Weather",
@@ -37,6 +54,10 @@ const translations = {
         kmh: "km/h",
         footerText: "Global Weather",
         weatherInfo: "Weather information for cities worldwide",
+        actualLocation: "Actual Location",
+        approximate: "Approximate",
+        note: "Note",
+        usingNearestCity: "Using nearest city in database. Your actual location may be different.",
         // Day names
         sunday: "Sunday",
         monday: "Monday",
@@ -59,12 +80,12 @@ const translations = {
         november: "November",
         december: "December"
     },
-   ku: {
+    ku: {
         appTitle: "کەش و هەوا",
         useLocation: "جهێ من بکار بینە…",
         searchPlaceholder: "لێگەریان بۆ شاری...",
         emptyStateTitle: "هیچ جهەک نەهاتییە هەڵبژاردن",
-        emptyStateDescription: "لێگەریان بکە بۆ هەر جهەکێ یان  جهێ خو هەلبژێرە بۆ دیتنا زانیاریێن کەش و هەوایێ",
+        emptyStateDescription: "لێگەریان بکە بۆ هەر جهەکێ یان جهێ خو هەلبژێرە بۆ دیتنا زانیاریێن کەش و هەوایێ",
         emptyStateButton: "جهێ من بکار بینە",
         currentCity: "شارەکێ هەڵبژێرە",
         selectCountry: "وڵاتەکێ هەڵبژێرە",
@@ -97,6 +118,10 @@ const translations = {
         kmh: "کم/کاتژمێر",
         footerText: "کەش و هەوا",
         weatherInfo: "زانیاریێن کەش و هەوایێ بۆ شارێن دنیایێ",
+        actualLocation: "شوێنی ڕاستەقینە",
+        approximate: "نزیکەیی",
+        note: "تێبینی",
+        usingNearestCity: "بەکارهێنانی نزیکترین شار لە داتابەیس. شوێنی ڕاستەقینەی تۆ ڕەنگە جیاواز بێت.",
         // Day names in Kurdish Bahdini
         sunday: "ئێکشەمبی",
         monday: "دووشەمبی",
@@ -118,18 +143,18 @@ const translations = {
         october: "تشرینا یەکێ",
         november: "تشرینا دووێ",
         december: "کانونا یەکێ",
-  Clear: "ساماڵ",
-  Sunny: "روژ",
-  partlycloudy: "نیمچە عەڤر",
-  Cloudy: "عەڤر",
-  Overcast: "عەڤراوی",
-  Rain: "باران",
-  LightRain: "بارانەکا کێم ( هێدی )",
-  Thunderstorm: "تەقوتۆقا عەور و برۆسکێ",
-  Snow: "بەفر",
-  Mist: "تەم",
-  Fog: "مژ",
-  Windy: "با"
+        Clear: "ساماڵ",
+        Sunny: "روژ",
+        partlycloudy: "نیمچە عەڤر",
+        Cloudy: "عەڤر",
+        Overcast: "عەڤراوی",
+        Rain: "باران",
+        LightRain: "بارانەکا کێم ( هێدی )",
+        Thunderstorm: "تەقوتۆقا عەور و برۆسکێ",
+        Snow: "بەفر",
+        Mist: "تەم",
+        Fog: "مژ",
+        Windy: "با"
     }
 };
 
@@ -141,35 +166,13 @@ let currentWeatherCondition = null;
 
 // GLOBAL CITIES DATABASE - Major cities from around the world
 const globalCities = [
- // Middle East - Kurdistan Region
-{ name: "Erbil", country: "Iraq", region: "Erbil District", lat: 36.1900, lon: 44.0089, type: "City" },
-{ name: "Pirmam", country: "Iraq", region: "Erbil District", lat: 36.2167, lon: 44.1000, type: "City" },
-{ name: "Mergasor", country: "Iraq", region: "Erbil District", lat: 36.6300, lon: 44.1500, type: "City" },
-{ name: "Barzan", country: "Iraq", region: "Erbil District", lat: 37.0261, lon: 43.9628, type: "Town" },
-{ name: "Dara Dazan", country: "Iraq", region: "Erbil District", lat: 37.0500, lon: 44.0833, type: "Village" },
-{ name: "Sulaymaniyah", country: "Iraq", region: "Sulaymaniyah District", lat: 35.5572, lon: 45.4356, type: "City" },
-{ name: "Duhok", country: "Iraq", region: "Duhok District", lat: 36.8667, lon: 43.0000, type: "City" },
-{ name: "Semel", country: "Iraq", region: "Duhok District", lat: 36.8528, lon: 42.8472, type: "City" },
-{ name: "Zakho", country: "Iraq", region: "Duhok District", lat: 37.1436, lon: 42.6819, type: "City" },
-{ name: "Akre", country: "Iraq", region: "Duhok District", lat: 36.7408, lon: 43.8922, type: "City" },
-{ name: "Amedi", country: "Iraq", region: "Duhok District", lat: 37.0925, lon: 43.4872, type: "City" },
-{ name: "Sheladze", country: "Iraq", region: "Duhok District", lat: 37.0333, lon: 43.3167, type: "City" },
-{ name: "Deraluk", country: "Iraq", region: "Duhok District", lat: 37.0667, lon: 43.5167, type: "City" },
-{ name: "Sarsing", country: "Iraq", region: "Duhok District", lat: 36.9167, lon: 43.4333, type: "City" },
-{ name: "Karkuk", country: "Iraq", region: "Kirkuk", lat: 35.4667, lon: 44.3167, type: "City" },
-{ name: "Halabja", country: "Iraq", region: "Sulaymaniyah District", lat: 35.1778, lon: 45.9861, type: "City" },
-{ name: "Chamchamal", country: "Iraq", region: "Sulaymaniyah District", lat: 35.5333, lon: 44.8333, type: "City" },
-{ name: "Ranya", country: "Iraq", region: "Sulaymaniyah District", lat: 36.2500, lon: 44.8833, type: "City" },
-{ name: "Qaladize", country: "Iraq", region: "Sulaymaniyah District", lat: 36.1000, lon: 45.1167, type: "City" },
-{ name: "Dukan", country: "Iraq", region: "Sulaymaniyah District", lat: 35.1333, lon: 45.0333, type: "City" },
-{ name: "Penjwin", country: "Iraq", region: "Sulaymaniyah District", lat: 35.6167, lon: 45.9667, type: "City" },
-{ name: "Zawita", country: "Iraq", region: "Duhok District", lat: 36.9500, lon: 43.3000, type: "City" },
-{ name: "Bamarni", country: "Iraq", region: "Duhok District", lat: 37.0333, lon: 43.3167, type: "City" },
-{ name: "Choman", country: "Iraq", region: "Erbil District", lat: 36.6333, lon: 44.9500, type: "City" },
-{ name: "Rawanduz", country: "Iraq", region: "Erbil District", lat: 36.6111, lon: 44.5222, type: "City" },
-{ name: "Koya", country: "Iraq", region: "Erbil District", lat: 36.0833, lon: 44.6333, type: "City" },
-{ name: "Shaqlawa", country: "Iraq", region: "Erbil District", lat: 36.4000, lon: 44.3333, type: "City" },
-{ name: "Soran", country: "Iraq", region: "Erbil District", lat: 36.6500, lon: 44.5333, type: "City" },
+    // Middle East - Kurdistan Region
+    { name: "Erbil", country: "Iraq", region: "Erbil District", lat: 36.1900, lon: 44.0089, type: "City" },
+    { name: "Pirmam", country: "Iraq", region: "Erbil District", lat: 36.2167, lon: 44.1000, type: "City" },
+    { name: "Mergasor", country: "Iraq", region: "Erbil District", lat: 36.6300, lon: 44.1500, type: "City" },
+    { name: "Barzan", country: "Iraq", region: "Erbil District", lat: 37.0261, lon: 43.9628, type: "Town" },
+    { name: "Duhok", country: "Iraq", region: "Duhok District", lat: 36.8667, lon: 43.0000, type: "City" },
+    { name: "Sulaymaniyah", country: "Iraq", region: "Sulaymaniyah District", lat: 35.5572, lon: 45.4356, type: "City" },
     // Middle East
     { name: "Baghdad", country: "Iraq", region: "Baghdad", lat: 33.3152, lon: 44.3661, type: "city" },
     { name: "Mosul", country: "Iraq", region: "Nineveh", lat: 36.3400, lon: 43.1300, type: "city" },
@@ -181,13 +184,6 @@ const globalCities = [
     { name: "Beirut", country: "Lebanon", region: "Beirut", lat: 33.8938, lon: 35.5018, type: "city" },
     { name: "Riyadh", country: "Saudi Arabia", region: "Riyadh", lat: 24.7136, lon: 46.6753, type: "city" },
     { name: "Dubai", country: "UAE", region: "Dubai", lat: 25.2048, lon: 55.2708, type: "city" },
-    { name: "Abu Dhabi", country: "UAE", region: "Abu Dhabi", lat: 24.4539, lon: 54.3773, type: "city" },
-    { name: "Doha", country: "Qatar", region: "Doha", lat: 25.2854, lon: 51.5310, type: "city" },
-    { name: "Kuwait City", country: "Kuwait", region: "Kuwait", lat: 29.3759, lon: 47.9774, type: "city" },
-    { name: "Manama", country: "Bahrain", region: "Manama", lat: 26.2235, lon: 50.5876, type: "city" },
-    { name: "Muscat", country: "Oman", region: "Muscat", lat: 23.5880, lon: 58.3829, type: "city" },
-    { name: "Sana'a", country: "Yemen", region: "Sana'a", lat: 15.3694, lon: 44.1910, type: "city" },
-    
     // Asia
     { name: "Tokyo", country: "Japan", region: "Kanto", lat: 35.6762, lon: 139.6503, type: "city" },
     { name: "Beijing", country: "China", region: "Beijing", lat: 39.9042, lon: 116.4074, type: "city" },
@@ -197,61 +193,32 @@ const globalCities = [
     { name: "Mumbai", country: "India", region: "Maharashtra", lat: 19.0760, lon: 72.8777, type: "city" },
     { name: "Bangkok", country: "Thailand", region: "Bangkok", lat: 13.7563, lon: 100.5018, type: "city" },
     { name: "Singapore", country: "Singapore", region: "Singapore", lat: 1.3521, lon: 103.8198, type: "city" },
-    { name: "Jakarta", country: "Indonesia", region: "Jakarta", lat: 6.2088, lon: 106.8456, type: "city" },
-    { name: "Manila", country: "Philippines", region: "Metro Manila", lat: 14.5995, lon: 120.9842, type: "city" },
-    { name: "Kuala Lumpur", country: "Malaysia", region: "Kuala Lumpur", lat: 3.1390, lon: 101.6869, type: "city" },
-    { name: "Hanoi", country: "Vietnam", region: "Hanoi", lat: 21.0285, lon: 105.8542, type: "city" },
-    { name: "Ho Chi Minh City", country: "Vietnam", region: "Ho Chi Minh", lat: 10.8231, lon: 106.6297, type: "city" },
-    
     // Europe
     { name: "London", country: "United Kingdom", region: "England", lat: 51.5074, lon: -0.1278, type: "city" },
     { name: "Paris", country: "France", region: "Île-de-France", lat: 48.8566, lon: 2.3522, type: "city" },
     { name: "Berlin", country: "Germany", region: "Berlin", lat: 52.5200, lon: 13.4050, type: "city" },
     { name: "Madrid", country: "Spain", region: "Madrid", lat: 40.4168, lon: -3.7038, type: "city" },
     { name: "Rome", country: "Italy", region: "Lazio", lat: 41.9028, lon: 12.4964, type: "city" },
-    { name: "Amsterdam", country: "Netherlands", region: "North Holland", lat: 52.3676, lon: 4.9041, type: "city" },
-    { name: "Brussels", country: "Belgium", region: "Brussels", lat: 50.8503, lon: 4.3517, type: "city" },
-    { name: "Vienna", country: "Austria", region: "Vienna", lat: 48.2082, lon: 16.3738, type: "city" },
-    { name: "Prague", country: "Czech Republic", region: "Prague", lat: 50.0755, lon: 14.4378, type: "city" },
-    { name: "Warsaw", country: "Poland", region: "Masovia", lat: 52.2297, lon: 21.0122, type: "city" },
     { name: "Moscow", country: "Russia", region: "Moscow", lat: 55.7558, lon: 37.6173, type: "city" },
-    { name: "Athens", country: "Greece", region: "Attica", lat: 37.9838, lon: 23.7275, type: "city" },
-    { name: "Lisbon", country: "Portugal", region: "Lisbon", lat: 38.7223, lon: -9.1393, type: "city" },
-    { name: "Stockholm", country: "Sweden", region: "Stockholm", lat: 59.3293, lon: 18.0686, type: "city" },
-    { name: "Oslo", country: "Norway", region: "Oslo", lat: 59.9139, lon: 10.7522, type: "city" },
-    { name: "Helsinki", country: "Finland", region: "Uusimaa", lat: 60.1699, lon: 24.9384, type: "city" },
-    
     // North America
     { name: "New York", country: "USA", region: "New York", lat: 40.7128, lon: -74.0060, type: "city" },
     { name: "Los Angeles", country: "USA", region: "California", lat: 34.0522, lon: -118.2437, type: "city" },
     { name: "Chicago", country: "USA", region: "Illinois", lat: 41.8781, lon: -87.6298, type: "city" },
     { name: "Toronto", country: "Canada", region: "Ontario", lat: 43.6532, lon: -79.3832, type: "city" },
-    { name: "Vancouver", country: "Canada", region: "British Columbia", lat: 49.2827, lon: -123.1207, type: "city" },
     { name: "Mexico City", country: "Mexico", region: "Mexico City", lat: 19.4326, lon: -99.1332, type: "city" },
-    
     // South America
     { name: "São Paulo", country: "Brazil", region: "São Paulo", lat: -23.5505, lon: -46.6333, type: "city" },
     { name: "Rio de Janeiro", country: "Brazil", region: "Rio de Janeiro", lat: -22.9068, lon: -43.1729, type: "city" },
     { name: "Buenos Aires", country: "Argentina", region: "Buenos Aires", lat: -34.6037, lon: -58.3816, type: "city" },
-    { name: "Lima", country: "Peru", region: "Lima", lat: -12.0464, lon: -77.0428, type: "city" },
-    { name: "Bogotá", country: "Colombia", region: "Bogotá", lat: 4.7110, lon: -74.0721, type: "city" },
-    { name: "Santiago", country: "Chile", region: "Santiago", lat: -33.4489, lon: -70.6693, type: "city" },
-    
     // Africa
     { name: "Cairo", country: "Egypt", region: "Cairo", lat: 30.0444, lon: 31.2357, type: "city" },
     { name: "Johannesburg", country: "South Africa", region: "Gauteng", lat: -26.2041, lon: 28.0473, type: "city" },
     { name: "Cape Town", country: "South Africa", region: "Western Cape", lat: -33.9249, lon: 18.4241, type: "city" },
     { name: "Nairobi", country: "Kenya", region: "Nairobi", lat: -1.2921, lon: 36.8219, type: "city" },
-    { name: "Lagos", country: "Nigeria", region: "Lagos", lat: 6.5244, lon: 3.3792, type: "city" },
-    { name: "Accra", country: "Ghana", region: "Greater Accra", lat: 5.6037, lon: -0.1870, type: "city" },
-    { name: "Casablanca", country: "Morocco", region: "Casablanca", lat: 33.5731, lon: -7.5898, type: "city" },
-    { name: "Addis Ababa", country: "Ethiopia", region: "Addis Ababa", lat: 9.0320, lon: 38.7469, type: "city" },
-    
     // Oceania
     { name: "Sydney", country: "Australia", region: "New South Wales", lat: -33.8688, lon: 151.2093, type: "city" },
     { name: "Melbourne", country: "Australia", region: "Victoria", lat: -37.8136, lon: 144.9631, type: "city" },
-    { name: "Auckland", country: "New Zealand", region: "Auckland", lat: -36.8485, lon: 174.7633, type: "city" },
-    { name: "Wellington", country: "New Zealand", region: "Wellington", lat: -41.2865, lon: 174.7762, type: "city" }
+    { name: "Auckland", country: "New Zealand", region: "Auckland", lat: -36.8485, lon: 174.7633, type: "city" }
 ];
 
 // Weather conditions with proper icons, emojis, and colors
@@ -350,21 +317,6 @@ const weatherConditions = [
 const WEATHER_API_KEY = '2d649e10d1db460784d223719261002'; // Your WeatherAPI key
 const WEATHER_API_URL = 'https://api.weatherapi.com/v1/current.json';
 
-// DOM Elements
-const locationBtn = document.getElementById('locationBtn');
-const emptyLocationBtn = document.getElementById('emptyLocationBtn');
-const locationStatus = document.getElementById('locationStatus');
-const searchInput = document.getElementById('searchInput');
-const searchResults = document.getElementById('searchResults');
-const loadingOverlay = document.getElementById('loadingOverlay');
-const errorToast = document.getElementById('errorToast');
-const emptyState = document.getElementById('emptyState');
-const weatherContent = document.getElementById('weatherContent');
-const languageToggle = document.getElementById('languageToggle');
-
-// Current selected location (initially null)
-let currentCity = null;
-
 // ===== LANGUAGE FUNCTIONS =====
 function translate(key) {
     return translations[currentLang][key] || translations.en[key] || key;
@@ -372,20 +324,16 @@ function translate(key) {
 
 // Get weather condition name in current language
 function getWeatherConditionName(condition) {
-    // If Kurdish and the condition has a Kurdish name, use it
     if (currentLang === 'ku' && condition.nameKu) {
         return condition.nameKu;
     }
-    // Otherwise use the English name
     return condition.name;
 }
 
 function updatePageLanguage() {
-    // Update direction for Kurdish (RTL)
     document.documentElement.dir = currentLang === 'ku' ? 'rtl' : 'ltr';
     document.documentElement.lang = currentLang === 'ku' ? 'ku' : 'en';
     
-    // Update all translatable elements
     document.querySelectorAll('[data-translate]').forEach(element => {
         const key = element.getAttribute('data-translate');
         if (element.tagName === 'INPUT') {
@@ -395,18 +343,15 @@ function updatePageLanguage() {
         }
     });
     
-    // Update language toggle button
     if (languageToggle) {
         languageToggle.textContent = currentLang === 'en' ? 'Ku' : 'En';
     }
     
-    // Update specific texts that don't have data-translate
     const currentCityElement = document.getElementById('currentCity');
     if (currentCityElement && !currentCity) {
         currentCityElement.textContent = translate('currentCity');
     }
     
-    // Re-render current weather if displayed
     if (currentCity) {
         updateWeatherDisplay();
     }
@@ -419,7 +364,6 @@ function toggleLanguage() {
 }
 
 function updateWeatherDisplay() {
-    // Update labels that might have changed
     const feelsLikeLabel = document.querySelector('[data-label="feelsLike"]');
     const windLabel = document.querySelector('[data-label="wind"]');
     const humidityLabel = document.querySelector('[data-label="humidity"]');
@@ -428,7 +372,6 @@ function updateWeatherDisplay() {
     if (windLabel) windLabel.textContent = translate('wind');
     if (humidityLabel) humidityLabel.textContent = translate('humidity');
     
-    // Update weather condition name if weather is displayed
     if (currentWeatherCondition) {
         const weatherDescription = document.getElementById('weatherDescription');
         if (weatherDescription) {
@@ -439,7 +382,7 @@ function updateWeatherDisplay() {
 
 // Calculate distance between two coordinates using Haversine formula
 function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Earth's radius in kilometers
+    const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
     const a = 
@@ -467,6 +410,66 @@ function findNearestLocation(userLat, userLon) {
         city: nearestCity,
         distance: minDistance
     };
+}
+
+// ===== REVERSE GEOCODING FUNCTIONS =====
+async function reverseGeocode(lat, lon) {
+    try {
+        const response = await fetch(
+            `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${WEATHER_API_KEY}`
+        );
+        
+        if (!response.ok) {
+            throw new Error('Reverse geocoding failed');
+        }
+        
+        const data = await response.json();
+        
+        if (data && data.length > 0) {
+            return {
+                city: data[0].name,
+                country: data[0].country,
+                state: data[0].state
+            };
+        }
+        
+        return null;
+    } catch (error) {
+        console.error('Reverse geocoding error:', error);
+        return null;
+    }
+}
+
+async function reverseGeocodeOSM(lat, lon) {
+    try {
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`,
+            {
+                headers: {
+                    'User-Agent': 'WeatherApp/1.0'
+                }
+            }
+        );
+        
+        if (!response.ok) {
+            throw new Error('OSM reverse geocoding failed');
+        }
+        
+        const data = await response.json();
+        
+        if (data && data.address) {
+            return {
+                city: data.address.city || data.address.town || data.address.village || data.address.hamlet,
+                country: data.address.country,
+                state: data.address.state || data.address.region
+            };
+        }
+        
+        return null;
+    } catch (error) {
+        console.error('OSM reverse geocoding error:', error);
+        return null;
+    }
 }
 
 // ===== FETCH REAL WEATHER DATA FROM WEATHERAPI.COM =====
@@ -498,85 +501,106 @@ async function fetchRealWeatherData(lat, lon) {
 
 // ===== MAP WEATHERAPI CODES TO YOUR WEATHER CONDITIONS =====
 function mapWeatherCodeToCondition(weatherCode, weatherText, isDay) {
-    // Sunny/Clear (1000)
     if (weatherCode === 1000) {
-        return isDay ? weatherConditions[0] : weatherConditions[7]; // Sunny or Clear Sky
+        return isDay ? weatherConditions[0] : weatherConditions[7];
     }
-    
-    // Partly Cloudy (1003)
     if (weatherCode === 1003) {
-        return weatherConditions[1]; // Partly Cloudy
+        return weatherConditions[1];
     }
-    
-    // Cloudy/Overcast (1006, 1009)
     if (weatherCode === 1006 || weatherCode === 1009) {
-        return weatherConditions[2]; // Cloudy
+        return weatherConditions[2];
     }
-    
-    // Fog/Mist (1030, 1135, 1147)
     if (weatherCode === 1030 || weatherCode === 1135 || weatherCode === 1147) {
-        return weatherConditions[8]; // Foggy
+        return weatherConditions[8];
     }
-    
-    // Light Rain/Drizzle (1063, 1150, 1153, 1180, 1183, 1186, 1189, 1240)
     if ([1063, 1150, 1153, 1180, 1183, 1186, 1189, 1240].includes(weatherCode)) {
-        return weatherConditions[3]; // Light Rain
+        return weatherConditions[3];
     }
-    
-    // Heavy Rain (1192, 1195, 1243, 1246, 1273, 1276)
     if ([1192, 1195, 1243, 1246, 1273, 1276].includes(weatherCode)) {
-        return weatherConditions[4]; // Heavy Rain
+        return weatherConditions[4];
     }
-    
-    // Snow (1066, 1114, 1210-1225, 1255-1264, 1279, 1282)
     if (weatherCode === 1066 || weatherCode === 1114 || 
         (weatherCode >= 1210 && weatherCode <= 1225) ||
         (weatherCode >= 1255 && weatherCode <= 1264) ||
         weatherCode === 1279 || weatherCode === 1282) {
-        return weatherConditions[5]; // Snow
+        return weatherConditions[5];
     }
-    
-    // Thunderstorm (1087, 1273, 1276, 1279, 1282)
     if ([1087, 1273, 1276, 1279, 1282].includes(weatherCode)) {
-        return weatherConditions[6]; // Storm
+        return weatherConditions[6];
     }
-    
-    // Check for windy conditions in text
     if (weatherText.toLowerCase().includes('wind')) {
-        return weatherConditions[9]; // Windy
+        return weatherConditions[9];
     }
-    
-    // Default to partly cloudy
     return weatherConditions[1];
 }
 
-// Initialize the application
-function init() {
-    updateTime();
-    setInterval(updateTime, 1000);
+// ===== LOCATION STATUS DISPLAY FUNCTIONS =====
+function showLocationStatus(result, userLat, userLon) {
+    const statusTitle = document.getElementById('statusTitle');
+    const statusMessage = document.getElementById('statusMessage');
+    const statusDetails = document.getElementById('statusDetails');
     
-    // Set initial language
-    updatePageLanguage();
+    statusTitle.textContent = translate('locationDetected');
+    statusMessage.textContent = `${translate('nearestCity')}: ${result.city.name}`;
+    statusDetails.innerHTML = `
+        <strong>${translate('locationDetails')}:</strong><br>
+        • ${translate('yourCoordinates')}: ${userLat.toFixed(4)}, ${userLon.toFixed(4)}<br>
+        • ${translate('nearestCity')}: ${result.city.name}, ${result.city.country}<br>
+        • ${translate('distance')}: ${result.distance.toFixed(1)} ${currentLang === 'ku' ? 'کم' : 'km'}<br>
+        • ${translate('region')}: ${result.city.region}
+    `;
     
-    // Set up event listeners
-    locationBtn.addEventListener('click', getCurrentLocation);
-    emptyLocationBtn.addEventListener('click', getCurrentLocation);
-    searchInput.addEventListener('input', handleSearch);
+    locationStatus.style.display = 'block';
     
-    // Language toggle
-    if (languageToggle) {
-        languageToggle.addEventListener('click', toggleLanguage);
-    }
-    
-    // Hide search results when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.search-container')) {
-            searchResults.style.display = 'none';
-        }
-    });
+    setTimeout(() => {
+        locationStatus.style.display = 'none';
+    }, 10000);
 }
 
-// Get current location from browser
+function showLocationStatusWithActualCity(city, userLat, userLon) {
+    const statusTitle = document.getElementById('statusTitle');
+    const statusMessage = document.getElementById('statusMessage');
+    const statusDetails = document.getElementById('statusDetails');
+    
+    statusTitle.textContent = translate('locationDetected');
+    statusMessage.textContent = `${city.name}, ${city.country}`;
+    statusDetails.innerHTML = `
+        <strong>${translate('locationDetails')}:</strong><br>
+        • ${translate('yourCoordinates')}: ${userLat.toFixed(4)}, ${userLon.toFixed(4)}<br>
+        • ${translate('actualLocation')}: ${city.name}, ${city.country}<br>
+        • ${translate('region')}: ${city.state || city.region}
+    `;
+    
+    locationStatus.style.display = 'block';
+    
+    setTimeout(() => {
+        locationStatus.style.display = 'none';
+    }, 10000);
+}
+
+function showLocationStatusWithWarning(result, userLat, userLon) {
+    const statusTitle = document.getElementById('statusTitle');
+    const statusMessage = document.getElementById('statusMessage');
+    const statusDetails = document.getElementById('statusDetails');
+    
+    statusTitle.textContent = translate('locationDetected') + ' (' + translate('approximate') + ')';
+    statusMessage.textContent = `${translate('nearestCity')}: ${result.city.name}`;
+    statusDetails.innerHTML = `
+        <strong>${translate('locationDetails')} (${translate('approximate')}):</strong><br>
+        • ${translate('yourCoordinates')}: ${userLat.toFixed(4)}, ${userLon.toFixed(4)}<br>
+        • ${translate('nearestCity')}: ${result.city.name}, ${result.city.country}<br>
+        • ${translate('distance')}: ${result.distance.toFixed(1)} ${currentLang === 'ku' ? 'کم' : 'km'}<br>
+        • ${translate('note')}: ${translate('usingNearestCity')}
+    `;
+    
+    locationStatus.style.display = 'block';
+    
+    setTimeout(() => {
+        locationStatus.style.display = 'none';
+    }, 10000);
+}
+
+// ===== MAIN LOCATION FUNCTION =====
 function getCurrentLocation() {
     showLoading(true, translate('detectingLocation'));
     
@@ -587,23 +611,66 @@ function getCurrentLocation() {
     }
     
     navigator.geolocation.getCurrentPosition(
-        // Success callback
-        (position) => {
+        async (position) => {
             const userLat = position.coords.latitude;
             const userLon = position.coords.longitude;
             
-            // Find nearest city
-            const result = findNearestLocation(userLat, userLon);
-            
-            // Show location status
-            showLocationStatus(result, userLat, userLon);
-            
-            // Load the nearest city data
-            loadCityData(result.city, result.distance);
+            try {
+                // FIRST TRY: Get actual city name using reverse geocoding
+                const actualCityName = await reverseGeocode(userLat, userLon);
+                
+                if (actualCityName && actualCityName.city) {
+                    // Found actual city name - use it directly
+                    const cityData = {
+                        name: actualCityName.city,
+                        country: actualCityName.country || "Unknown",
+                        region: actualCityName.state || "Unknown Region",
+                        lat: userLat,
+                        lon: userLon
+                    };
+                    
+                    showLocationStatusWithActualCity(cityData, userLat, userLon);
+                    await loadCityData(cityData, 0);
+                } else {
+                    // SECOND TRY: Try OpenStreetMap Nominatim as fallback
+                    const osmCityName = await reverseGeocodeOSM(userLat, userLon);
+                    
+                    if (osmCityName && osmCityName.city) {
+                        const cityData = {
+                            name: osmCityName.city,
+                            country: osmCityName.country || "Unknown",
+                            region: osmCityName.state || "Unknown Region",
+                            lat: userLat,
+                            lon: userLon
+                        };
+                        
+                        showLocationStatusWithActualCity(cityData, userLat, userLon);
+                        await loadCityData(cityData, 0);
+                    } else {
+                        // LAST RESORT: Use your database but show warning
+                        const result = findNearestLocation(userLat, userLon);
+                        
+                        if (result.city) {
+                            showLocationStatusWithWarning(result, userLat, userLon);
+                            await loadCityData(result.city, result.distance);
+                        } else {
+                            showError(translate('locationError'), translate('locationErrorMsg'));
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error in location processing:', error);
+                const result = findNearestLocation(userLat, userLon);
+                if (result.city) {
+                    showLocationStatus(result, userLat, userLon);
+                    await loadCityData(result.city, result.distance);
+                } else {
+                    showError(translate('locationError'), translate('locationErrorMsg'));
+                }
+            }
             
             showLoading(false);
         },
-        // Error callback
         (error) => {
             showLoading(false);
             switch(error.code) {
@@ -620,7 +687,6 @@ function getCurrentLocation() {
                     showError(translate('locationError'), translate('locationErrorMsg'));
             }
         },
-        // Options
         {
             enableHighAccuracy: true,
             timeout: 10000,
@@ -629,46 +695,17 @@ function getCurrentLocation() {
     );
 }
 
-// Show location detection status
-function showLocationStatus(result, userLat, userLon) {
-    const statusTitle = document.getElementById('statusTitle');
-    const statusMessage = document.getElementById('statusMessage');
-    const statusDetails = document.getElementById('statusDetails');
-    
-    statusTitle.textContent = translate('locationDetected');
-    statusMessage.textContent = `${translate('nearestCity')}: ${result.city.name}`;
-    statusDetails.innerHTML = `
-        <strong>${translate('locationDetails')}:</strong><br>
-        • ${translate('yourCoordinates')}: ${userLat.toFixed(4)}, ${userLon.toFixed(4)}<br>
-        • ${translate('nearestCity')}: ${result.city.name}, ${result.city.country}<br>
-        • ${translate('distance')}: ${result.distance.toFixed(1)} ${currentLang === 'ku' ? 'کم' : 'km'}<br>
-        • ${translate('region')}: ${result.city.region}
-    `;
-    
-    // Show status panel
-    locationStatus.style.display = 'block';
-    
-    // Hide after 10 seconds
-    setTimeout(() => {
-        locationStatus.style.display = 'none';
-    }, 10000);
-}
-
 // Load city data and update UI
 async function loadCityData(city, distance = null) {
-    // Update current city
     currentCity = city;
     
-    // Hide empty state, show weather content
     emptyState.style.display = 'none';
     weatherContent.style.display = 'block';
     
-    // Update location display
     document.getElementById('currentCity').textContent = `${city.name}, ${city.country}`;
     document.getElementById('currentRegion').textContent = city.region;
     document.getElementById('currentRegion').style.display = 'inline-flex';
     
-    // Update distance indicator if available
     if (distance && distance < 100) {
         document.getElementById('distanceIndicator').style.display = 'inline-flex';
         document.getElementById('distanceValue').textContent = distance.toFixed(1) + (currentLang === 'ku' ? ' کم' : ' km');
@@ -676,12 +713,10 @@ async function loadCityData(city, distance = null) {
         document.getElementById('distanceIndicator').style.display = 'none';
     }
     
-    // Fetch and display real weather data
     showLoading(true, translate('fetchingWeather'));
     await generateWeatherData(city);
     showLoading(false);
     
-    // Update search input field
     searchInput.value = `${city.name}, ${city.country}`;
 }
 
@@ -689,49 +724,35 @@ async function loadCityData(city, distance = null) {
 async function generateWeatherData(city) {
     const weatherIcon = document.getElementById('weatherIcon');
     const weatherDescription = document.getElementById('weatherDescription');
-    const temperature = document.getElementById('temperature');
-    const feelsLikeValue = document.getElementById('feelsLikeValue');
-    const windValue = document.getElementById('windValue');
-    const humidityValue = document.getElementById('humidityValue');
     
-    // Fetch real weather data from API
     const weatherData = await fetchRealWeatherData(city.lat, city.lon);
     
     if (weatherData) {
-        // Use real API data
         const condition = mapWeatherCodeToCondition(
             weatherData.weatherCode, 
             weatherData.weatherText, 
             weatherData.isDay
         );
         
-        // Store the condition globally so we can update it on language change
         currentWeatherCondition = condition;
         
-        // Update weather display with image/text above description
         weatherIcon.className = 'weather-icon-large ' + condition.colorClass;
         
-        // Create weather display with image above text
         weatherIcon.innerHTML = `
             <div class="weather-image-large">
                 <div class="weather-image-text">${condition.imageText}</div>
             </div>
         `;
         
-        // Update weather description with translated condition name
         weatherDescription.innerHTML = getWeatherConditionName(condition);
-        
-        // Add description tooltip
         weatherDescription.title = condition.description;
         
-        // Update UI with REAL data
         document.getElementById('temperature').textContent = weatherData.temp;
         document.getElementById('feelsLike').textContent = weatherData.feelsLike + '°C';
         document.getElementById('windSpeed').textContent = weatherData.windSpeed;
         document.getElementById('humidity').textContent = weatherData.humidity;
         
     } else {
-        // Fallback to fake data if API fails
         showError(translate('weatherApiError'), translate('weatherApiErrorMsg'));
         generateFakeWeatherData(city);
     }
@@ -747,7 +768,6 @@ function generateFakeWeatherData(city) {
     const isNorthernHemisphere = city.lat >= 0;
     const isDaytime = currentHour >= 6 && currentHour < 18;
     
-    // Determine season based on hemisphere
     let season;
     if (isNorthernHemisphere) {
         if (currentMonth >= 12 || currentMonth <= 2) season = 'winter';
@@ -761,7 +781,6 @@ function generateFakeWeatherData(city) {
         else season = 'spring';
     }
     
-    // Base temperature based on latitude and season
     let baseTemp;
     const absLat = Math.abs(city.lat);
     
@@ -779,14 +798,8 @@ function generateFakeWeatherData(city) {
         else baseTemp = 0 + Math.random() * 10;
     }
     
-    // Adjust for elevation
-    if (city.name.includes("City") || city.region.includes("Plateau")) {
-        baseTemp -= 3 + Math.random() * 4;
-    }
-    
     const temp = Math.round(baseTemp);
     
-    // Feels like temperature
     let feelsLike = temp;
     if (temp < 10) {
         feelsLike = Math.round(temp - (Math.random() * 3));
@@ -796,75 +809,54 @@ function generateFakeWeatherData(city) {
         feelsLike = Math.round(temp + (Math.random() * 2 - 1));
     }
     
-    // Select weather condition with better probabilities
     let condition;
     const rand = Math.random();
     
     if (!isDaytime) {
-        // Night time conditions
         if (temp < 0) {
-            condition = weatherConditions[5]; // Snow
+            condition = weatherConditions[5];
         } else if (temp < 10) {
-            condition = rand > 0.6 ? weatherConditions[2] : weatherConditions[7]; // Cloudy or Clear night
+            condition = rand > 0.6 ? weatherConditions[2] : weatherConditions[7];
         } else {
-            condition = rand > 0.7 ? weatherConditions[1] : weatherConditions[7]; // Partly cloudy or Clear night
+            condition = rand > 0.7 ? weatherConditions[1] : weatherConditions[7];
         }
     } else {
-        // Day time conditions
         if (temp < 0) {
-            condition = weatherConditions[5]; // Snow
+            condition = weatherConditions[5];
         } else if (temp < 10) {
-            condition = rand > 0.6 ? weatherConditions[3] : weatherConditions[2]; // Rain or Cloudy
+            condition = rand > 0.6 ? weatherConditions[3] : weatherConditions[2];
         } else if (temp < 20) {
-            if (rand > 0.6) condition = weatherConditions[1]; // Partly Cloudy
-            else if (rand > 0.3) condition = weatherConditions[2]; // Cloudy
-            else condition = weatherConditions[0]; // Sunny
+            if (rand > 0.6) condition = weatherConditions[1];
+            else if (rand > 0.3) condition = weatherConditions[2];
+            else condition = weatherConditions[0];
         } else if (temp < 30) {
-            if (rand > 0.7) condition = weatherConditions[0]; // Sunny
-            else if (rand > 0.4) condition = weatherConditions[1]; // Partly Cloudy
-            else if (rand > 0.1) condition = weatherConditions[2]; // Cloudy
-            else condition = weatherConditions[9]; // Windy
+            if (rand > 0.7) condition = weatherConditions[0];
+            else if (rand > 0.4) condition = weatherConditions[1];
+            else if (rand > 0.1) condition = weatherConditions[2];
+            else condition = weatherConditions[9];
         } else {
-            if (rand > 0.8) condition = weatherConditions[6]; // Storm
-            else if (rand > 0.4) condition = weatherConditions[9]; // Windy
-            else condition = weatherConditions[0]; // Sunny
+            if (rand > 0.8) condition = weatherConditions[6];
+            else if (rand > 0.4) condition = weatherConditions[9];
+            else condition = weatherConditions[0];
         }
     }
     
-    // For specific cities, make weather more accurate
-    if (city.name === "Akre") {
-        const currentHour = now.getHours();
-        if (currentMonth === 2) { // February
-            if (rand > 0.7) condition = weatherConditions[2]; // Mostly Cloudy
-            else if (rand > 0.4) condition = weatherConditions[1]; // Partly Cloudy
-            else condition = weatherConditions[0]; // Sunny
-        }
-    }
-    
-    // Store the condition globally so we can update it on language change
     currentWeatherCondition = condition;
     
-    // Generate other weather data
     const windSpeed = Math.round(5 + Math.random() * 25);
     const humidity = Math.round(30 + Math.random() * 50);
     
-    // Update weather display with image/text above description
     weatherIcon.className = 'weather-icon-large ' + condition.colorClass;
     
-    // Create weather display with image above text
     weatherIcon.innerHTML = `
         <div class="weather-image-large">
             <div class="weather-image-text">${condition.imageText}</div>
         </div>
     `;
     
-    // Update weather description with translated condition name
     weatherDescription.innerHTML = getWeatherConditionName(condition);
-    
-    // Add description tooltip
     weatherDescription.title = condition.description;
     
-    // Update UI
     document.getElementById('temperature').textContent = temp;
     document.getElementById('feelsLike').textContent = feelsLike + '°C';
     document.getElementById('windSpeed').textContent = windSpeed;
@@ -881,7 +873,6 @@ function handleSearch() {
         return;
     }
     
-    // Search through all cities
     globalCities.forEach(city => {
         if (city.name.toLowerCase().includes(query) || 
             city.country.toLowerCase().includes(query) ||
@@ -890,7 +881,6 @@ function handleSearch() {
         }
     });
     
-    // Display results
     if (results.length > 0) {
         searchResults.innerHTML = results.slice(0, 10).map(city => `
             <div class="search-result-item" data-lat="${city.lat}" data-lon="${city.lon}">
@@ -902,7 +892,6 @@ function handleSearch() {
             </div>
         `).join('');
         
-        // Add click event to results
         searchResults.querySelectorAll('.search-result-item').forEach(item => {
             item.addEventListener('click', () => {
                 const lat = parseFloat(item.dataset.lat);
@@ -928,21 +917,17 @@ function handleSearch() {
 function updateTime() {
     const now = new Date();
     
-    // Get time in 12-hour format with AM/PM
     let hours = now.getHours();
     const minutes = now.getMinutes();
     const ampm = hours >= 12 ? 'PM' : 'AM';
     
-    // Convert to 12-hour format
     hours = hours % 12;
-    hours = hours ? hours : 12; // 0 should be 12
+    hours = hours ? hours : 12;
     
-    // Format minutes with leading zero
     const minutesStr = minutes < 10 ? '0' + minutes : minutes;
     
     const timeStr = `${hours}:${minutesStr} ${ampm}`;
     
-    // Get day and month names based on current language
     const dayNames = currentLang === 'en' ? 
         ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] :
         ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
@@ -982,13 +967,34 @@ function showError(title, message) {
     document.getElementById('errorMessage').textContent = message;
     errorToast.style.display = 'flex';
     
-    // Auto-hide after 5 seconds
     setTimeout(hideError, 5000);
 }
 
 // Hide error toast
 function hideError() {
     errorToast.style.display = 'none';
+}
+
+// Initialize the app
+function init() {
+    updateTime();
+    setInterval(updateTime, 1000);
+    
+    updatePageLanguage();
+    
+    locationBtn.addEventListener('click', getCurrentLocation);
+    emptyLocationBtn.addEventListener('click', getCurrentLocation);
+    searchInput.addEventListener('input', handleSearch);
+    
+    if (languageToggle) {
+        languageToggle.addEventListener('click', toggleLanguage);
+    }
+    
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-container')) {
+            searchResults.style.display = 'none';
+        }
+    });
 }
 
 // Initialize the app when DOM is loaded
