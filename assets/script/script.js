@@ -27,10 +27,10 @@ class KurdorApp {
             },
             ku: {
                 "logo": "کوردور دێڤ",
-                "available": "بەردەستە بۆ کار",
-                "name": "کوردۆردێڤ",
+                "available": "بەردەستە بۆ کاری",
+                "name": "کوردور دێڤ",
                 "display-name": "ڕەشید فەرهاد",
-                "tagline": "گرنگ نیە چیە شاخەکە چەن بەرزە، هەمیشه خۆر هەڵدەستێ... ☀️",
+                "tagline": "هەر چەند چیا بڵند بیت، روژ دێ هەر هەلیت...☀️",
                 "terminal-title": "کوردۆردێڤ ~ bash$",
                 "terminal-name": "ڕەشید فەرهەد $",
                 "terminal-title2": "گەشەپێدەری FullStack | UI/UX",
