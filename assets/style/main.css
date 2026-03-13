@@ -1512,3 +1512,59 @@ margin-left: auto;
     transform: scale(1.1);
     filter: drop-shadow(0 8px 15px rgba(201, 26, 37, 0.4));
 }
+.user-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px; /* Adjust this for the space you want */
+}
+
+.bayern-badge {
+  position: relative; /* This is the anchor for the popup */
+  display: inline-flex;
+  align-items: center;
+}
+
+.bayern-logo-img {
+  width: 30px;
+  height: 30px;
+  filter: grayscale(100%) opacity(0.5);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* THE POPUP BOX */
+.bayern-popup {
+  position: absolute;
+  top: 110%; /* Places it right under the logo */
+  left: 50%;
+  transform: translateX(-50%) translateY(5px);
+  
+  /* Styling */
+  background: #dc052d;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  font-weight: bold;
+  
+  /* Hidden by default */
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* THE HOVER EFFECT */
+.bayern-badge:hover .bayern-logo-img {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.1);
+}
+
+.bayern-badge:hover .bayern-popup {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}

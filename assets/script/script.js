@@ -23,7 +23,9 @@ class KurdorApp {
                 "project-theme-title": "Kurdor Theme",
                 "project-theme-subtitle": "Visual Studio Code Extension",
                 "project-weather-title": "Weather",
-                "project-weather-subtitle": "View Your Area Weather Condition"
+                "project-weather-subtitle": "View Your Area Weather Condition",
+                "personal-name": "Rashid Farhad",
+                "bayern-status": "Bayern Munich Fan",
             },
             ku: {
                 "logo": "کوردور دێڤ",
@@ -47,7 +49,9 @@ class KurdorApp {
                 "project-theme-title": "ثیمێ کوردۆر",
                 "project-theme-subtitle": "زێدەهییا ڤیژوال ستودیو کۆدی",
                 "project-weather-title": "کەش و هەوا",
-                "project-weather-subtitle": "بارودوخێ کەش و هەوای یێ دەڤەرا خۆ ببینە"
+                "project-weather-subtitle": "بارودوخێ کەش و هەوای یێ دەڤەرا خۆ ببینە",
+                "personal-name": "ڕەشید فەرهاد",
+                "bayern-status": "هاندەرێ بایەرن میونشن",
             }
         };
         
